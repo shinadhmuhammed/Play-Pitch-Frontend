@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ interface UserData {
   phone: string;
   password: string;
   confirmPassword: string;
-  otp: string; 
+  otp: string;
 }
 
 function UserSignup() {
@@ -17,31 +17,78 @@ function UserSignup() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<UserData>();
   const [showOtpField, setShowOtpField] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [resendDisabled, setResendDisabled] = useState<boolean>(false);
+  const [countdown, setCountdown] = useState<number>(60); 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+  
+    if (resendDisabled) {
+      timer = setTimeout(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1); 
+      }, 1000); 
+    }
+  
+    // Clearing interval
+    if (countdown === 0 || !resendDisabled) {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      setResendDisabled(false); 
+      setCountdown(60); 
+    }
+  
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [resendDisabled, countdown]);
+  
 
   const onSubmit: SubmitHandler<UserData> = async (data) => {
     try {
       if (showOtpField) {
-        const response = await axiosInstance.post("/verify-otp", data); 
+        const response = await axiosInstance.post("/verify-otp", { ...data, userId });
         console.log("Server response:", response.data);
         if (response.data.status === 200) {
           navigate("/login");
         } else {
           setErrorMessage("Invalid OTP");
+          setErrorMessage("")
         }
       } else {
         const response = await axiosInstance.post("/signup", data);
         console.log("Server response:", response.data);
-        setShowOtpField(true); 
+        setShowOtpField(true);
+        setUserId(response.data.userId);
+        setEmail(data.email);
       }
     } catch (error) {
       console.error("Error:", error);
+      setErrorMessage("Invalid OTP");
     }
   };
   
+
+  const password = watch("password"); 
+
+  const handleResendOtp = async () => {
+    try {
+      setResendDisabled(true); 
+      const response = await axiosInstance.post("/resendotp", { userId, email });
+      console.log("Resend OTP response:", response.data);
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+    }
+  };
 
   return (
     <div>
@@ -149,6 +196,7 @@ function UserSignup() {
               id="confirmPassword"
               {...register("confirmPassword", {
                 required: "Confirm Password is required",
+                validate: (value) => value === password || "Passwords do not match", // Custom validation rule
               })}
               className="mt-1 p-2 border rounded-md w-full"
             />
@@ -159,7 +207,7 @@ function UserSignup() {
             )}
           </div>
 
-           {showOtpField && (
+          {showOtpField && (
             <div className="mb-4">
               <label
                 htmlFor="otp"
@@ -182,13 +230,35 @@ function UserSignup() {
             </div>
           )}
 
+
           <div className="mb-4 flex justify-between">
-            <button
-              type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded-md"
-            >
-              {showOtpField ? "Submit" : "Get OTP"}
-            </button>
+            {showOtpField ? (
+              <>
+                <button
+                  type="submit"
+                  className="bg-green-500 text-white px-4 py-2 rounded-md"
+                >
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  className={`bg-blue-500 text-white px-4 py-2 rounded-md ${
+                    resendDisabled ? "cursor-not-allowed opacity-50" : ""
+                  }`}
+                  disabled={resendDisabled}
+                >
+                  {resendDisabled ? `Resend OTP (${countdown} seconds)` : "Resend OTP"}
+                </button>
+              </>
+            ) : (
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
+              >
+                Get OTP
+              </button>
+            )}
             <span className="text-gray-600 text-sm">
               Already have an account?{" "}
               <a href="/login" className="text-green-500">

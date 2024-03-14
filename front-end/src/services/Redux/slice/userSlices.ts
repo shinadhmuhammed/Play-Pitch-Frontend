@@ -11,8 +11,6 @@ const initialState = {
     initialState,
     reducers: {
       userLogin(state, action) {
-        console.log(action.payload,'payload');
-        
         state.isLoggedIn = true;
         state.userEmail = action.payload.userEmail;
       },
