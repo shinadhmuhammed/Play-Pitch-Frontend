@@ -36,7 +36,7 @@ function UserSignup() {
       }, 1000); 
     }
   
-    // Clearing interval
+ 
     if (countdown === 0 || !resendDisabled) {
       if (timer) {
         clearTimeout(timer);
@@ -99,7 +99,7 @@ function UserSignup() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Username */}
+           
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
               <input
@@ -123,7 +123,7 @@ function UserSignup() {
               {errors.email && <span className="text-red-500">{errors.email.message}</span>}
             </div>
 
-            {/* Phone Number */}
+    
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
               <input
@@ -135,7 +135,7 @@ function UserSignup() {
               {errors.phone && <span className="text-red-500">{errors.phone.message}</span>}
             </div>
 
-            {/* Password */}
+        
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <input
@@ -147,7 +147,7 @@ function UserSignup() {
               {errors.password && <span className="text-red-500">{errors.password.message}</span>}
             </div>
 
-            {/* Confirm Password */}
+         
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
               <input
@@ -174,7 +174,7 @@ function UserSignup() {
               </div>
             )}
 
-            {/* Submit Button */}
+  
             <div className="flex justify-between">
               {showOtpField ? (
                 <>
