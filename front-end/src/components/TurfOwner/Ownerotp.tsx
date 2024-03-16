@@ -1,10 +1,12 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
+import { useNavigate } from "react-router-dom";
 
 function Ownerotp() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState("");
+  const [verificationStatus, setVerificationStatus] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -20,10 +22,22 @@ function Ownerotp() {
       const response = await axiosInstance.post('/owner/verifyotp', { email, otp });
       if (response.data.status === 200) {
         setVerificationStatus("OTP verified successfully");
-        // Add logic to navigate to the next page upon successful OTP verification
+        setTimeout(() => { navigate('/ownerlogin'); }, 3000);
       } else {
-        setVerificationStatus("Invalid OTP");
+        setVerificationStatus('Invalid OTP');
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    try {
+      const response = await axiosInstance.post('/owner/resendotp', { email });
+      if (response.status === 200) {
+        setVerificationStatus('OTP resent successfully');
+      }
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +52,7 @@ function Ownerotp() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-grey py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
@@ -83,11 +97,18 @@ function Ownerotp() {
               >
                 Verify OTP
               </button>
+              <button
+                type="button"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                onClick={handleResendOTP}
+              >
+                Resend OTP
+              </button>
             </div>
 
             {verificationStatus && (
               <div className="mt-4 text-center">
-                <span className="text-gray-600 text-sm">{verificationStatus}</span>
+                <span className={verificationStatus === "Invalid OTP" ? "text-red-500 text-sm" : "text-gray-600 text-sm"}>{verificationStatus}</span>
               </div>
             )}
           </form>
