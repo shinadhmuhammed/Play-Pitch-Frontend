@@ -17,6 +17,8 @@ function UserLogin() {
     formState: { errors },
   } = useForm<FormData>();
   const [serverError, setServerError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isBlocked, setIsBlocked] = useState(false); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,8 +32,14 @@ function UserLogin() {
       localStorage.setItem("token", token);
       dispatch(userLogin(response.data));
       navigate("/home");
-    } catch (error) {
-      setServerError("Invalid email or password.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      if (error.response.status === 403) { 
+        setIsBlocked(true);
+        setServerError("User is blocked."); 
+      } else {
+        setServerError("Invalid email or password."); 
+      }
     }
   };
 

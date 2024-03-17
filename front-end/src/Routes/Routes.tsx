@@ -9,6 +9,9 @@ import Ownerotp from "../components/TurfOwner/Ownerotp";
 import OwnerLogin from "../Pages/TurfOwner/OwnerLogin";
 import Ownerhome from "../components/TurfOwner/Ownerhome";
 import Venueadd from "../Pages/TurfOwner/Venueadd";
+import Adminlogin from "../Pages/Admin/Adminlogin";
+import Admindashboard from "../Pages/Admin/Admindashboard";
+import Users from "../Pages/Admin/Users";
 
 
 
@@ -31,6 +34,13 @@ function UserRoutes() {
         <Route path="/ownerlogin" element={<OwnerLogin/>}></Route>
         <Route path="/ownerhome" element={<Ownerhome/>}></Route>
         <Route path="/addvenue" element={<Venueadd/>}></Route>
+
+        
+        {/* admin */}
+
+        <Route path="/adminlogin" element={<Adminlogin/>}></Route>
+        <Route path="/dashboard" element={<Admindashboard/>}></Route>
+        <Route path="/users" element={<Users/>}></Route>
       </Routes>
     </div>
   );

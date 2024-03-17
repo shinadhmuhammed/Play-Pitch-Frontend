@@ -1,4 +1,4 @@
-import { useState,  FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ownerLogout } from '../../services/Redux/slice/ownerSlices';
@@ -15,7 +15,9 @@ function Addvenue() {
     const [facilities, setFacilities] = useState('');
     const [openingTime, setOpeningTime] = useState('');
     const [closingTime, setClosingTime] = useState('');
-    // const [image, setImage] = useState(null); // Uncomment this if you want to handle image separately
+    const [price, setPrice] = useState(''); 
+    const [courtType,setCourtType]=useState('')
+    const [image, setImage] = useState<File | null>(null);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -25,27 +27,44 @@ function Addvenue() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         try {
-            // const token = localStorage.getItem('token'); 
-            const response = await axiosInstance.post('/owner/addturf', {
-                turfName,
-                address,
-                city,
-                aboutVenue,
-                facilities,
-                openingTime,
-                closingTime,
-            }, {
-                // headers: {
-                //     Authorization: `Bearer ${token}` 
-                // }
+            const formData = new FormData();
+            if (image) {
+                formData.append('file', image);
+            }
+            formData.append('turfName', turfName);
+            formData.append('address', address);
+            formData.append('city', city);
+            formData.append('aboutVenue', aboutVenue);
+            formData.append('facilities', facilities);
+            formData.append('openingTime', openingTime);
+            formData.append('closingTime', closingTime);
+            formData.append('price', price); 
+
+            const response = await axiosInstance.post('/owner/addturf', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             console.log(response);
+            setTurfName('');
+            setAddress('');
+            setCity('');
+            setAboutVenue('');
+            setFacilities('');
+            setOpeningTime('');
+            setClosingTime('');
+            setPrice('');
+            setCourtType('');
+            setImage(null);
+
         } catch (error) {
             console.log(error);
         }
     };
+    
+    
 
     return (
         <div>
@@ -179,8 +198,44 @@ function Addvenue() {
                         />
                     </div>
 
-                    {/* Uncomment this section if you want to include the image field */}
-                    {/* <div className="mb-4">
+                    <div className="mb-4">
+                        <label
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                            htmlFor="price"
+                        >
+                            Price
+                        </label>
+                        <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="price"
+                            type="text"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            placeholder="Price"
+                        />
+                    </div>
+
+                    <div className="mb-4">
+    <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor="courtType"
+    >
+        Court Type
+    </label>
+    <select
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="courtType"
+        value={courtType}
+        onChange={(e) => setCourtType(e.target.value)}
+    >
+        <option value="">Select Court Type</option>
+        <option value="7-aside">7-aside</option>
+        <option value="5-aside">5-aside</option>
+    </select>
+</div>
+
+
+                    <div className="mb-4">
                         <label
                             className="block text-gray-700 text-sm font-bold mb-2"
                             htmlFor="image"
@@ -192,9 +247,14 @@ function Addvenue() {
                             id="image"
                             type="file"
                             accept="image/*"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    setImage(file);
+                                }
+                            }}
                         />
-                    </div> */}
+                    </div>
 
                     <div className="flex items-center justify-between">
                         <button

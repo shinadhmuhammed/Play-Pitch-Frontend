@@ -1,6 +1,6 @@
 
 import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
-import UserRoutes from './Routes/UserRoutes'
+import UserRoutes from './Routes/Routes'
 
 function App() {
 
