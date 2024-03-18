@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPass() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ function ForgotPass() {
   const [errorMessage, setErrorMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +27,9 @@ function ForgotPass() {
         confirmPassword,
       });
       if (response.status === 200) {
-        console.log("Password reset successful");
+        setErrorMessage("");
         setPasswordResetSuccess(true);
+          navigate("/login");
       } else {
         console.log("An error occurred:", response.data.message);
         setErrorMessage(response.data.message);
@@ -41,10 +44,27 @@ function ForgotPass() {
     try {
       const response = await axiosInstance.post("/sendotp", { email });
       console.log(response);
+      setErrorMessage("");
       setOtpSent(true);
     } catch (error) {
       console.log(error);
       setErrorMessage("Failed to send OTP. Please try again later.");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const response = await axiosInstance.post("/verify-forgot", { otp });
+      console.log(response);
+      if (response.data.status === 200) {
+        setErrorMessage("");
+        setPasswordResetSuccess(true);
+      } else {
+        setErrorMessage("Invalid OTP. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("Failed to verify OTP.");
     }
   };
 
@@ -111,59 +131,80 @@ function ForgotPass() {
               )}
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                New Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
+            {otpSent && (
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  New Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <label
-                htmlFor="confirm-password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type="password"
-                  autoComplete="confirm-password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
+            {otpSent && (
+              <div>
+                <label
+                  htmlFor="confirm-password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="confirm-password"
+                    name="confirm-password"
+                    type="password"
+                    autoComplete="confirm-password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Reset Password
-              </button>
-            </div>
+            {otpSent && !passwordResetSuccess && (
+              <div>
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Verify OTP
+                </button>
+              </div>
+            )}
+
+            {passwordResetSuccess && (
+              <div>
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Reset Password
+                </button>
+              </div>
+            )}
+
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             {passwordResetSuccess && (
-              <p className="text-green-500">Password reset successful</p>
+              <p className="text-green-500 font-semibold">
+                OTP Verification Successfull
+              </p>
             )}
           </form>
         </div>
