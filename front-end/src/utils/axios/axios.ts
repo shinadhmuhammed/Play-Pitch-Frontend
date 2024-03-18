@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 const createAxiosInstance = (token: string | null, role: string | null): AxiosInstance => {
   const instance = axios.create({
     baseURL: 'http://localhost:3001',
+    withCredentials: true,
   });
 
   if (token) {

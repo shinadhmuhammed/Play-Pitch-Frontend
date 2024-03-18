@@ -105,7 +105,6 @@ function UserLogin() {
             {serverError && (
               <p className="text-red-500 text-sm mb-4">{serverError}</p>
             )}{" "}
-            {/* Display server error if exists */}
             <div className="flex justify-between">
               <button
                 type="submit"
