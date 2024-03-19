@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
+
 const createAxiosInstance = (token: string | null, role: string | null): AxiosInstance => {
   const instance = axios.create({
     baseURL: 'http://localhost:3001',
@@ -22,9 +23,10 @@ const createAxiosInstance = (token: string | null, role: string | null): AxiosIn
   return instance;
 };
 
-const userToken: string | null = localStorage.getItem('userToken');
+const userToken: string | null = localStorage.getItem('token');
 const userRole: string | null = 'user'; 
 
 const axiosInstance = createAxiosInstance(userToken, userRole);
 
 export { axiosInstance };
+
