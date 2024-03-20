@@ -1,16 +1,26 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utils/axios/axios";
-import { useNavigate } from "react-router-dom";
 
 function Ownerotp() {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { email, phone, password } = location.state;
+
   const [otp, setOtp] = useState("");
   const [verificationStatus, setVerificationStatus] = useState<string>("");
-  const navigate = useNavigate();
+  const [resendDisabled, setResendDisabled] = useState(false); 
+  const [resendTimer, setResendTimer] = useState<number | null>(null); 
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+  useEffect(() => {
+    return () => {
+      if (resendTimer !== null) {
+        clearTimeout(resendTimer);
+      }
+    };
+  }, [resendTimer]);
+
+  
 
   const handleOtpChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOtp(e.target.value);
@@ -19,7 +29,7 @@ function Ownerotp() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/owner/verifyotp', { email, otp });
+      const response = await axiosInstance.post('/owner/verifyotp', { otp, email, password, phone });
       if (response.data.status === 200) {
         setVerificationStatus("OTP verified successfully");
         setTimeout(() => { navigate('/ownerlogin'); }, 3000);
@@ -36,6 +46,11 @@ function Ownerotp() {
       const response = await axiosInstance.post('/owner/resendotp', { email });
       if (response.status === 200) {
         setVerificationStatus('OTP resent successfully');
+        setResendDisabled(true); 
+        const timer = setTimeout(() => {
+          setResendDisabled(false);
+        }, 60000);
+        setResendTimer(timer); 
       }
       console.log(response);
     } catch (error) {
@@ -54,24 +69,6 @@ function Ownerotp() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-grey py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <div className="mt-1">
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className="p-2 border rounded-md w-full"
-                />
-              </div>
-            </div>
-
             <div>
               <label
                 htmlFor="otp"
@@ -99,8 +96,9 @@ function Ownerotp() {
               </button>
               <button
                 type="button"
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                className={`bg-green-500 text-white px-4 py-2 rounded-md ${resendDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleResendOTP}
+                disabled={resendDisabled}
               >
                 Resend OTP
               </button>

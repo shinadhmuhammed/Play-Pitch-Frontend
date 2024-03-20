@@ -12,8 +12,20 @@ function ForgotPass() {
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$/;
+
+  const validatePassword = (password:string) => {
+    return passwordRegex.test(password);
+  };
+
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validatePassword(newPassword)) {
+      setErrorMessage(
+        "Password must contain at least 8 characters including one alphabet, one special character, and one number."
+      );
+      return;
+    }
     if (newPassword !== confirmPassword) {
       setErrorMessage("Passwords do not match");
       return;
@@ -29,7 +41,7 @@ function ForgotPass() {
       if (response.status === 200) {
         setErrorMessage("");
         setPasswordResetSuccess(true);
-          navigate("/login");
+        navigate("/login");
       } else {
         console.log("An error occurred:", response.data.message);
         setErrorMessage(response.data.message);
@@ -67,6 +79,7 @@ function ForgotPass() {
       setErrorMessage("Failed to verify OTP.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

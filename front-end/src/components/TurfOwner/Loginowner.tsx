@@ -1,34 +1,32 @@
-import  { useState,FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ownerLogin } from "../../services/Redux/slice/ownerSlices";
 
 function Loginowner() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
 
-  const handleSubmit = async(e:FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-    const response=await axiosInstance.post('/owner/ownerlogin',{email,password})
-    const token=response.data.token
-    localStorage.setItem('token',token)
-    dispatch(ownerLogin(response.data))
-    navigate('/ownerhome')
-    
-    console.log(response)
+      const response = await axiosInstance.post('/owner/ownerlogin',{email,password});
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      dispatch(ownerLogin(response.data));
+      navigate('/ownerhome');
+      console.log(response);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   };
 
-
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-64" onSubmit={handleSubmit}>
+    <div className="flex justify-center items-center  h-screen">
+      <form className="bg-green-100 shadow-md rounded px-16 pt-6 pb-8 mb-4 w-96" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
             Email
@@ -62,13 +60,23 @@ function Loginowner() {
           >
             Sign In
           </button>
+          <div>
+            <Link to="/forgotpassword" className="text-blue-500 hover:text-blue-700 text-sm">
+              Forgot Password?
+            </Link>
+          </div>
+        </div>
+        <div>
+          <p className="text-sm">
+            Don't have an account? 
+            <Link to="/ownersignup" className="text-blue-500 hover:text-blue-700 ml-3">
+              Sign Up
+            </Link>
+          </p>
         </div>
       </form>
-      
-      
     </div>
   );
-  }  
-
+}
 
 export default Loginowner;

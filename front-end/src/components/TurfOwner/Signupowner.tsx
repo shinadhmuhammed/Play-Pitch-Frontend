@@ -34,7 +34,7 @@ function Signupowner() {
       }
 
       const response = await axiosInstance.post('/owner/ownersignup', { email, phone, password });
-      navigate('/ownerotp');
+      navigate("/ownerotp", { state: { email: data.email,phone:data.phone ,password: data.password } })
       console.log(response.data);
     } catch (error) {
       console.log(error);
