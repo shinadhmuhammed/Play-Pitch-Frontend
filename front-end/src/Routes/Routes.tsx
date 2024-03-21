@@ -13,6 +13,8 @@ import Adminlogin from "../Pages/Admin/Adminlogin";
 import Admindashboard from "../Pages/Admin/Admindashboard";
 import Users from "../Pages/Admin/Users";
 import OwnerForgot from "../Pages/TurfOwner/OwnerForgot";
+import TurfPage from "../Pages/TurfOwner/TurfPage";
+import EditPage from "../Pages/TurfOwner/EditPage";
 
 
 
@@ -36,6 +38,9 @@ function UserRoutes() {
         <Route path="/ownerlogin" element={<OwnerLogin/>}></Route>
         <Route path="/ownerhome" element={<Ownerhome/>}></Route>
         <Route path="/addvenue" element={<Venueadd/>}></Route>
+        <Route path="/venue" element={<TurfPage/>}></Route>
+        <Route path="/editturf/:turfId" element={<EditPage />} />
+
 
         
         {/* admin */}

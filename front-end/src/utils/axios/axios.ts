@@ -6,7 +6,6 @@ const createAxiosInstance = (token: string | null, role: string | null): AxiosIn
     baseURL: 'http://localhost:3001',
     withCredentials: true,
   });
-
   if (token) {
     instance.interceptors.request.use(
       (config) => {
@@ -25,8 +24,14 @@ const createAxiosInstance = (token: string | null, role: string | null): AxiosIn
 
 const userToken: string | null = localStorage.getItem('token');
 const userRole: string | null = 'user'; 
+const ownerToken: string | null = localStorage.getItem('token');
 
-const axiosInstance = createAxiosInstance(userToken, userRole);
+const ownerRole: string | null = 'owner'; 
+console.log(ownerToken,ownerRole)
 
-export { axiosInstance };
+const axiosUserInstance = createAxiosInstance(userToken, userRole);
+const axiosOwnerInstance = createAxiosInstance(ownerToken, ownerRole);
+const axiosInstance = createAxiosInstance(null , null)
+
+export { axiosInstance,axiosOwnerInstance,axiosUserInstance };
 

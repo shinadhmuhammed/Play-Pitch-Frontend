@@ -2,7 +2,7 @@ import {  useDispatch } from "react-redux"
 import {useEffect, useState} from "react"
 import { userLogin, userLogout } from "../../services/Redux/slice/userSlices"
 import { useNavigate } from "react-router-dom"
-import { axiosInstance } from "../../utils/axios/axios"
+import {axiosUserInstance } from "../../utils/axios/axios"
 
 
 
@@ -46,7 +46,7 @@ function Homepage() {
     useEffect(()=>{
       const fetchUsers=async()=>{
         try {
-            const response=await axiosInstance.get('/getturf')
+            const response=await axiosUserInstance.get('/getturf')
             setTurf(response.data)
             console.log(response.data)
         } catch (error) {
