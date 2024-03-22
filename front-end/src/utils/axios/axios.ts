@@ -25,13 +25,16 @@ const createAxiosInstance = (token: string | null, role: string | null): AxiosIn
 const userToken: string | null = localStorage.getItem('token');
 const userRole: string | null = 'user'; 
 const ownerToken: string | null = localStorage.getItem('token');
-
 const ownerRole: string | null = 'owner'; 
-console.log(ownerToken,ownerRole)
+
+const adminToken:string | null =localStorage.getItem('token')
+const adminRole:string | null='admin'
+
 
 const axiosUserInstance = createAxiosInstance(userToken, userRole);
 const axiosOwnerInstance = createAxiosInstance(ownerToken, ownerRole);
+const axiosAdminInstance=createAxiosInstance(adminToken,adminRole)
 const axiosInstance = createAxiosInstance(null , null)
 
-export { axiosInstance,axiosOwnerInstance,axiosUserInstance };
+export { axiosInstance,axiosOwnerInstance,axiosUserInstance ,axiosAdminInstance};
 

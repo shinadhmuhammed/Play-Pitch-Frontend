@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { adminLogin } from "../../services/Redux/slice/adminSlices";
+
 
 
 function LoginAdmin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate=useNavigate()
+    const dispatch=useDispatch()
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -16,22 +20,33 @@ function LoginAdmin() {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response=await axiosInstance.post('/admin/adminlogin',{email,password})
-            navigate('/dashboard')
-            console.log(response)
+            const response = await axiosInstance.post('/admin/adminlogin', { email, password });
+            console.log(response);
+            const token = response.data.token;
+            console.log(token);
+            localStorage.setItem('token', token);
+            const adminEmail = email;
+            console.log(adminEmail) 
+            dispatch(adminLogin({ adminEmail, token }));
+            navigate('/dashboard');
+            console.log(response);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-        
     };
+    
 
     return (
+
+        
         <div className="min-h-screen flex justify-center items-center bg-gray-100">
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-                <div className="mb-4">
+           
+                <div className="mb-4 ">
+                   
                     <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
                     <input
                         type="email"

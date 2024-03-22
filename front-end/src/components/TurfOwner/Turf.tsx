@@ -24,6 +24,7 @@ function Turf() {
       try {
         const response = await axiosOwnerInstance.get("/owner/getownerturf");
         console.log(response)
+        
         setTurfs(response.data);
       } catch (error) {
         console.error("Error fetching turfs:", error);
@@ -34,7 +35,7 @@ function Turf() {
 
   const handleEditClick = (turfId: string) => {
     console.log("Edit clicked for turf with ID:", turfId);
-    navigate(`/editturf/${turfId}`); // Pass the turfId as a parameter
+    navigate(`/editturf/${turfId}`); 
   };
   
 

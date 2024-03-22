@@ -1,4 +1,28 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { adminLogout } from '../../services/Redux/slice/adminSlices';
+
+
+
+
 function Dashboard() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+ 
+
+  useEffect(() => {
+    if (!token ) {
+      navigate('/adminlogin');
+    }
+  }, [token]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(adminLogout());
+    navigate('/adminlogin');
+  };
   return (
     <div>
       <nav className="bg-gray-800 shadow-lg">
@@ -25,7 +49,7 @@ function Dashboard() {
                     Users
                   </a>
                   <a
-                    href="/users"
+                    href="/venue-request"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Venue Requests
@@ -40,7 +64,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="hidden sm:block sm:ml-6">
-              <button className="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button className="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium" onClick={handleLogout}>
                 Logout
               </button>
             </div>

@@ -68,7 +68,7 @@ function Addvenue() {
       setPrice("");
       setCourtType("");
       setImage(null);
-      navigate('/venue')
+      navigate('/verification-pending')
     } catch (error) {
       console.log(error);
     }

@@ -15,6 +15,8 @@ import Users from "../Pages/Admin/Users";
 import OwnerForgot from "../Pages/TurfOwner/OwnerForgot";
 import TurfPage from "../Pages/TurfOwner/TurfPage";
 import EditPage from "../Pages/TurfOwner/EditPage";
+import Verification from "../Pages/TurfOwner/Verification";
+import RequestVenue from "../Pages/Admin/RequestVenue";
 
 
 
@@ -40,6 +42,8 @@ function UserRoutes() {
         <Route path="/addvenue" element={<Venueadd/>}></Route>
         <Route path="/venue" element={<TurfPage/>}></Route>
         <Route path="/editturf/:turfId" element={<EditPage />} />
+        <Route path="/editturf/:turfId" element={<EditPage />} />
+        <Route path="/verification-pending" element={<Verification />} />
 
 
         
@@ -48,6 +52,7 @@ function UserRoutes() {
         <Route path="/adminlogin" element={<Adminlogin/>}></Route>
         <Route path="/dashboard" element={<Admindashboard/>}></Route>
         <Route path="/users" element={<Users/>}></Route>
+        <Route path="/venue-request" element={<RequestVenue/>}></Route>
       </Routes>
     </div>
   );
