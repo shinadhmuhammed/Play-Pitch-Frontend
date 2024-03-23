@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
 
@@ -51,20 +51,20 @@ const EditTurf: React.FC = () => {
   };
 
   
-//   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-//     if (e.target.files && e.target.files[0]) {
-//       const reader = new FileReader();
-//       reader.onload = (event) => {
-//         if (event && event.target) {
-//           setTurf(prevState => ({
-//             ...prevState,
-//             image: event.target.result as string // Set the image as base64 string
-//           }));
-//         }
-//       };
-//       reader.readAsDataURL(e.target.files[0]);
-//     }
-//   };
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event && event.target) {
+          setTurf(prevState => ({
+            ...prevState,
+            image: event.target.result as string 
+          }));
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
   
   
 
@@ -76,7 +76,7 @@ const EditTurf: React.FC = () => {
     try {
       const response = await axiosOwnerInstance.put(`/owner/editturf/${turfId}`, turf);
       console.log(response);
-      // Handle success or navigate to another page
+      
     } catch (error) {
       console.error("Error editing turf:", error);
     }
@@ -156,7 +156,7 @@ const EditTurf: React.FC = () => {
             type="file"
             accept="image/*"
             id="image"
-            // onChange={handleImageChange}
+            onChange={handleImageChange}
             className="w-full border rounded-md py-2"
           />
         </div>
