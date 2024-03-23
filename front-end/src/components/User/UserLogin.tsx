@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../services/Redux/slice/userSlices";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 interface FormData {
   email: string;
@@ -17,8 +19,6 @@ function UserLogin() {
     formState: { errors },
   } = useForm<FormData>();
   const [serverError, setServerError] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isBlocked, setIsBlocked] = useState(false); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,14 +32,33 @@ function UserLogin() {
       localStorage.setItem("token", token);
       dispatch(userLogin(response.data));
       navigate("/home");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      if (error.response.status === 403) { 
-        setIsBlocked(true);
-        setServerError("User is blocked."); 
+    } catch (error) {
+      setServerError("Invalid email or password.");
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    const { credential } = credentialResponse;
+
+    try {
+      const response = await axiosInstance.post("/google-login", {
+        credential,
+      });
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+
+        dispatch(userLogin(response.data));
+
+        navigate("/home");
       } else {
-        setServerError("Invalid email or password."); 
+        console.error("Failed to store user data in the database.");
       }
+    } catch (error) {
+      console.error("Error while processing Google login:", error);
     }
   };
 
@@ -104,7 +123,7 @@ function UserLogin() {
             </div>
             {serverError && (
               <p className="text-red-500 text-sm mb-4">{serverError}</p>
-            )}{" "}
+            )}
             <div className="flex justify-between">
               <button
                 type="submit"
@@ -117,7 +136,6 @@ function UserLogin() {
               </a>
             </div>
           </form>
-
           <div className="text-center mt-4">
             <span className="text-gray-600 text-sm">
               Don't have an account?{" "}
@@ -126,10 +144,24 @@ function UserLogin() {
               </a>
             </span>
           </div>
+      
+          <div className="mt-6 flex justify-center">
+            <GoogleOAuthProvider clientId="177535806756-svlq6cabpb3t6l2stnhpf98cavs3jod8.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </GoogleOAuthProvider>
+          </div>
+         
         </div>
       </div>
     </div>
   );
 }
+
+
 
 export default UserLogin;
