@@ -17,7 +17,6 @@ const initialState = {
       userLogout(state) {
         state.isLoggedIn = false;
         state.userEmail = null
-  
       },
     },
   });

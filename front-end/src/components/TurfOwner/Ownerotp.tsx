@@ -9,8 +9,9 @@ function Ownerotp() {
 
   const [otp, setOtp] = useState("");
   const [verificationStatus, setVerificationStatus] = useState<string>("");
-  const [resendDisabled, setResendDisabled] = useState(false); 
-  const [resendTimer, setResendTimer] = useState<number | null>(null); 
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [resendTimer, setResendTimer] = useState<number | null>(null);
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
   useEffect(() => {
     return () => {
@@ -19,8 +20,6 @@ function Ownerotp() {
       }
     };
   }, [resendTimer]);
-
-  
 
   const handleOtpChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOtp(e.target.value);
@@ -38,6 +37,7 @@ function Ownerotp() {
       }
     } catch (error) {
       console.log(error);
+      setVerificationStatus('Invalid OTP');
     }
   };
 
@@ -46,13 +46,22 @@ function Ownerotp() {
       const response = await axiosInstance.post('/owner/resendotp', { email });
       if (response.status === 200) {
         setVerificationStatus('OTP resent successfully');
-        setResendDisabled(true); 
+        setResendDisabled(true);
         const timer = setTimeout(() => {
           setResendDisabled(false);
         }, 60000);
-        setResendTimer(timer); 
+        setResendTimer(timer);
+
+    
+        let timeLeft = 60;
+        const countdown = setInterval(() => {
+          timeLeft--;
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+          }
+          setRemainingTime(timeLeft);
+        }, 1000);
       }
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +109,7 @@ function Ownerotp() {
                 onClick={handleResendOTP}
                 disabled={resendDisabled}
               >
-                Resend OTP
+                Resend OTP {remainingTime !== null && `(${remainingTime}s)`}
               </button>
             </div>
 

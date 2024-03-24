@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 interface Turf {
   _id: string;
@@ -12,8 +13,13 @@ interface Turf {
   openingTime: string;
   closingTime: string;
   price: number;
-  image: string;
+  images: string[]; 
+  turfOwner: string;
+  isActive: boolean;
+  isDeclined: boolean;
+
 }
+
 
 function Turf() {
   const [turfs, setTurfs] = useState<Turf[]>([]);
@@ -40,8 +46,11 @@ function Turf() {
   
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Turf Details</h1>
+
+      <h1 className="text-3xl font-bold mb-4 flex justify-center font-serif">Turf Details</h1>
       <ul className="space-y-8">
         {turfs.map((turf) => (
           <li key={turf._id} className="flex items-center justify-between bg-gray-100 p-6 rounded-md shadow-lg">
@@ -54,7 +63,11 @@ function Turf() {
               <p className="mb-2"><span className="font-semibold">Closing Time:</span> {turf.closingTime}</p>
               <p className="mb-2"><span className="font-semibold">Price:</span>  {turf.price}</p>
             </div>
-            <img src={turf.image} alt="Turf" className="w-70 h-80 object-cover rounded-md" />
+            {turf.images.map((image, index) => (
+  <img key={index} src={image} alt={`Turf ${index + 1}`} className="w-20 h-20 object-cover rounded-md ml-2" />
+))}
+
+
             <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 focus:outline-none" onClick={() => handleEditClick(turf._id)}>
               Edit
             </button>
@@ -62,7 +75,9 @@ function Turf() {
         ))}
       </ul>
     </div>
+    </>
   );
 }
+
 
 export default Turf;

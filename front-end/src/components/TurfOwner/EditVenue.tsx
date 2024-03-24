@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
 
 interface Turf {
@@ -12,7 +12,7 @@ interface Turf {
   openingTime: string;
   closingTime: string;
   price: number;
-  image: string;
+  images: string[]; // Assuming images are stored as an array of strings
 }
 
 const EditTurf: React.FC = () => {
@@ -26,9 +26,10 @@ const EditTurf: React.FC = () => {
     openingTime: "",
     closingTime: "",
     price: 0,
-    image: "",
+    images: [],
   });
   const { turfId } = useParams<{ turfId: string }>(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTurf = async () => {
@@ -42,7 +43,7 @@ const EditTurf: React.FC = () => {
     fetchTurf();
   }, [turfId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTurf(prevState => ({
       ...prevState,
@@ -50,7 +51,17 @@ const EditTurf: React.FC = () => {
     }));
   };
 
-  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axiosOwnerInstance.put(`/owner/editturf/${turfId}`, turf);
+      console.log(response);
+      navigate('/venue');
+    } catch (error) {
+      console.error("Error editing turf:", error);
+    }
+  };
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
@@ -58,27 +69,11 @@ const EditTurf: React.FC = () => {
         if (event && event.target) {
           setTurf(prevState => ({
             ...prevState,
-            image: event.target.result as string 
+            images: [...prevState.images, event.target.result as string]
           }));
         }
       };
       reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-  
-  
-
-
-  
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await axiosOwnerInstance.put(`/owner/editturf/${turfId}`, turf);
-      console.log(response);
-      
-    } catch (error) {
-      console.error("Error editing turf:", error);
     }
   };
 
@@ -150,16 +145,21 @@ const EditTurf: React.FC = () => {
           placeholder="Price"
           className="w-full px-4 py-2 border rounded-md"
         />
-       <div className="flex flex-col">
-        <img src={turf.image}></img>
+  <div className="flex flex-col">
+          {turf.images.map((image, index) => (
+            <img key={index} src={image} className="w-60 h-60 object-contain" alt={`Turf Image ${index}`} />
+          ))}
           <input
             type="file"
             accept="image/*"
             id="image"
             onChange={handleImageChange}
-            className="w-full border rounded-md py-2"
+            className="rounded-md py-2"
           />
         </div>
+
+
+
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"

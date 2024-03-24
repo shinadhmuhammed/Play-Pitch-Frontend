@@ -1,11 +1,9 @@
 import { useState, FormEvent } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ownerLogout } from "../../services/Redux/slice/ownerSlices";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
+import Navbar from "./Navbar";
 
 function Addvenue() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [turfName, setTurfName] = useState("");
@@ -17,22 +15,19 @@ function Addvenue() {
   const [closingTime, setClosingTime] = useState("");
   const [price, setPrice] = useState("");
   const [courtType, setCourtType] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    dispatch(ownerLogout());
-    navigate("/ownerlogin");
-  };
+  const [images, setImages] = useState<File[]>([]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const formData = new FormData();
-      if (image) {
+      
+      images.forEach((image) => {
         formData.append("file", image);
-      }
+    });
+    
+
       formData.append("turfName", turfName);
       formData.append("address", address);
       formData.append("city", city);
@@ -67,8 +62,8 @@ function Addvenue() {
       setClosingTime("");
       setPrice("");
       setCourtType("");
-      setImage(null);
-      navigate('/verification-pending')
+      setImages([]);
+      navigate("/verification-pending");
     } catch (error) {
       console.log(error);
     }
@@ -76,14 +71,8 @@ function Addvenue() {
 
   return (
     <div>
-      <div className="flex justify-end p-5 py-8 border">
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Logout
-        </button>
-      </div>
+      <Navbar />
+      <div className="flex justify-end p-5 py-8 border"></div>
 
       <div className="max-w-md mx-auto">
         <form
@@ -243,25 +232,27 @@ function Addvenue() {
           </div>
 
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="image"
-            >
-              Image
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setImage(file);
-                }
-              }}
-            />
-          </div>
+    <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor="image"
+    >
+        Image
+    </label>
+    <input
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="image"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={(e) => {
+            const files = e.target.files;
+            if (files) {
+                setImages(Array.from(files));
+            }
+        }}
+    />
+</div>
+
 
           <div className="flex items-center justify-between">
             <button

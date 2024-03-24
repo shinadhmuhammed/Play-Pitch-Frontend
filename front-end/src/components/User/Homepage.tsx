@@ -6,18 +6,18 @@ import {axiosUserInstance } from "../../utils/axios/axios"
 
 
 
-interface Turf{
-  _id:string;
-  turfName:string,
-  address:string,
-  city:string,
-  aboutvenue:string,
-  facilities:string,
-  openingTime:string,
-  closingTime:string,
-  court:string,
-  price:number,
-  image:string
+interface Turf {
+  _id: string;
+  turfName: string;
+  address: string;
+  city: string;
+  aboutvenue: string;
+  facilities: string;
+  openingTime: string;
+  closingTime: string;
+  court: string;
+  price: number;
+  images: string[]; 
 }
 
 
@@ -118,16 +118,22 @@ function Homepage() {
 
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-        {turf.map((turf) => (
-          <div key={turf._id} className="bg-white shadow-md rounded-md p-4">
-            <img src={turf.image} alt={turf.turfName} className="w-full h-40 object-cover mb-4 rounded-md" />
-            <h2 className="text-lg font-semibold mb-2">{turf.turfName}</h2>
-            <p className="text-sm text-gray-600 mb-2">{turf.address}, {turf.city}</p>
-            <p className="text-sm text-gray-600 mb-2">{turf.court}</p>
-            <p className="text-sm text-gray-600 mb-2">Price: ${turf.price}</p>
-          
-          </div>
-        ))}
+      {turf.map((turf) => (
+  <div key={turf._id} className="bg-white shadow-md rounded-md p-4">
+    {turf.images.length > 0 && (
+      <img
+        src={turf.images[0]} 
+        alt={turf.turfName}
+        className="w-full h-40 object-cover mb-4 rounded-md"
+      />
+    )}
+    <h2 className="text-lg font-semibold mb-2">{turf.turfName}</h2>
+    <p className="text-sm text-gray-600 mb-2">{turf.address}, {turf.city}</p>
+    <p className="text-sm text-gray-600 mb-2">{turf.court}</p>
+    <p className="text-sm text-gray-600 mb-2">Price: ${turf.price}</p>
+  </div>
+))}
+
       </div>
 
       </>

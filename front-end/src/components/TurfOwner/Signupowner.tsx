@@ -11,7 +11,11 @@ interface UserData {
 }
 
 function Signupowner() {
-  const { register, handleSubmit, formState: { errors } } = useForm<UserData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserData>();
   const [verificationStatus, setVerificationStatus] = useState("");
   const navigate = useNavigate();
 
@@ -22,19 +26,31 @@ function Signupowner() {
         setVerificationStatus("Passwords do not match");
         return;
       }
-     
-      if (!/\d/.test(password) || !/@/.test(password)) {
-        setVerificationStatus("Password must contain at least one number and @");
+
+      if (!/(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=.*\d).{8,}/.test(password)) {
+        setVerificationStatus(
+          "Password must contain at least one alphabet, one special character, and must be at least 8 characters long"
+        );
         return;
       }
-     
+
       if (phone.length !== 10) {
         setVerificationStatus("Phone number must be 10 digits");
         return;
       }
 
-      const response = await axiosInstance.post('/owner/ownersignup', { email, phone, password });
-      navigate("/ownerotp", { state: { email: data.email,phone:data.phone ,password: data.password } })
+      const response = await axiosInstance.post("/owner/ownersignup", {
+        email,
+        phone,
+        password,
+      });
+      navigate("/ownerotp", {
+        state: {
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -53,22 +69,37 @@ function Signupowner() {
         <div className="bg-grey py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <div className="mt-1">
                 <input
                   type="email"
                   id="email"
-                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-                  className={`p-2 border rounded-md w-full ${errors.email ? 'border-red-500' : ''}`}
+                  {...register("email", {
+                    required: true,
+                    pattern: /^\S+@\S+$/i,
+                  })}
+                  className={`p-2 border rounded-md w-full ${
+                    errors.email ? "border-red-500" : ""
+                  }`}
                 />
               </div>
-              <div className="text-red-500 text-sm">{errors.email?.type === 'required' && "Email is required"}</div>
-              <div className="text-red-500 text-sm">{errors.email?.type === 'pattern' && "Invalid email format"}</div>
+              <div className="text-red-500 text-sm">
+                {errors.email?.type === "required" && "Email is required"}
+              </div>
+              <div className="text-red-500 text-sm">
+                {errors.email?.type === "pattern" && "Invalid email format"}
+              </div>
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Phone
               </label>
               <div className="mt-1">
@@ -76,13 +107,20 @@ function Signupowner() {
                   type="tel"
                   id="phone"
                   {...register("phone", { required: true })}
-                  className={`p-2 border rounded-md w-full ${errors.phone ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-md w-full ${
+                    errors.phone ? "border-red-500" : ""
+                  }`}
                 />
               </div>
-              <div className="text-red-500 text-sm">{errors.phone && "Phone is required"}</div>
+              <div className="text-red-500 text-sm">
+                {errors.phone && "Phone is required"}
+              </div>
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1">
@@ -90,13 +128,20 @@ function Signupowner() {
                   type="password"
                   id="password"
                   {...register("password", { required: true })}
-                  className={`p-2 border rounded-md w-full ${errors.password ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-md w-full ${
+                    errors.password ? "border-red-500" : ""
+                  }`}
                 />
               </div>
-              <div className="text-red-500 text-sm">{errors.password && "Password is required"}</div>
+              <div className="text-red-500 text-sm">
+                {errors.password && "Password is required"}
+              </div>
             </div>
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm Password
               </label>
               <div className="mt-1">
@@ -104,14 +149,21 @@ function Signupowner() {
                   type="password"
                   id="confirmPassword"
                   {...register("confirmPassword", { required: true })}
-                  className={`p-2 border rounded-md w-full ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-md w-full ${
+                    errors.confirmPassword ? "border-red-500" : ""
+                  }`}
                 />
               </div>
-              <div className="text-red-500 text-sm">{errors.confirmPassword && "Confirm Password is required"}</div>
+              <div className="text-red-500 text-sm">
+                {errors.confirmPassword && "Confirm Password is required"}
+              </div>
             </div>
             <div className="text-red-500 text-sm">{verificationStatus}</div>
             <div className="flex justify-between">
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md">
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
+              >
                 Sign Up
               </button>
             </div>
@@ -119,7 +171,7 @@ function Signupowner() {
           <div className="text-center mt-4">
             <span className="text-gray-600 text-sm">
               Already have an account?{" "}
-              <a href="/login" className="text-green-500">
+              <a href="/ownerlogin" className="text-green-500">
                 Login
               </a>
             </span>

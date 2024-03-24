@@ -32,10 +32,19 @@ function UserLogin() {
       localStorage.setItem("token", token);
       dispatch(userLogin(response.data));
       navigate("/home");
-    } catch (error) {
-      setServerError("Invalid email or password.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        if(error.response.data.message === 'user is blocked'){
+          localStorage.removeItem("token")
+        }
+        setServerError(error.response.data.message);
+      } else {
+        setServerError("An error occurred while processing your request.");
+      }
     }
   };
+  
 
   const handleGoogleLoginSuccess = async (
     credentialResponse: CredentialResponse
