@@ -80,6 +80,7 @@ function VenueRequest() {
       <table className="border-collapse border w-full">
         <thead>
           <tr>
+            <th className="border p-3">Email</th>
             <th className="border p-3">Name</th>
             <th className="border p-3">Address</th>
             <th className="border p-3">City</th>

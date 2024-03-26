@@ -37,7 +37,7 @@ function Addvenue() {
       formData.append("closingTime", closingTime);
       formData.append("price", price);
 
-      const storedToken = localStorage.getItem("token");
+      const storedToken = localStorage.getItem("ownerToken");
       if (!storedToken) {
         console.error("Token not found");
         return;

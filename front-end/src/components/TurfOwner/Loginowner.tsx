@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -27,7 +27,7 @@ function Loginowner() {
 
       if (response.status === 200 && response.data.status === 200) {
         const token = response.data.token;
-        localStorage.setItem("token", token);
+        localStorage.setItem("ownerToken", token);
         dispatch(ownerLogin(response.data));
         navigate("/ownerhome");
       } else {
@@ -45,14 +45,11 @@ function Loginowner() {
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/ownerhome");
-    }
-  }, [navigate]);
+
 
   return (
+    <>
+    <h1 className="flex justify-center mt-5 font-extrabold ">Owner Login</h1>
     <div className="flex justify-center items-center  h-screen">
       <form
         className="bg-green-100 shadow-md rounded px-16 pt-6 pb-8 mb-4 w-96"
@@ -120,6 +117,7 @@ function Loginowner() {
         </div>
       </form>
     </div>
+    </>
   );
 }
 

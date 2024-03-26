@@ -9,7 +9,7 @@ function Ownerhome() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('ownerToken');
         if (token) {
             const ownerData = JSON.parse(atob(token.split('.')[1]));
             dispatch(ownerLogin(ownerData));

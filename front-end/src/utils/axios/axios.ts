@@ -22,12 +22,12 @@ const createAxiosInstance = (token: string | null, role: string | null): AxiosIn
   return instance;
 };
 
-const userToken: string | null = localStorage.getItem('token');
+const userToken: string | null = localStorage.getItem('userToken');
 const userRole: string | null = 'user'; 
-const ownerToken: string | null = localStorage.getItem('token');
+const ownerToken: string | null = localStorage.getItem('ownerToken');
 const ownerRole: string | null = 'owner'; 
 
-const adminToken:string | null =localStorage.getItem('token')
+const adminToken:string | null =localStorage.getItem('adminToken')
 const adminRole:string | null='admin'
 
 

@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
-  ownerEmail: null
+  ownerEmail: null,
+  token:null
 };
 
 const ownerSlice = createSlice({
@@ -12,6 +13,7 @@ const ownerSlice = createSlice({
     ownerLogin(state, action) {
       state.isLoggedIn = true;
       state.ownerEmail = action.payload.ownerEmail;
+      state.token = action.payload.token;
     },
     ownerLogout(state) {
       state.isLoggedIn = false;

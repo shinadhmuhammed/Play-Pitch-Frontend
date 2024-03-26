@@ -11,14 +11,14 @@ function Navbar() {
     const navigate=useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('ownerToken');
         if (!token) {
           navigate('/ownerlogin');
         }
       }, [navigate]);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('ownerToken');
         dispatch(ownerLogout())
         navigate('/ownerlogin');
     };

@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { adminLogout } from "../../services/Redux/slice/adminSlices";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 function NavAdmin() {
@@ -9,10 +10,18 @@ function NavAdmin() {
     const navigate=useNavigate()
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
+        localStorage.removeItem('adminToken')
         dispatch(adminLogout())
         navigate('/adminlogin')
       };
+
+      useEffect(() => {
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+          navigate('/adminlogin');
+        }
+      }, [navigate]);
+
     
   return (
     <div>

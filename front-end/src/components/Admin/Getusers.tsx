@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { axiosInstance } from "../../utils/axios/axios"
+import { axiosAdminInstance } from "../../utils/axios/axios"
 import NavAdmin from "./NavAdmin";
 
 
@@ -21,7 +21,7 @@ function Getusers() {
     useEffect(()=>{
         const fetchUsers=async()=>{
             try {
-                const response=await axiosInstance.get('/admin/getusers')
+                const response=await axiosAdminInstance.get('/admin/getusers')
                 setUsers(response.data);
                 console.log(response)
             } catch (error) {
@@ -34,11 +34,11 @@ function Getusers() {
 
     const blockandunblock=async(email:string,isBlocked:boolean)=>{
       try {
-          const response=await axiosInstance.post('/admin/blockandunblock',{email,isBlocked})
+          const response=await axiosAdminInstance.post('/admin/blockandunblock',{email,isBlocked})
           setUsers(prevUsers => prevUsers.map(user => {
             if (user.email === email) {
-              if( isBlocked){
-                localStorage.removeItem('token')
+              if( !isBlocked){
+                localStorage.removeItem('userToken')
               }
               return { ...user, isBlocked: !isBlocked };
             }

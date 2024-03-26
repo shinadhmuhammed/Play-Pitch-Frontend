@@ -3,6 +3,7 @@ import {useEffect, useState} from "react"
 import { userLogin, userLogout } from "../../services/Redux/slice/userSlices"
 import { useNavigate } from "react-router-dom"
 import {axiosUserInstance } from "../../utils/axios/axios"
+import UserFooter from "./UserFooter"
 
 
 
@@ -27,35 +28,44 @@ function Homepage() {
     const navigate=useNavigate()
   
   
-    useEffect(()=>{
-        const token=localStorage.getItem('token')
-        if(token){
-            const userData=JSON.parse(atob(token.split('.')[1]))
-            dispatch(userLogin(userData))
-        }else{
-            navigate('/login')
-        }
-    },[dispatch,navigate])
+    useEffect(() => {
+      const token = localStorage.getItem('userToken');
+      if (token) {
+          const userData = JSON.parse(atob(token.split('.')[1]));
+          dispatch(userLogin(userData));
+      } else {
+          navigate('/login');
+      }
+  }, [dispatch, navigate]);
+  
+  useEffect(() => {
+      const fetchTurfData = async () => {
+          try {
+              const token = localStorage.getItem('userToken');
+              if (token) {
+                  const response = await axiosUserInstance.get('/getturf', {
+                      headers: {
+                          Authorization: `Bearer ${token}`
+                      }
+                  });
+                  setTurf(response.data);
+                  console.log(response.data);
+              } else {
+                  navigate('/login');
+              }
+          } catch (error) {
+              console.log(error);
+          }
+      };
+      fetchTurfData();
+  }, [navigate]);
+  
 
     const handleLogout=()=>{
-        localStorage.removeItem('token')
-        dispatch(userLogout())
-        navigate('/login')
-    }
-
-    useEffect(()=>{
-      const fetchUsers=async()=>{
-        try {
-            const response=await axiosUserInstance.get('/getturf')
-            setTurf(response.data)
-            console.log(response.data)
-        } catch (error) {
-            console.log(error)
-        }
-      }
-      fetchUsers()
-    },[])
-
+      localStorage.removeItem('userToken')
+      dispatch(userLogout())
+      navigate('/login')
+  }
 
  
 
@@ -63,19 +73,18 @@ function Homepage() {
 
     return (
       <>
-      <nav className="bg-gray-500 p-6 flex justify-between  items-center">
-          <a href="/home" className="text-white hover:text-green-400  flex items-center space-x-2">
-              <span>Book</span>
-          </a>
-          <button
-              onClick={handleLogout}
-              className="text-white hover:text-green-400"
-          >
-              Logout
-          </button>
-      </nav>
-
-      <nav className="flex justify-between items-center mt-7 p-10 bg-gray-300">
+   <nav className="bg-green-500 p-6 flex justify-between items-center">
+      <a href="/home" className="text-white hover:text-green-400 flex items-center space-x-2">
+        <span>Book</span>
+      </a>
+      <button
+        onClick={handleLogout}
+        className="text-white hover:text-red-400 px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 focus:outline-none"
+      >
+        Logout
+      </button>
+    </nav>
+      <nav className="flex justify-between items-center mt-7 p-10 bg-green-300">
   <h1 className="font-extrabold text-xl">Book Your Venues</h1>
   <div className="flex items-center">
     <div className="relative mr-4">
@@ -124,7 +133,7 @@ function Homepage() {
       <img
         src={turf.images[0]} 
         alt={turf.turfName}
-        className="w-full h-40 object-cover mb-4 rounded-md"
+        className="w-full h-52 object-cover mb-4 rounded-md"
       />
     )}
     <h2 className="text-lg font-semibold mb-2">{turf.turfName}</h2>
@@ -136,6 +145,7 @@ function Homepage() {
 
       </div>
 
+      <UserFooter/>
       </>
   );
 }

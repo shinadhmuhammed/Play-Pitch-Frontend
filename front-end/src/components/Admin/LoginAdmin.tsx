@@ -26,13 +26,11 @@ function LoginAdmin() {
             const response = await axiosInstance.post('/admin/adminlogin', { email, password });
             console.log(response);
             const token = response.data.token;
-            console.log(token);
-            localStorage.setItem('token', token);
+            localStorage.setItem('adminToken', token);
             const adminEmail = email;
-            console.log(adminEmail) 
             dispatch(adminLogin({ adminEmail, token }));
             navigate('/dashboard');
-            console.log(response);
+           
         } catch (error) {
             console.log(error);
         }

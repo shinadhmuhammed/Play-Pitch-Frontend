@@ -29,6 +29,15 @@ function UserSignup() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/ownerhome");
+    }
+  }, [navigate]);
+
+  
+
+  useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
 
     if (resendDisabled) {

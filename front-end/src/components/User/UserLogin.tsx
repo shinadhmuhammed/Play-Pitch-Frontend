@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -29,14 +29,14 @@ function UserLogin() {
         password: formData.password,
       });
       const token = response.data.token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("userToken", token);
       dispatch(userLogin(response.data));
       navigate("/home");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error:any) {
       if (error.response && error.response.data && error.response.data.message) {
         if(error.response.data.message === 'user is blocked'){
-          localStorage.removeItem("token")
+          localStorage.removeItem("userToken")
         }
         setServerError(error.response.data.message);
       } else {
@@ -44,6 +44,14 @@ function UserLogin() {
       }
     }
   };
+
+  useEffect(()=>{
+    const token=localStorage.getItem('userToken ')
+    if(token){
+      navigate('/home')
+    }
+  })
+
   
 
   const handleGoogleLoginSuccess = async (
@@ -58,7 +66,7 @@ function UserLogin() {
 
       if (response.status === 200) {
         const token = response.data.token;
-        localStorage.setItem("token", token);
+        localStorage.setItem("userToken", token);
 
         dispatch(userLogin(response.data));
 
