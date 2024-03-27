@@ -17,6 +17,7 @@ import TurfPage from "../Pages/TurfOwner/TurfPage";
 import EditPage from "../Pages/TurfOwner/EditPage";
 import Verification from "../Pages/TurfOwner/Verification";
 import RequestVenue from "../Pages/Admin/RequestVenue";
+import TurfDetail from "../Pages/Users/TurfDetail";
 
 
 
@@ -30,6 +31,7 @@ function UserRoutes() {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/home" element={<Home/>}></Route>
         <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
+        <Route path="/turf/:id" element={<TurfDetail />} ></Route>
 
 
         {/* owners */}
