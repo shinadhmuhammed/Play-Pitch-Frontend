@@ -13,14 +13,14 @@ function Navbar() {
     useEffect(() => {
         const token = localStorage.getItem('ownerToken');
         if (!token) {
-          navigate('/ownerlogin');
+          navigate('/owner/ownerlogin');
         }
       }, [navigate]);
 
     const handleLogout = () => {
         localStorage.removeItem('ownerToken');
         dispatch(ownerLogout())
-        navigate('/ownerlogin');
+        navigate('/owner/ownerlogin');
     };
   return (
     <div>
@@ -28,9 +28,9 @@ function Navbar() {
                 <div className="container mx-auto flex justify-between">
                     <div className="flex items-center space-x-4">
                         <a href="#" className="text-white font-bold">Dashboard</a>
-                        <a href="#" className="text-white font-bold">Game Requests</a>
-                        <a href="/addvenue" className="text-white font-bold">Add Turf</a>
-                        <a href="/venue" className="text-white font-bold">View Turf</a>
+                        <a href="/owner/venuerequest" className="text-white font-bold">Game Requests</a>
+                        <a href="/owner/addvenue" className="text-white font-bold">Add Turf</a>
+                        <a href="/owner/venue" className="text-white font-bold">View Turf</a>
                     </div>
                     <div>
                         <a href="#" className="text-white font-bold">Your Profile</a>

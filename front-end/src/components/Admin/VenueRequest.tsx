@@ -26,6 +26,7 @@ function VenueRequest() {
       try {
         const response = await axiosAdminInstance.get("/admin/venuerequest");
         setTurfs(response.data);
+        console.log(response.data)
       } catch (error) {
         console.log("Error fetching turfs:", error);
       }

@@ -64,7 +64,7 @@ function ForgotOwner() {
       });
       console.log(response);
       if (response.status === 204) {
-        navigate('/ownerlogin');
+        navigate('/owner/ownerlogin');
       }
     } catch (error) {
       console.log("Error occurred in forgot password", error);

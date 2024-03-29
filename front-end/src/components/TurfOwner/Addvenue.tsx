@@ -36,6 +36,7 @@ function Addvenue() {
       formData.append("openingTime", openingTime);
       formData.append("closingTime", closingTime);
       formData.append("price", price);
+      formData.append("courtType", courtType);
 
       const storedToken = localStorage.getItem("ownerToken");
       if (!storedToken) {
@@ -63,7 +64,7 @@ function Addvenue() {
       setPrice("");
       setCourtType("");
       setImages([]);
-      navigate("/verification-pending");
+      navigate("/owner/verification-pending");
     } catch (error) {
       console.log(error);
     }

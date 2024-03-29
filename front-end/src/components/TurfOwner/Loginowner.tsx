@@ -29,7 +29,7 @@ function Loginowner() {
         const token = response.data.token;
         localStorage.setItem("ownerToken", token);
         dispatch(ownerLogin(response.data));
-        navigate("/ownerhome");
+        navigate("/owner/ownerhome");
       } else {
         console.log("Server error occurred");
       }
@@ -97,7 +97,7 @@ function Loginowner() {
           </button>
           <div>
             <Link
-              to="/forgotpassword"
+              to="/owner/forgotpassword"
               className="text-blue-500 hover:text-blue-700 text-sm"
             >
               Forgot Password?
@@ -108,7 +108,7 @@ function Loginowner() {
           <p className="text-sm">
             Don't have an account?
             <Link
-              to="/ownersignup"
+              to="/owner/ownersignup"
               className="text-blue-500 hover:text-blue-700 ml-3"
             >
               Sign Up

@@ -29,7 +29,7 @@ function LoginAdmin() {
             localStorage.setItem('adminToken', token);
             const adminEmail = email;
             dispatch(adminLogin({ adminEmail, token }));
-            navigate('/dashboard');
+            navigate('/admin/dashboard');
            
         } catch (error) {
             console.log(error);

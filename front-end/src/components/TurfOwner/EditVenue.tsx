@@ -12,7 +12,8 @@ interface Turf {
   openingTime: string;
   closingTime: string;
   price: number;
-  images: string[]; // Assuming images are stored as an array of strings
+  courtType: string; // Add courtType field
+  images: string[]; 
 }
 
 const EditTurf: React.FC = () => {
@@ -26,6 +27,7 @@ const EditTurf: React.FC = () => {
     openingTime: "",
     closingTime: "",
     price: 0,
+    courtType: "", // Initialize courtType
     images: [],
   });
   const { turfId } = useParams<{ turfId: string }>(); 
@@ -56,7 +58,7 @@ const EditTurf: React.FC = () => {
     try {
       const response = await axiosOwnerInstance.put(`/owner/editturf/${turfId}`, turf);
       console.log(response);
-      navigate('/venue');
+      navigate('/owner/venue');
     } catch (error) {
       console.error("Error editing turf:", error);
     }
@@ -111,6 +113,14 @@ const EditTurf: React.FC = () => {
           value={turf.aboutVenue}
           onChange={handleChange}
           placeholder="About Venue"
+          className="w-full px-4 py-2 border rounded-md"
+        />
+        <input
+          type="text"
+          name="courtType"
+          value={turf.courtType}
+          onChange={handleChange}
+          placeholder="Court Type"
           className="w-full px-4 py-2 border rounded-md"
         />
         <input

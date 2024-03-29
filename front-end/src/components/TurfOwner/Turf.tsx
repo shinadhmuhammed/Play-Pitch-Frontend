@@ -18,6 +18,7 @@ interface Turf {
   turfOwner: string;
   isActive: boolean;
   isDeclined: boolean;
+  courtType: string;
 }
 
 function Turf() {
@@ -39,7 +40,7 @@ function Turf() {
 
   const handleEditClick = (turfId: string) => {
     console.log("Edit clicked for turf with ID:", turfId);
-    navigate(`/editturf/${turfId}`);
+    navigate(`/owner/editturf/${turfId}`);
   };
 
   const handleDeleteClick = async (turfId: string) => {
@@ -106,6 +107,11 @@ function Turf() {
                   <span className="font-semibold">Closing Time:</span>{" "}
                   {turf.closingTime}
                 </p>
+                <p className="mb-2">
+                  <span className="font-semibold">Court Type:</span>{" "}
+                  {turf.courtType}
+                </p>
+
                 <p className="mb-2">
                   <span className="font-semibold">Price:</span> {turf.price}
                 </p>

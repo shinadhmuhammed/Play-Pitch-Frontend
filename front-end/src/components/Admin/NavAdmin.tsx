@@ -12,13 +12,13 @@ function NavAdmin() {
     const handleLogout = () => {
         localStorage.removeItem('adminToken')
         dispatch(adminLogout())
-        navigate('/adminlogin')
+        navigate('/admin/adminlogin')
       };
 
       useEffect(() => {
         const token = localStorage.getItem('adminToken');
         if (!token) {
-          navigate('/adminlogin');
+          navigate('/admin/adminlogin');
         }
       }, [navigate]);
 
@@ -37,19 +37,19 @@ function NavAdmin() {
               <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
                   <a
-                    href="/dashboard"
+                    href="/admin/dashboard"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Dashboard
                   </a>
                   <a
-                    href="/users"
+                    href="/admin/users"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Users
                   </a>
                   <a
-                    href="/venue-request"
+                    href="/admin/venue-request"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Venue Requests
