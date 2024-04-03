@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import UserNav from "./UserNav";
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/Redux/slice/userSlices";
 
@@ -14,7 +13,7 @@ function Profiles() {
 
   return (
     <div>
-      <UserNav />
+    
       <div className="max-w-sm py-36 mt-8 p-6 ml-7 rounded-lg border shadow-2xl flex flex-col space-y-12">
         <div className="profile-section">
           <a href="/booking" className="text-lg font-semibold">

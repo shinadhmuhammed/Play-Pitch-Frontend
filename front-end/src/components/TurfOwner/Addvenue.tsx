@@ -71,11 +71,12 @@ function Addvenue() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="flex justify-end p-5 py-8 border"></div>
-
-      <div className="max-w-md mx-auto">
+    <>
+    <Navbar/>
+   
+    <div className="flex justify-center">
+      
+      <div className="w-1/2">
         <form
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit}
@@ -157,43 +158,45 @@ function Addvenue() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="facilities"
-              type="text"
-              value={facilities}
+              type="text"value={facilities}
               onChange={(e) => setFacilities(e.target.value)}
               placeholder="Facilities"
             />
           </div>
 
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="openingTime"
-            >
-              Opening Time
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="openingTime"
-              type="time"
-              value={openingTime}
-              onChange={(e) => setOpeningTime(e.target.value)}
-            />
-          </div>
+          <div className="mb-4 flex">
+            <div className="w-1/2 mr-2">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="openingTime"
+              >
+                Opening Time
+              </label>npm install react-leaflet leaflet
 
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="closingTime"
-            >
-              Closing Time
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="closingTime"
-              type="time"
-              value={closingTime}
-              onChange={(e) => setClosingTime(e.target.value)}
-            />
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="openingTime"
+                type="time"
+                value={openingTime}
+                onChange={(e) => setOpeningTime(e.target.value)}
+              />
+            </div>
+
+            <div className="w-1/2 ml-2">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="closingTime"
+              >
+                Closing Time
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="closingTime"
+                type="time"
+                value={closingTime}
+                onChange={(e) => setClosingTime(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="mb-4">
@@ -233,27 +236,26 @@ function Addvenue() {
           </div>
 
           <div className="mb-4">
-    <label
-        className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor="image"
-    >
-        Image
-    </label>
-    <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="image"
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={(e) => {
-            const files = e.target.files;
-            if (files) {
-                setImages(Array.from(files));
-            }
-        }}
-    />
-</div>
-
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="image"
+            >
+              Image
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="image"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                const files = e.target.files;
+                if (files) {
+                  setImages(Array.from(files));
+                }
+              }}
+            />
+          </div>
 
           <div className="flex items-center justify-between">
             <button
@@ -266,7 +268,9 @@ function Addvenue() {
         </form>
       </div>
     </div>
+    </>
   );
 }
+
 
 export default Addvenue;

@@ -1,11 +1,15 @@
 import UserFooter from "../../components/User/UserFooter";
+import UserNav from "../../components/User/UserNav";
 
 
 function LandinPage() {
 
 
   return (
+    <>
+    <UserNav/>
     <div className="relative bg-black">
+    
       <img src="/images/landingturf2.jpg" className="w-full object-cover mt-0 mb-10" alt="hello" style={{ height: "calc(100vh - 100px)" }} />
     
       <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center z-10">
@@ -19,7 +23,7 @@ function LandinPage() {
   
       <UserFooter />
     </div>
-  
+    </>
   );
   }  
 
