@@ -44,7 +44,7 @@ function Signupowner() {
         phone,
         password,
       });
-      navigate("/ownerotp", {
+      navigate("/owner/ownerotp", {
         state: {
           email: data.email,
           phone: data.phone,
@@ -171,7 +171,7 @@ function Signupowner() {
           <div className="text-center mt-4">
             <span className="text-gray-600 text-sm">
               Already have an account?{" "}
-              <a href="/ownerlogin" className="text-green-500">
+              <a href="/owner/ownerlogin" className="text-green-500">
                 Login
               </a>
             </span>

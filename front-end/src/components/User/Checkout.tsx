@@ -71,6 +71,7 @@ function Checkout() {
   }, [selectedDate, selectedStartTime, selectedEndTime]);
 
   const handleStartTimeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setErrorMessage('')
     setSelectedStartTime(e.target.value);
     setSelectedEndTime("");
   };
@@ -96,7 +97,7 @@ function Checkout() {
         !totalPrice
       ) {
         setErrorMessage(
-          "Please select start and end time, date, and calculate the total price."
+          "Please select start and end time, date."
         );
         return;
       }

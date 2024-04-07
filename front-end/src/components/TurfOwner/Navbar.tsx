@@ -1,47 +1,50 @@
-import {  useDispatch } from "react-redux";
-import { ownerLogout } from "../../services/Redux/slice/ownerSlices";
+
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-
-
 function Navbar() {
+  const navigate = useNavigate();
 
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
+  useEffect(() => {
+    const token = localStorage.getItem("ownerToken");
+    if (!token) {
+      navigate("/owner/ownerlogin");
+    }
+  }, [navigate]);
 
-    useEffect(() => {
-        const token = localStorage.getItem('ownerToken');
-        if (!token) {
-          navigate('/owner/ownerlogin');
-        }
-      }, [navigate]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('ownerToken');
-        dispatch(ownerLogout())
-        navigate('/owner/ownerlogin');
-    };
   return (
     <div>
-           <nav className="bg-green-800 p-4">
-                <div className="container mx-auto flex justify-between">
-                    <div className="flex items-center space-x-4">
-                        <a href="#" className="text-white font-bold">Dashboard</a>
-                        <a href="/owner/venuerequest" className="text-white font-bold">Game Requests</a>
-                        <a href="/owner/addvenue" className="text-white font-bold">Add Turf</a>
-                        <a href="/owner/venue" className="text-white font-bold">View Turf</a>
-                    </div>
-                    <div>
-                        <a href="#" className="text-white font-bold">Your Profile</a>
-                        <button onClick={handleLogout} className="ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </nav>
+      <nav className=" p-4">
+        <div className="container mx-auto flex justify-between shadow-md p-9">
+          <div className="flex items-center space-x-4 ">
+            <a href="#" className="text-black font-bold">
+              Dashboard
+            </a>
+            <a href="/owner/addvenue" className="text-black font-bold">
+              Add Turf
+            </a>
+            <a href="/owner/venue" className="text-black font-bold">
+              View Turf
+            </a>
+          </div>
+          <div>
+            <a href="/owner/ownerprofile">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </nav>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

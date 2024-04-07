@@ -21,13 +21,18 @@ function Profiles() {
           </a>
         </div>
         <div className="profile-section">
-          <a href="/changepassword" className="text-lg font-semibold">
-            Change Password
+          <a href="/details" className="text-lg font-semibold">
+            Personal Details
           </a>
         </div>
         <div className="profile-section">
-          <a href="/personaldetails" className="text-lg font-semibold">
-            Personal Details
+          <a href="/password-change" className="text-lg font-semibold">
+           Reset Password
+          </a>
+        </div>
+        <div className="profile-section">
+          <a href="/wallet" className="text-lg font-semibold">
+            Wallet
           </a>
         </div>
         <div className="profile-section">

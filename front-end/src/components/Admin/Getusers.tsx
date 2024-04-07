@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { axiosAdminInstance } from "../../utils/axios/axios"
 import NavAdmin from "./NavAdmin";
+import Swal from 'sweetalert2';
 
 
 
@@ -15,6 +16,8 @@ interface User {
 
 function Getusers() {
     const[users,setUsers]=useState<User[]>([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [usersPerPage] = useState(5);
 
 
 
@@ -32,23 +35,42 @@ function Getusers() {
     },[])
 
 
-    const blockandunblock=async(email:string,isBlocked:boolean)=>{
-      try {
-          const response=await axiosAdminInstance.post('/admin/blockandunblock',{email,isBlocked})
+    const blockandunblock = async (email: string, isBlocked: boolean) => {
+      const confirmationResult = await Swal.fire({
+        title: `Are you sure you want to ${isBlocked ? 'unblock' : 'block'} this user?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      });
+ 
+      if (confirmationResult.isConfirmed) {
+        try {
+          const response = await axiosAdminInstance.post('/admin/blockandunblock', { email, isBlocked });
           setUsers(prevUsers => prevUsers.map(user => {
             if (user.email === email) {
-              if( !isBlocked){
-                localStorage.removeItem('userToken')
+              if (!isBlocked) {
+                localStorage.removeItem('userToken');
               }
               return { ...user, isBlocked: !isBlocked };
             }
             return user;
           }));
-          console.log(response)
-      } catch (error) {
-        console.log(error)
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
+    };
+
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  
+    // Change page
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -89,6 +111,20 @@ function Getusers() {
 
         </table>
       </div>
+      <ul className="flex justify-center my-4">
+        {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map((_, index) => (
+          <li key={index}>
+            <button
+              onClick={() => paginate(index + 1)}
+              className={`mx-1 px-3 py-1 rounded-md ${
+                currentPage === index + 1 ? "bg-black text-white" : "bg-gray-300 text-gray-700"
+              }`}
+            >
+              {index + 1}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

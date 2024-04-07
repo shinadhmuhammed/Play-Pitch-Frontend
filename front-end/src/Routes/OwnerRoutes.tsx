@@ -9,6 +9,9 @@ import TurfPage from "../Pages/TurfOwner/TurfPage";
 import EditPage from "../Pages/TurfOwner/EditPage";
 import Verification from "../Pages/TurfOwner/Verification";
 import Request from "../Pages/TurfOwner/Request";
+import OwnerProfile from "../components/TurfOwner/OwnerProfile";
+import OwnerPersonalDetails from "../Pages/TurfOwner/OwnerPersonalDetails";
+import OwnerPasswordChange from "../Pages/TurfOwner/OwnerPasswordChange";
 
 
 function OwnerRoutes() {
@@ -27,6 +30,9 @@ function OwnerRoutes() {
         <Route path="/verification-pending" element={<Verification />} />
         <Route path="/editturf/:turfId" element={<EditPage />} />
         <Route path="/venuerequest" element={<Request />} />
+        <Route path="/ownerprofile" element={<OwnerProfile/>}/>
+        <Route path="/personal-details" element={<OwnerPersonalDetails/>}/>
+        <Route path="/change-password" element={<OwnerPasswordChange/>}/>
         </Routes>
     </div>
   )

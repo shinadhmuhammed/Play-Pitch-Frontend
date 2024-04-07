@@ -115,20 +115,23 @@ function Homepage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {currentTurf.map((turf) => (
           <Link key={turf._id} to={`/turf/${turf._id}`}>
-            <div className="bg-white shadow-md rounded-md p-4">
+            <div className="bg-white shadow-md rounded-md p-4 g">
               {turf.images.length > 0 && (
-                <img
-                  src={turf.images[0]}
-                  alt={turf.turfName}
-                  className="w-full h-52 object-cover mb-4 rounded-md"
-                />
+                <div className="relative group">
+                  <img
+                    src={turf.images[0]}
+                    alt={turf.turfName}
+                    className="w-full h-52 object-cover mb-4 rounded-md hue-rotate-15 transition-transform duration-300 transform group-hover:scale-105"
+                  />
+                </div>
               )}
+
               <h2 className="text-lg font-semibold mb-2">{turf.turfName}</h2>
               <p className="text-sm text-gray-600 mb-2">
                 {turf.address}, {turf.city}
               </p>
               <p className="text-sm text-gray-600 mb-2">{turf.court}</p>
-              <p className="text-sm text-gray-600 mb-2">Price:  ₹{turf.price}</p>
+              <p className="text-sm text-gray-600 mb-2">Price: ₹{turf.price}</p>
             </div>
           </Link>
         ))}

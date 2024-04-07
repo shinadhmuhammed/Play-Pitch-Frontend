@@ -9,26 +9,24 @@ interface Booking {
   date: string;
   selectedSlot: string;
   bookingStatus: string;
+  totalPrice: number;
   paymentMethod: string;
 }
-
-
-
 
 function UserBooking() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-    const token=localStorage.getItem('userToken')
-    if(token){
-      navigate('/booking')
-    }else{
-      navigate('/login')
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      navigate("/booking");
+    } else {
+      navigate("/login");
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -117,6 +115,12 @@ function UserBooking() {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
+                  TotalPrice
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Payment Method
                 </th>
               </tr>
@@ -141,8 +145,25 @@ function UserBooking() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">
+                      {booking.totalPrice}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">
                       {booking.paymentMethod}
                     </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      className="text-blue-600 hover:text-blue-700 focus:outline-none focus:text-blue-700"
+                      onClick={() =>
+                        navigate(`/booking/${booking._id}`, {
+                          state: { booking },
+                        })
+                      }
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               ))}

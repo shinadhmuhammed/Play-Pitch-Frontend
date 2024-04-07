@@ -15,7 +15,7 @@ function UserNav() {
           <span className="text-blue-500">Pitch</span>
         </h1>
 
-        <div className="flex justify-end items-center">
+        <div className="flex justify-end items-center ">
           <a
             href="#"
             className="px-3 text-black cursor-pointer hover:text-gray-300"
@@ -24,12 +24,22 @@ function UserNav() {
           </a>
           <a
             href="/home"
-            className="px-3 text-black cursor-pointer hover:text-gray-300"
+            className="px-3 text-black cursor-pointer hover:text-gray-300 mr-2"
           >
             View Turf
           </a>
-          <div className="relative ml-2">
-            <a href="/booking">Profile</a>
+          <div>
+            <a href="/booking">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            </a>
           </div>
         </div>
       </nav>

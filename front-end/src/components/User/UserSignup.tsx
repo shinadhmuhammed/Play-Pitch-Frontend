@@ -37,29 +37,7 @@ function UserSignup() {
 
   
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    if (resendDisabled) {
-      timer = setTimeout(() => {
-        setCountdown((prevCountdown) => prevCountdown - 1);
-      }, 1000);
-    }
-
-    if (countdown === 0 || !resendDisabled) {
-      if (timer) {
-        clearTimeout(timer);
-      }
-      setResendDisabled(false);
-      setCountdown(60);
-    }
-
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, [resendDisabled, countdown]);
+  
 
   const onSubmit: SubmitHandler<UserData> = async (data) => {
     try {
@@ -70,7 +48,7 @@ function UserSignup() {
         });
         console.log("Server response:", response.data);
         if (response.data.status === 200) {
-          setSuccessMessage("user registered successfully");
+          setSuccessMessage("User registered successfully");
           setTimeout(() => {
             navigate("/login");
           }, 2000);
@@ -84,12 +62,23 @@ function UserSignup() {
         setShowOtpField(true);
         setUserId(response.data.userId);
         setEmail(data.email);
+        setResendDisabled(true);
+        const timer = setInterval(() => {
+          setCountdown((prevCountdown) => prevCountdown - 1);
+        }, 1000);
+  
+        setTimeout(() => {
+          clearInterval(timer);
+          setResendDisabled(false);
+          setCountdown(60);
+        }, 60000);
       }
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage("Invalid OTP");
     }
   };
+  
 
   const password = watch("password");
 
@@ -214,7 +203,7 @@ function UserSignup() {
                 <span className="text-red-500">{errors.password.message}</span>
               )}
             </div>
-
+                
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -274,7 +263,7 @@ function UserSignup() {
                   <button
                     type="button"
                     onClick={handleResendOtp}
-                    className={`bg-blue-500 text-white px-2 py-1 rounded-md ${
+                    className={`bg-blue-500 text-white px-1 py-1 rounded-md ${
                       resendDisabled ? "cursor-not-allowed opacity-50" : ""
                     }`}
                     disabled={resendDisabled}

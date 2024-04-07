@@ -11,6 +11,7 @@ function BookingVerification() {
   const date = queryParams.get("date");
   const selectedStartTime= queryParams.get("selectedStartTime");
   const selectedEndTime= queryParams.get("selectedEndTime");
+  const totalPrice= queryParams.get("totalPrice");
   const paymentMethod = queryParams.get("paymentMethod");
 
   useEffect(() => {
@@ -19,6 +20,8 @@ function BookingVerification() {
     console.log("Selected Start:", selectedStartTime);
     console.log("Selected end:", selectedEndTime);
     console.log("Payment Method:", paymentMethod);
+    console.log('price',totalPrice)
+
     const storeBooking = async () => {
       try {
         const response = await axiosUserInstance.post("/create-booking", {
@@ -27,6 +30,7 @@ function BookingVerification() {
           selectedStartTime:selectedStartTime,
           selectedEndTime:selectedEndTime,
           paymentMethod: paymentMethod,
+          totalPrice:totalPrice
         });
         console.log("Booking stored:", response.data);
       } catch (error) {
@@ -35,7 +39,7 @@ function BookingVerification() {
     };
 
     storeBooking(); 
-  }, [turfId, date, selectedStartTime,selectedEndTime, paymentMethod]);
+  }, [turfId, date,totalPrice ,selectedStartTime,selectedEndTime, paymentMethod]);
 
   return (
     <>

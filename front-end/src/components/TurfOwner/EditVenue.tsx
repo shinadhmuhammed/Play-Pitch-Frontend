@@ -12,7 +12,7 @@ interface Turf {
   openingTime: string;
   closingTime: string;
   price: number;
-  courtType: string; // Add courtType field
+  courtType: string; 
   images: string[]; 
 }
 
@@ -27,7 +27,7 @@ const EditTurf: React.FC = () => {
     openingTime: "",
     closingTime: "",
     price: 0,
-    courtType: "", // Initialize courtType
+    courtType: "",
     images: [],
   });
   const { turfId } = useParams<{ turfId: string }>(); 
