@@ -19,14 +19,6 @@ function UserBooking() {
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      navigate("/booking");
-    } else {
-      navigate("/login");
-    }
-  }, []);
 
   useEffect(() => {
     const fetchBooking = async () => {

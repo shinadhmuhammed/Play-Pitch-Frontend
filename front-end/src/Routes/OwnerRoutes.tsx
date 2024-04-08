@@ -12,16 +12,22 @@ import Request from "../Pages/TurfOwner/Request";
 import OwnerProfile from "../components/TurfOwner/OwnerProfile";
 import OwnerPersonalDetails from "../Pages/TurfOwner/OwnerPersonalDetails";
 import OwnerPasswordChange from "../Pages/TurfOwner/OwnerPasswordChange";
+import PublicRouterOwner from "../utils/RouterOwner/PublicRouterOwner";
+import PrivateRouterOwner from "../utils/RouterOwner/PrivateRouterOwner";
 
 
 function OwnerRoutes() {
   return (
     <div>
         <Routes>
+          <Route element={<PublicRouterOwner/>}>
         <Route path="/ownersignup" element={<Ownersignup/>}></Route>
         <Route path="/ownerotp" element={<Ownerotp/>}></Route>
         <Route path="/forgotpassword" element={<OwnerForgot/>}></Route>
         <Route path="/ownerlogin" element={<OwnerLogin/>}></Route>
+        </Route>
+
+        <Route element={<PrivateRouterOwner/>}>
         <Route path="/ownerhome" element={<Ownerhome/>}></Route>
         <Route path="/addvenue" element={<Venueadd/>}></Route>
         <Route path="/venue" element={<TurfPage/>}></Route>
@@ -33,6 +39,7 @@ function OwnerRoutes() {
         <Route path="/ownerprofile" element={<OwnerProfile/>}/>
         <Route path="/personal-details" element={<OwnerPersonalDetails/>}/>
         <Route path="/change-password" element={<OwnerPasswordChange/>}/>
+        </Route>
         </Routes>
     </div>
   )

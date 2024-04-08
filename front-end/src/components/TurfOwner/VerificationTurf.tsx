@@ -17,7 +17,7 @@ function VerificationTurf() {
             Turf will be added after admin verification. 
             You will receive a verification message in your email shortly.
           </p>
-          <a href="/venue" className="text-blue-500 hover:underline mt-4 block">Go to see the turf</a>
+          <a href="/owner/venue" className="text-blue-500 hover:underline mt-4 block">Go to see the turf</a>
         </div>
       </div>
     </div>

@@ -46,15 +46,15 @@ function Loginowner() {
   };
 
 
-
   return (
-    <>
-    <h1 className="flex justify-center mt-5 font-extrabold ">Owner Login</h1>
-    <div className="flex justify-center items-center  h-screen">
+    <div className="flex justify-center items-center h-screen ">
       <form
-        className="bg-green-100 shadow-md rounded px-16 pt-6 pb-8 mb-4 w-96"
+        className="bg-white shadow-md rounded-lg px-10 pt-8 pb-8 w-96 "
         onSubmit={handleSubmit}
       >
+        <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-6">
+          Owner Login
+        </h1>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -63,7 +63,7 @@ function Loginowner() {
             Email
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             placeholder="Email"
@@ -71,15 +71,15 @@ function Loginowner() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 ">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 text-sm font-bold mb-2 "
             htmlFor="password"
           >
             Password
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
             placeholder="******************"
@@ -95,14 +95,12 @@ function Loginowner() {
           >
             Sign In
           </button>
-          <div>
-            <Link
-              to="/owner/forgotpassword"
-              className="text-blue-500 hover:text-blue-700 text-sm"
-            >
-              Forgot Password?
-            </Link>
-          </div>
+          <Link
+            to="/owner/forgotpassword"
+            className="text-blue-500 hover:text-blue-700 text-sm"
+          >
+            Forgot Password?
+          </Link>
         </div>
         <div>
           <p className="text-sm">
@@ -117,7 +115,6 @@ function Loginowner() {
         </div>
       </form>
     </div>
-    </>
   );
 }
 

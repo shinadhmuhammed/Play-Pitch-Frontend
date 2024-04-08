@@ -50,8 +50,6 @@ function Homepage() {
           });
           setTurf(response.data);
           console.log(response.data);
-        } else {
-          navigate("/login");
         }
       } catch (error) {
         console.log(error);

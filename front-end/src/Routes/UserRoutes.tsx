@@ -14,6 +14,8 @@ import StripeError from "../components/User/StripeError";
 import BookingDetails from "../components/User/BookingDetails";
 import PersonalDetails from "../Pages/Users/PersonalDetails";
 import PasswordChange from "../Pages/Users/PasswordChange";
+import PrivateRouterUser from "../utils/RouterUser/PrivateRouterUser";
+import PublicRouterUser from "../utils/RouterUser/PublicRouterUser";
 
 
 
@@ -27,11 +29,17 @@ function UserRoutes() {
   return (
     <div>
       <Routes>
+        <Route element={<PublicRouterUser/>}>
         <Route path="/" element={<LandinPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/home" element={<Home />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+        </Route>
+
+        <Route  element={<PrivateRouterUser/>}>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/booking" element={<Booking />}></Route>
+        
         <Route path="/turf/:id" element={<TurfDetail />}></Route>
         <Route
           path="checkout"
@@ -41,7 +49,7 @@ function UserRoutes() {
             </Elements>
           }
         ></Route>
-        <Route path="/booking" element={<Booking />}></Route>
+       
         <Route
           path="/booking-verification"
           element={<VerificationUser />}
@@ -50,6 +58,8 @@ function UserRoutes() {
         <Route path="/booking/:id" element={<BookingDetails />} />
         <Route path="/details" element={<PersonalDetails/>}></Route>
         <Route path="/password-change" element={<PasswordChange/>}></Route>
+        </Route>
+
       </Routes>
     </div>
   );
