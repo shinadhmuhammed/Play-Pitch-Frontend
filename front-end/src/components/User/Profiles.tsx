@@ -12,9 +12,9 @@ function Profiles() {
   };
 
   return (
-    <div>
-    
-      <div className="max-w-sm py-36 mt-8 p-6 ml-7 rounded-lg border shadow-2xl flex flex-col space-y-12">
+    <div className="relative">
+      
+      <div className="max-w-sm py-36 mt-8 p-6 ml-7 rounded-lg border shadow-2xl w-full space-y-12 relative z-10">
         <div className="profile-section">
           <a href="/booking" className="text-lg font-semibold">
             Your Bookings

@@ -11,7 +11,7 @@ interface Turf {
   facilities: string;
   openingTime: string;
   closingTime: string;
-  price: number;
+  price: { [key: string]: number }; 
   courtType: string;
   images: string[];
 }
@@ -160,6 +160,20 @@ const EditTurf: React.FC = () => {
       />
     </div>
     <div className="space-y-2">
+  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+    Prices (Separate by comma)
+  </label>
+  <input
+    type="text"
+    name="price"
+    value={Object.values(turf.price).join(',')}
+    onChange={handleChange}
+    placeholder="Prices"
+    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+  />
+</div>
+
+    <div className="space-y-2">
       <label htmlFor="facilities" className="block text-sm font-medium text-gray-700">
         Facilities
       </label>
@@ -197,19 +211,8 @@ const EditTurf: React.FC = () => {
         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
       />
     </div>
-    <div className="space-y-2">
-      <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-        Price
-      </label>
-      <input
-        type="number"
-        name="price"
-        value={turf.price}
-        onChange={handleChange}
-        placeholder="Price"
-        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-      />
-    </div>
+
+
     <div className="space-y-2">
       <label htmlFor="images" className="block text-sm font-medium text-gray-700">
         Images

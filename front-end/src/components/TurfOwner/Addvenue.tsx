@@ -14,17 +14,17 @@ function Addvenue() {
   const [facilities, setFacilities] = useState("");
   const [openingTime, setOpeningTime] = useState("");
   const [closingTime, setClosingTime] = useState("");
-  const [price, setPrice] = useState("");
-  const [courtType, setCourtType] = useState("");
+  const [courtType, setCourtType] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState({ lat: 0, lng: 0 });
   const [images, setImages] = useState<File[]>([]);
+  const [prices, setPrices] = useState<{ [key: string]: string }>({});
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     try {
       const formData = new FormData();
-
+  
       images.forEach((image) => {
         formData.append("file", image);
       });
@@ -37,15 +37,18 @@ function Addvenue() {
       formData.append("facilities", facilities);
       formData.append("openingTime", openingTime);
       formData.append("closingTime", closingTime);
-      formData.append("price", price);
-      formData.append("courtType", courtType);
-
+      
+      courtType.forEach((type) => {
+        formData.append("courtType", type); // Append court type
+        formData.append(`${type}-price`, prices[type]); // Append price with unique key
+      });
+  
       const storedToken = localStorage.getItem("ownerToken");
       if (!storedToken) {
         console.error("Token not found");
         return;
       }
-
+  
       const response = await axiosOwnerInstance.post(
         "/owner/addturf",
         formData,
@@ -63,13 +66,29 @@ function Addvenue() {
       setFacilities("");
       setOpeningTime("");
       setClosingTime("");
-      setPrice("");
-      setCourtType("");
+      setCourtType([]);
       setImages([]);
+      setPrices({});
       navigate("/owner/verification-pending");
     } catch (error) {
       console.log(error);
     }
+  };
+  
+
+  const handleCheckboxChange = (value: string) => {
+    if (courtType.includes(value)) {
+      setCourtType(courtType.filter((type) => type !== value));
+      const updatedPrices = { ...prices };
+      delete updatedPrices[value];
+      setPrices(updatedPrices);
+    } else {
+      setCourtType([...courtType, value]);
+    }
+  };
+
+  const handlePriceChange = (type: string, value: string) => {
+    setPrices({ ...prices, [type]: value });
   };
 
   return (
@@ -208,33 +227,96 @@ function Addvenue() {
               >
                 Price
               </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="price"
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Price"
-              />
+              {courtType.map((type, index) => (
+                <input
+                  key={index}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+                  type="text"
+                  value={prices[type] || ""}
+                  onChange={(e) => handlePriceChange(type, e.target.value)}
+                  placeholder={`Price for ${type}`}
+                />
+              ))}
             </div>
 
             <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="courtType"
-              >
+              <label className="block text-gray-700 text-sm font-bold mb-2">
                 Court Type
               </label>
-              <select
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="courtType"
-                value={courtType}
-                onChange={(e) => setCourtType(e.target.value)}
-              >
-                <option value="">Select Court Type</option>
-                <option value="7-aside">7-aside</option>
-                <option value="5-aside">5-aside</option>
-              </select>
+              <div className="flex flex-wrap">
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="5-aside"
+                      checked={courtType.includes("5-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">5-aside</span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="6-aside"
+                      checked={courtType.includes("6-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">6-aside</span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="7-aside"
+                      checked={courtType.includes("7-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">7-aside</span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="8-aside"
+                      checked={courtType.includes("8-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">8-aside</span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="10-aside"
+                      checked={courtType.includes("10-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">10-aside</span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                      value="11-aside"
+                      checked={courtType.includes("11-aside")}
+                      onChange={(e) => handleCheckboxChange(e.target.value)}
+                    />
+                    <span className="ml-2">11-aside</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
             <div className="mb-4">

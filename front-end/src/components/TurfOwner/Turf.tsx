@@ -111,10 +111,14 @@ function Turf() {
                   <span className="font-semibold">Court Type:</span>{" "}
                   {turf.courtType}
                 </p>
-
-                <p className="mb-2">
-                  <span className="font-semibold">Price:</span> {turf.price}
-                </p>
+                <div className="mb-2">
+                  <span className="font-semibold">Prices:</span>
+                  {Object.entries(turf.price).map(([courtType, price]) => (
+                    <p key={courtType} className="ml-2">
+                      {courtType}: {price}
+                    </p>
+                  ))}
+                </div>
               </div>
               {turf.images.map((image, index) => (
                 <img

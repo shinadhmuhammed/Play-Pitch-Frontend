@@ -16,6 +16,7 @@ import PersonalDetails from "../Pages/Users/PersonalDetails";
 import PasswordChange from "../Pages/Users/PasswordChange";
 import PrivateRouterUser from "../utils/RouterUser/PrivateRouterUser";
 import PublicRouterUser from "../utils/RouterUser/PublicRouterUser";
+import WalletPage from "../Pages/Users/WalletPage";
 
 
 
@@ -58,6 +59,7 @@ function UserRoutes() {
         <Route path="/booking/:id" element={<BookingDetails />} />
         <Route path="/details" element={<PersonalDetails/>}></Route>
         <Route path="/password-change" element={<PasswordChange/>}></Route>
+        <Route path="/wallet" element={<WalletPage/>}></Route>
         </Route>
 
       </Routes>

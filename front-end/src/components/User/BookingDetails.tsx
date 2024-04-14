@@ -130,7 +130,7 @@ function BookingDetails() {
   }
 
   const mapOptions = {
-    zoom: 15, // Adjusted zoom level
+    zoom: 10,
     center: { lat: turfDetails.latitude, lng: turfDetails.longitude }
   };
 
@@ -150,71 +150,76 @@ function BookingDetails() {
       <div className="flex flex-wrap justify-center mt-6">
         {turfDetails.images.map((imageUrl, index) => (
           <div key={index} className="max-w-xs mx-4 my-2">
-            <img src={imageUrl} alt={`Turf Image ${index + 1}`} className="w-full h-auto rounded-lg shadow-md" />
+            <img src={imageUrl} alt={`Turf Image ${index + 1}`} className="w-full h-48 rounded-lg shadow-md" />
           </div>
         ))}
       </div>
       <div className="flex justify-center mt-6">
       
-      <div className="max-w-xs p-4 bg-gray-100 rounded-lg ">
-        <p>Total Price: {bookingDetails.totalPrice}</p>
-        <p>Booking Status: <span className="text-green-500">{bookingDetails.bookingStatus}</span></p>
-        <p>Booked On: {new Date(bookingDetails.Time).toLocaleString()}</p>
-        <p>Slot Booked Date: {new Date(bookingDetails.date).toISOString().slice(0, 10)}</p>
-        <p>Selected Slot: {bookingDetails.selectedSlot}</p>
+        <div className="max-w-xs p-4 bg-white rounded-lg shadow-md">
+          <p className="text-lg font-bold mb-2">Booking Details</p>
+          <hr className="my-2" />
+          <p className="text-gray-700 mb-1">Total Price: <span className="text-green-500">${bookingDetails.totalPrice}</span></p>
+          <p className="text-gray-700 mb-1">Booking Status: <span className={`font-semibold ${bookingDetails.bookingStatus === 'Confirmed' ? 'text-green-500' : 'text-red-500'}`}>{bookingDetails.bookingStatus}</span></p>
+          <p className="text-gray-700 mb-1">Booked On: {new Date(bookingDetails.Time).toLocaleString()}</p>
+          <p className="text-gray-700 mb-1">Slot Booked Date: {new Date(bookingDetails.date).toISOString().slice(0, 10)}</p>
+          <p className="text-gray-700 mb-1">Selected Slot: {bookingDetails.selectedSlot}</p>
+        </div>
       </div>
 
-      <div className="flex flex-col ml-6">
-    <button onClick={handleShowMap} className="inline-block px-2 py-2 mt-3 bg-blue-800 hover:bg-blue-600 text-white font-semibold border border-blue-500 rounded-lg shadow-md transition duration-300 ease-in-out items-center">
-      show directions
-    </button>
-        {showMap && (
-          <>
-            <p>Distance to Turf: {distance ? `${distance.toFixed(2)} km` : "Calculating..."}</p>
-            <LoadScript
-              googleMapsApiKey="AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls"
-            >
-              <GoogleMap
-                mapContainerStyle={{ width: '200%', height: '300px' }}
-                zoom={mapOptions.zoom}
-                center={mapOptions.center}
-              >
-                <>
-                  <Marker position={{ lat: turfDetails.latitude, lng: turfDetails.longitude }} />
-                  {userLocation && (
-                    <DirectionsService
-                      options={{
-                        destination: { lat: turfDetails.latitude, lng: turfDetails.longitude },
-                        origin: { lat: userLocation.latitude, lng: userLocation.longitude },
-                        travelMode: 'DRIVING'
-                      }}
-                      callback={directionsCallback}
-                    />
-                  )}
-                  {directions && <DirectionsRenderer directions={directions} />}
-                  {distance && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '10px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: '#fff',
-                        padding: '5px',
-                        borderRadius: '5px',
-                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
-                      }}
-                    >
-                      Distance to Turf: {distance.toFixed(2)} km
-                    </div>
-                  )}
-                </>
-              </GoogleMap>
-            </LoadScript>
-          </>
-        )}
+      <div className="flex justify-center">
+        <button onClick={handleShowMap} className="inline-block px-2 py-2 mt-3 bg-blue-800 hover:bg-blue-600 text-white font-semibold border border-blue-500 rounded-lg shadow-md transition duration-300 ease-in-out items-center">
+          {showMap ? 'Hide Directions' : 'Show Directions'}
+        </button>
       </div>
+      {showMap && (
+  <div className="flex justify-center mt-6">
+    <div style={{ width: '100%', height: '400px' }}>
+      <LoadScript
+        googleMapsApiKey="AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls"
+      >
+        <GoogleMap
+          mapContainerStyle={{ width: '100%', height: '100%' }}
+          zoom={mapOptions.zoom}
+          center={mapOptions.center}
+        >
+          <>
+            <Marker position={{ lat: turfDetails.latitude, lng: turfDetails.longitude }} />
+            {userLocation && (
+              <DirectionsService
+                options={{
+                  destination: { lat: turfDetails.latitude, lng: turfDetails.longitude },
+                  origin: { lat: userLocation.latitude, lng: userLocation.longitude },
+                  travelMode: 'DRIVING'
+                }}
+                callback={directionsCallback}
+              />
+            )}
+            {directions && <DirectionsRenderer directions={directions} />}
+            {distance && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#fff',
+                  padding: '5px',
+                  borderRadius: '5px',
+                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
+                }}
+              >
+                Distance to Turf: {distance.toFixed(2)} km
+              </div>
+            )}
+          </>
+        </GoogleMap>
+      </LoadScript>
     </div>
+  </div>
+)}
+
+
     </div>
   );
 }

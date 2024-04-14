@@ -24,7 +24,7 @@ function UserNav() {
           </a>
           <a
             href="/home"
-            className="px-3 text-black cursor-pointer hover:text-gray-300 mr-2"
+            className="px-3 text-black cursor-pointer hover:text-gray-300 mr-3"
           >
             View Turf
           </a>

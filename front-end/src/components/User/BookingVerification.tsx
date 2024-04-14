@@ -53,10 +53,6 @@ function BookingVerification() {
             <p className="text-gray-500">
               You have successfully booked PLAY PITCH.
             </p>
-            <p className="text-gray-500">
-              Please wait for the slot to get confirmed. You will receive an
-              email when the slot is confirmed.
-            </p>
           </div>
           <a
             href="/booking"

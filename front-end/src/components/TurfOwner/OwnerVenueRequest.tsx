@@ -36,49 +36,7 @@ function OwnerVenueRequest() {
     fetchTurfsWithBookings();
   }, []);
 
-  const handleAcceptBooking = async (bookingId: any, userId: string) => {
-    try {
-      const response = await axiosOwnerInstance.post("/owner/bookingaccept", {
-        bookingId,
-        userId,
-      });
-      console.log(response.data);
-      const updatedTurfs = turfsWithBookings.map((turf) => {
-        const updatedBookings = turf.bookings.map((booking:any) => {
-          if (booking._id === bookingId) {
-            return { ...booking, bookingStatus: "confirmed" };
-          }
-          return booking;
-        });
-        return { ...turf, bookings: updatedBookings };
-      });
-      setTurfsWithBookings(updatedTurfs);
-    } catch (error) {
-      console.error("Error accepting booking:", error);
-    }
-  };
 
-  const handleDeclineBooking = async (bookingId: any, userId: string) => {
-    try {
-      const response = await axiosOwnerInstance.post("/owner/bookingdecline", {
-        bookingId,
-        userId,
-      });
-      console.log(response.data);
-      const updatedTurfs = turfsWithBookings.map((turf) => {
-        const updatedBookings = turf.bookings.map((booking) => {
-          if (booking._id === bookingId) {
-            return { ...booking, bookingStatus: "declined" };
-          }
-          return booking;
-        });
-        return { ...turf, bookings: updatedBookings };
-      });
-      setTurfsWithBookings(updatedTurfs);
-    } catch (error) {
-      console.error("Error accepting booking:", error);
-    }
-  };
 
   return (
     <div className="p-8">
@@ -169,45 +127,7 @@ function OwnerVenueRequest() {
                         {booking.paymentMethod}
                       </p>
                     </div>
-                    <div className="absolute top-0 right-0 m-2">
-                      {booking.bookingStatus === "requested" && (
-                        <>
-                          <button
-                            className="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-md mr-2"
-                            onClick={() =>
-                              handleAcceptBooking(
-                                booking._id,
-                                booking.userId
-                              )
-                            }
-                          >
-                            Accept
-                          </button>
-                          <button
-                            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md"
-                            onClick={() =>
-                              handleDeclineBooking(
-                                booking._id,
-                                booking.userId
-                              )
-                            }
-                          >
-                            Decline
-                          </button>
-                        </>
-                      )}
-  
-                      {booking.bookingStatus === "confirmed" && (
-                        <p className="flex justify-center items-center text-green-800">
-                          confirmed
-                        </p>
-                      )}
-                      {booking.bookingStatus === "declined" && (
-                        <p className="flex justify-center items-center text-red-700">
-                          declined
-                        </p>
-                      )}
-                    </div>
+                    
                   </li>
                 ))}
               </ul>

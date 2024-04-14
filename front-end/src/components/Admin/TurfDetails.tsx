@@ -61,7 +61,13 @@ function TurfDetails() {
         <p className="text-xl font-bold mb-2 mt-4">Facilities:</p>
         <p className="text-gray-800">{turf.facilities}</p>
         <p className="text-xl font-bold mb-2 mt-4">Price:</p>
-        <p className="text-gray-800">{turf.price}</p>
+  <ul>
+    {Object.entries(turf.price).map(([courtType, price]) => (
+      <li key={courtType} className="text-gray-800">
+        {courtType}: {price}
+      </li>
+    ))}
+  </ul>
         <p className="text-xl font-bold mb-2 mt-4">Court Type:</p>
         <p className="text-gray-800">{turf.courtType}</p>
       </div>
