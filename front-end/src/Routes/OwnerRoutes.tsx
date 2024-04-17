@@ -14,6 +14,7 @@ import OwnerPersonalDetails from "../Pages/TurfOwner/OwnerPersonalDetails";
 import OwnerPasswordChange from "../Pages/TurfOwner/OwnerPasswordChange";
 import PublicRouterOwner from "../utils/RouterOwner/PublicRouterOwner";
 import PrivateRouterOwner from "../utils/RouterOwner/PrivateRouterOwner";
+import WalletPage from "../Pages/TurfOwner/WalletPage";
 
 
 function OwnerRoutes() {
@@ -39,6 +40,7 @@ function OwnerRoutes() {
         <Route path="/ownerprofile" element={<OwnerProfile/>}/>
         <Route path="/personal-details" element={<OwnerPersonalDetails/>}/>
         <Route path="/change-password" element={<OwnerPasswordChange/>}/>
+        <Route path="/wallet" element={<WalletPage/>}/>
         </Route>
         </Routes>
     </div>
