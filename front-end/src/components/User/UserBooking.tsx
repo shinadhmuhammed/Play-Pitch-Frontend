@@ -25,7 +25,6 @@ function UserBooking() {
       try {
         const response = await axiosUserInstance.get("/getbooking");
         setBookings(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -48,22 +47,6 @@ function UserBooking() {
     setStatusFilter(status);
   };
 
-
-  const handleCancelBooking=async(id:string)=>{
-    console.log(id)
-    console.log('hello')
-    try {
-      const response=await axiosUserInstance.post('/cancelbooking',{
-        id
-      })
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-
-
   return (
     <>
       <div
@@ -76,67 +59,87 @@ function UserBooking() {
         }}
       >
         <UserNav />
-  
+
         <div className="flex">
           <Profiles />
-  
-          <div className="mr-96 p-20 ">
+
+          <div className="mr-96 p-20 w-full ml-16">
             <h1 className="text-green-950 font-bold">All Bookings</h1>
-            <div className="flex justify-center mb-4 ">
+            <div className="flex justify-center mb-4">
               <button
-                className={`mr-4 text-sm text-green-600 ${
+                className={`mr-4 text-sm font-medium text-green-600 ${
                   statusFilter === "confirmed" ? "underline" : ""
                 } hover:text-green-700 hover:underline focus:outline-none focus:text-green-700 focus:underline`}
                 onClick={() => handleFilter("confirmed")}
               >
                 Confirmed
               </button>
+              <button
+                className={`mr-4 text-sm font-medium text-red-600 ${
+                  statusFilter === "cancelled" ? "underline" : ""
+                } hover:text-red-700 hover:underline focus:outline-none focus:text-red-700 focus:underline`}
+                onClick={() => handleFilter("cancelled")}
+              >
+                Cancelled
+              </button>
+              <button
+                className={`mr-4 text-sm font-medium text-red-600 ${
+                  statusFilter === "completed" ? "underline" : ""
+                } hover:text-red-700 hover:underline focus:outline-none focus:text-red-700 focus:underline`}
+                onClick={() => handleFilter("completed")}
+              >
+                Completed
+              </button>
             </div>
-  
-            <div className="grid gap-4 w-full ">
-              {filteredBookings.map((booking) => (
-                <div key={booking._id} className="border rounded-lg p-4 ">
-                  <p>
-                    <strong>Date:</strong>{" "}
-                    {new Date(booking.date).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Selected Slot:</strong> {booking.selectedSlot}
-                  </p>
-                  <p>
-                    <strong>Booking Status:</strong> {booking.bookingStatus}
-                  </p>
-                  <p>
-                    <strong>Total Price:</strong> {booking.totalPrice}
-                  </p>
-                  <p>
-                    <strong>Payment Method:</strong> {booking.paymentMethod}
-                  </p>
-                  <div className="flex justify-between">
-                    <button
-                      className="text-blue-600 hover:text-blue-700 focus:outline-none focus:text-blue-700 "
-                      onClick={() =>
-                        navigate(`/booking/${booking._id}`, {
-                          state: { booking },
-                        })
-                      }
-                    >
-                      View Details
-                    </button>
 
-                    {booking.bookingStatus !== "cancelled" && (
+            <div className="grid gap-4 w-full">
+              {filteredBookings.map((booking) => {
+                const currentDate = new Date();
+                const bookingDateTime = new Date(
+                  booking.date + " " + booking.selectedSlot.split(" - ")[0]
+                );
+                const isBookingOver = currentDate > bookingDateTime;
+
+                return (
+                  <div
+                    key={booking._id}
+                    className={`border rounded-lg p-4 ${
+                      isBookingOver ? "bg-gray-200" : ""
+                    }`}
+                  >
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {new Date(booking.date).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <strong>Selected Slot:</strong> {booking.selectedSlot}
+                    </p>
+                    <p>
+                      <strong>Booking Status:</strong>{" "}
+                      {isBookingOver ? "Completed" : booking.bookingStatus}
+                    </p>
+                    <p>
+                      <strong>Total Price:</strong> {booking.totalPrice}
+                    </p>
+                    <p>
+                      <strong>Payment Method:</strong> {booking.paymentMethod}
+                    </p>
+
+                    <div className="flex justify-center">
                       <button
-                        className="text-red-600 hover:text-red-700 focus:outline-none focus:text-red-700 "
-                        onClick={() => handleCancelBooking(booking._id)}
+                        className="focus:ring-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        onClick={() =>
+                          navigate(`/booking/${booking._id}`, {
+                            state: { booking },
+                          })
+                        }
                       >
-                        Cancel Booking
+                        View Details
                       </button>
-                    )}
+                    </div>
                   </div>
-
-
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -144,5 +147,6 @@ function UserBooking() {
       </div>
     </>
   );
-}  
+}
+
 export default UserBooking;

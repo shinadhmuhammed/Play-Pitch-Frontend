@@ -11,9 +11,16 @@ import {
   DirectionsService,
   DirectionsRenderer,
 } from "@react-google-maps/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLocationDot,
+  faRupeeSign,
+  faFutbol,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface TurfDetail {
-  courtType: string;
+  courtType: string[];
   _id: string;
   turfName: string;
   address: string;
@@ -21,7 +28,7 @@ interface TurfDetail {
   aboutVenue: string;
   openingTime: string;
   closingTime: string;
-  price: number;
+  price: { [key: string]: string };
   facilities: string;
   images: string[];
   latitude: number;
@@ -46,6 +53,7 @@ function TurfDetailPage() {
       try {
         const response = await axiosUserInstance.get(`/getTurf/${id}`);
         setTurfDetail(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -120,85 +128,30 @@ function TurfDetailPage() {
   };
 
   return (
-    <div>
-      <UserNav />
+    <>
+      <div
+        className="relative"
+        style={{
+          backgroundImage: `url('/images/bg3.jpeg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
+      <div>
+        <UserNav />
 
-      {turfDetail && (
-        <div className="mx-8">
-          <h1 className="font-bold text-4xl md:text-5xl lg:text-4xl mt-8 font-serif b">
-            {turfDetail.turfName}
-          </h1>
+        {turfDetail && (
+          <div className="mx-8">
+            <h1 className="font-medium text-4xl md:text-5xl lg:text-4xl mt-8 font-sans b ml-8">
+              {turfDetail.turfName}
+            </h1>
 
-          <div className="flex">
-            <ImageCarousel turfDetail={turfDetail} />
+            <div className="flex">
+              <div className="w-1/2 h-10 px-10">
+                <ImageCarousel turfDetail={turfDetail} />
 
-            <div className="ml-10 mt-2 text-2xl ">
-            <div style={{ height: "300px", width: "100%" }}>
-                <LoadScript googleMapsApiKey="AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls">
-                  <GoogleMap
-                    mapContainerStyle={{ height: "120%", width: "320%" }}
-                    center={{
-                      lat: turfDetail.latitude,
-                      lng: turfDetail.longitude,
-                    }}
-                    zoom={15}
-                  >
-                    <Marker
-                      position={{
-                        lat: turfDetail.latitude,
-                        lng: turfDetail.longitude,
-                      }}
-                    />
-                    {userLocation && (
-                      <DirectionsService
-                        options={{
-                          destination: {
-                            lat: turfDetail.latitude,
-                            lng: turfDetail.longitude,
-                          },
-                          origin: {
-                            lat: userLocation.latitude,
-                            lng: userLocation.longitude,
-                          },
-                          travelMode: "DRIVING",
-                        }}
-                        callback={directionsCallback}
-                      />
-                    )}
-
-                    {directions && (
-                      <DirectionsRenderer directions={directions} />
-                    )}
-                  </GoogleMap>
-                </LoadScript>
-                <p className="mt-4 text-center">
-                {distance &&
-                  `Distance from your location: ${distance.toFixed(2)} km`}
-              </p>
-
-              </div>
-
-
-      
-              <h1 className="font-bold ">Place</h1>
-              <h1 className="font-semibold">
-                {turfDetail.address}, {turfDetail.city}
-              </h1>
-              <h1 className="font-bold">Timing</h1>
-              <h1 className="font-semibold">
-                {turfDetail.openingTime}- {turfDetail.closingTime}
-              </h1>
-              <h1 className="font-bold">Court Type</h1>
-              <h1 className="font-semibold">{turfDetail.courtType}</h1>
-           
-
-            </div>
-          </div>
-
-          <div className="flex">
-            <div className="w-3/4">
-              <div className="w-3/4 pr-4">
-                <div className="border border-gray-200 rounded-lg p-4">
+                <div className="border border-gray-200 rounded-lg p-4 mt-6">
                   <h2 className="text-xl font-semibold mb-2">About Venue</h2>
                   <p className="text-gray-700">{turfDetail.aboutVenue}</p>
                 </div>
@@ -214,21 +167,100 @@ function TurfDetailPage() {
                   </ul>
                 </div>
               </div>
-            </div>
 
-            <div className="w-1/4 mt-5">
-              <button
-                className="bg-green-500 hover:bg-green-600 text-white font-semibold w-80 h-10 rounded-md shadow-md mt-24 mr-6 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                onClick={handleBookingFront}
-              >
-                Book Now
-              </button>
+              <div className="w-1/2 ml-10 mt-2">
+                <div className="flex items-center mb-4">
+                  <div style={{ height: "350px", width: "100%" }}>
+                    <LoadScript googleMapsApiKey="AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls">
+                      <GoogleMap
+                        mapContainerStyle={{ height: "350px", width: "100%" }}
+                        center={{
+                          lat: turfDetail.latitude,
+                          lng: turfDetail.longitude,
+                        }}
+                        zoom={15}
+                      >
+                        <Marker
+                          position={{
+                            lat: turfDetail.latitude,
+                            lng: turfDetail.longitude,
+                          }}
+                        />
+                        {userLocation && (
+                          <DirectionsService
+                            options={{
+                              destination: {
+                                lat: turfDetail.latitude,
+                                lng: turfDetail.longitude,
+                              },
+                              origin: {
+                                lat: userLocation.latitude,
+                                lng: userLocation.longitude,
+                              },
+                              travelMode: "DRIVING",
+                            }}
+                            callback={directionsCallback}
+                          />
+                        )}
+                        {directions && (
+                          <DirectionsRenderer directions={directions} />
+                        )}
+                      </GoogleMap>
+                    </LoadScript>
+                    <p className="mt-4 text-center">
+                      {distance &&
+                        `Distance from your location: ${distance.toFixed(
+                          2
+                        )} km`}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border border-gray-300 mt-14 rounded-md p-6 flex justify-between">
+                  <div>
+                    <h1 className="font-bold mb-2">
+                      <FontAwesomeIcon icon={faLocationDot} /> Place
+                    </h1>
+                    <h2 className="font-semibold">
+                      {turfDetail.address}, {turfDetail.city}
+                    </h2>
+                    <h1 className="font-bold mt-4 ">
+                      <FontAwesomeIcon icon={faClock} /> Timing
+                      
+                    </h1>
+
+                    <h2 className="font-semibold">
+                      {turfDetail.openingTime} - {turfDetail.closingTime}
+                    </h2>
+                    <h1 className="font-bold mt-4">
+                      <FontAwesomeIcon icon={faFutbol} /> Court Type
+                    </h1>
+                    <h2 className="font-semibold">{turfDetail.courtType}</h2>
+                    <h1 className="font-bold mt-4">
+                      <FontAwesomeIcon icon={faRupeeSign} /> Price
+                    </h1>
+                    {Object.keys(turfDetail.price).map((type, index) => (
+                      <h2 key={index} className="font-semibold">
+                        {type}: {turfDetail.price[type]}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <button
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold w-96 h-10 rounded-md shadow-md mt-72 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 "
+                      onClick={handleBookingFront}
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <UserFooter />
-    </div>
+        )}
+        <UserFooter />
+      </div>
+    </>
   );
 }
 

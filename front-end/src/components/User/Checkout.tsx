@@ -1,9 +1,10 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import UserNav from "./UserNav";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import UserFooter from "./UserFooter";
 import { useStripe } from "@stripe/react-stripe-js";
+import ErrorModal from "../ErrorModal/Error";
 
 interface TurfDetail {
   _id: string;
@@ -17,6 +18,7 @@ function Checkout() {
   const location = useLocation();
   const turfDetail: TurfDetail | undefined = location.state?.turfDetail;
   const stripe = useStripe();
+  const navigate = useNavigate();
 
   const [selectedStartTime, setSelectedStartTime] = useState("");
   const [selectedEndTime, setSelectedEndTime] = useState("");
@@ -27,25 +29,47 @@ function Checkout() {
   const [payWithWallet, setPayWithWallet] = useState<boolean>(false);
   const [slotsAvailable, setSlotsAvailable] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
 
   const generateTimeSlots = () => {
-    if (!turfDetail || !turfDetail.openingTime || !turfDetail.closingTime)
+    if (!turfDetail || !turfDetail.openingTime || !turfDetail.closingTime || !selectedDate)
       return [];
-
+  
+    const currentDate = new Date(selectedDate);
     const openingHour = parseInt(turfDetail.openingTime.split(":")[0]);
     const closingHour = parseInt(turfDetail.closingTime.split(":")[0]);
     const timeSlots: string[] = [];
-
+  
     for (let hour = openingHour; hour < closingHour; hour++) {
       for (let minute = 0; minute < 60; minute += 60) {
         const formattedHour = hour.toString().padStart(2, "0");
         const formattedMinute = minute.toString().padStart(2, "0");
-        timeSlots.push(`${formattedHour}:${formattedMinute}`);
+        const slotDateTime = new Date(currentDate);
+        slotDateTime.setHours(hour);
+        slotDateTime.setMinutes(minute);
+        if (slotDateTime > new Date()) {
+          timeSlots.push(`${formattedHour}:${formattedMinute}`);
+        }
       }
     }
-
     return timeSlots;
   };
+  
+
+  const handleOnlineCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setOnlineChecked(e.target.checked);
+    if (e.target.checked) {
+      setPayWithWallet(false); 
+    }
+  };
+  
+  const handleWalletCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPayWithWallet(e.target.checked);
+    if (e.target.checked) {
+      setOnlineChecked(false); 
+    }
+  };
+  
 
   const calculateTotalPrice = () => {
     if (selectedStartTime && selectedEndTime && turfDetail) {
@@ -75,6 +99,11 @@ function Checkout() {
     }
   }, [selectedDate, selectedStartTime, selectedEndTime]);
 
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split("T")[0];
+    setSelectedDate(currentDate);
+  }, []);
+
   const handleStartTimeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setErrorMessage("");
     setSelectedStartTime(e.target.value);
@@ -93,14 +122,6 @@ function Checkout() {
     setSelectedCourtType(e.target.value);
   };
 
-  const handleOnlineCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setOnlineChecked(e.target.checked);
-  };
-
-  const handleWalletCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPayWithWallet(e.target.checked);
-  };
-
   const handleBooking = async () => {
     try {
       if (
@@ -109,12 +130,14 @@ function Checkout() {
         !selectedDate ||
         !totalPrice
       ) {
-        setErrorMessage("Please select start and end time, date.");
+        setErrorMessage("Please select start time,end time and date.");
+        setShowErrorModal(true);
         return;
       }
 
       if (!onlineChecked && !payWithWallet) {
         setErrorMessage("Please select a payment method.");
+        setShowErrorModal(true);
         return;
       }
 
@@ -126,45 +149,47 @@ function Checkout() {
           paymentMethod = "wallet";
         }
 
-        if(onlineChecked){
-        const stripeResponse = await axiosUserInstance.post("/stripepayment", {
-          totalPrice: totalPrice,
-          turfDetail: turfDetail,
-          selectedDate: selectedDate,
-          selectedStartTime: selectedStartTime,
-          selectedEndTime: selectedEndTime,
-          paymentMethod: paymentMethod,
-        });
-        const sessionId = stripeResponse.data.id;
-        if (stripe) {
-          stripe
-            .redirectToCheckout({
-              sessionId: sessionId,
-            })
-            .then(async (result) => {
-              if (result.error) {
-                console.error("Error redirecting to checkout:", result.error);
-              } else {
-                console.log("Booking successful!");
-              }
-            });
-        } else {
-          console.error("Stripe is not initialized.");
+        if (onlineChecked) {
+          const stripeResponse = await axiosUserInstance.post(
+            "/stripepayment",
+            {
+              totalPrice: totalPrice,
+              turfDetail: turfDetail,
+              selectedDate: selectedDate,
+              selectedStartTime: selectedStartTime,
+              selectedEndTime: selectedEndTime,
+              paymentMethod: paymentMethod,
+            }
+          );
+          const sessionId = stripeResponse.data.id;
+          if (stripe) {
+            stripe
+              .redirectToCheckout({
+                sessionId: sessionId,
+              })
+              .then(async (result) => {
+                if (result.error) {
+                  console.error("Error redirecting to checkout:", result.error);
+                } else {
+                  console.log("Booking successful!");
+                }
+              });
+          } else {
+            console.error("Stripe is not initialized.");
+          }
         }
-      }
 
-      if(payWithWallet){
-        const response=await axiosUserInstance.post('/paywithwallet',{
-          totalPrice: totalPrice,
-          turfDetail: turfDetail,
-          selectedDate: selectedDate,
-          selectedStartTime: selectedStartTime,
-          selectedEndTime: selectedEndTime,
-          paymentMethod: paymentMethod,
+        if (payWithWallet) {
+          const response = await axiosUserInstance.post("/paywithwallet", {
+            totalPrice: totalPrice,
+            turfDetail: turfDetail,
+            selectedDate: selectedDate,
+            selectedStartTime: selectedStartTime,
+            selectedEndTime: selectedEndTime,
+            paymentMethod: paymentMethod,
+          });
+          console.log(response);
         }
-        )
-        console.log(response)
-      }
       }
     } catch (error) {
       console.error("Error occurred while handling booking:", error);
@@ -182,6 +207,7 @@ function Checkout() {
       setSlotsAvailable(response.data);
       if (!response.data) {
         setErrorMessage("Slot is not available ");
+        setShowErrorModal(true);
       } else {
         setErrorMessage("");
       }
@@ -194,14 +220,14 @@ function Checkout() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
+       
       <UserNav />
+      <div className="mt-10 ml-10 ">
+          <h3 className="font-sans font-medium text-xl ">Book Your Slot</h3>
+          </div>
       {turfDetail && (
         <div>
-          <div className="mx-auto max-w-2xl p-8">
-            <h1 className="font-bold text-4xl md:text-5xl lg:text-4xl mt-8 font-serif text-center">
-              {turfDetail.turfName}
-            </h1>
-          </div>
+         
 
           <div className="mt-8 flex">
             <div className="w-1/2 ml-10 border-double border-2 outline-black rounded-sm">
@@ -296,46 +322,47 @@ function Checkout() {
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                   onChange={handleDateChange}
                   value={selectedDate}
+                  min={selectedDate} 
                 />
               </div>
               <div className="mt-4">
-              <h2 className="text-lg font-semibold mb-2">Price Details</h2>
-              <table className="w-full border-collapse border border-gray-300">
-                <thead>
-                  <tr>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Court Type
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Price (per hour)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(turfDetail.price).map(
-                    ([courtType, price], index) => (
-                      <tr key={index}>
-                        <td className="border border-gray-300 px-4 py-2">
-                          {courtType}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2">
-                          {price}
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-             
+                <h2 className="text-lg font-semibold mb-2 mt-20 text-green-950">Price Details</h2>
+                <table className="w-full border-collapse border border-gray-300">
+                  <thead>
+                    <tr>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Court Type
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Price (per hour)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(turfDetail.price).map(
+                      ([courtType, price], index) => (
+                        <tr key={index}>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {courtType}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {price}
+                          </td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <div className="w-1/2 flex justify-center items-center">
-              <div className="mt-8 border-double border-2 outline-black rounded-sm p-4">
+            <div className="w-1/2 flex justify-center items-center py-16">
+              <div className="mt-8 border-double border-2 outline-black rounded-sm p-10">
                 <p className="text-lg font-semibold mb-2">Checkout Details</p>
-                <p>Selected Date: {selectedDate}</p>
-                <p>Selected Court Type: {selectedCourtType}</p>
+                <p>Selected Date: {selectedDate ? selectedDate : "Not Selected"}</p>
+                <p>Selected Court Type: {selectedCourtType ? selectedCourtType :'Not Selected'}</p>
                 <p>Total Price: {totalPrice}</p>
+               
                 <div className="mt-4">
                   <label className="inline-flex items-center">
                     <input
@@ -373,7 +400,12 @@ function Checkout() {
               </div>
             </div>
           </div>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {showErrorModal && (
+            <ErrorModal
+              errorMessage={errorMessage}
+              onClose={() => setShowErrorModal(false)}
+            />
+          )}
         </div>
       )}
 

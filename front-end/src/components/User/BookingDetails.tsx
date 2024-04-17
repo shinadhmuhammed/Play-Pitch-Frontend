@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
-import { GoogleMap, LoadScript, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
-
-type Coordinates = {
-  latitude: number;
-  longitude: number;
-};
+import Swal from "sweetalert2";
 
 interface Booking {
   Time: string | number | Date;
@@ -44,10 +39,6 @@ function BookingDetails() {
   const location = useLocation();
   const [bookingDetails, setBookingDetails] = useState<Booking | null>(null);
   const [turfDetails, setTurfDetails] = useState<Turf | null>(null);
-  const [showMap, setShowMap] = useState(false);
-  const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
-  const [distance, setDistance] = useState<number | null>(null); 
-  const [directions, setDirections] = useState<any>(null);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -61,67 +52,53 @@ function BookingDetails() {
         console.error("Error fetching booking details:", error);
       }
     };
+    fetchBookingDetails();
+  }, []);
 
-    if (location.state && location.state.booking) {
-      fetchBookingDetails();
+  const handleCancelBooking = async () => {
+    try {
+      const response = await axiosUserInstance.post("/cancelbooking", {
+        id: bookingDetails?._id,
+      });
+      console.log(response.data);
+      setBookingDetails((prevBookingDetails: Booking | null) => ({
+        ...(prevBookingDetails as Booking),
+        bookingStatus: "cancelled",
+      }));
+      Swal.fire("Booking Cancelled", "", "success");
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Failed to cancel booking", "error");
     }
+  };
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
-      },
-      (error) => {
-        console.error("Error getting user's location:", error);
-      }
+  const calculateRefundMessage = () => {
+    if (!bookingDetails) return "";
+
+    const cancellationTime = new Date();
+
+    const bookingDate = new Date(bookingDetails.date);
+    const startTime = bookingDetails.selectedSlot.split(" - ")[0];
+
+    const bookingDateTime = new Date(
+      bookingDate.getFullYear(),
+      bookingDate.getMonth(),
+      bookingDate.getDate(),
+      parseInt(startTime.split(":")[0]),
+      parseInt(startTime.split(":")[1])
     );
-  }, [location]);
 
-  useEffect(() => {
-    if (userLocation && turfDetails) {
-      const distanceInKm = calculateDistance(
-        userLocation.latitude,
-        userLocation.longitude,
-        turfDetails.latitude,
-        turfDetails.longitude
-      );
-      setDistance(distanceInKm);
-    }
-  }, [userLocation, turfDetails]);
+    const timeDifference =
+      bookingDateTime.getTime() - cancellationTime.getTime();
 
-  const calculateDistance = (
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ) => {
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; 
-    return d;
-  };
+    const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
-  const deg2rad = (deg: number) => {
-    return deg * (Math.PI / 180);
-  };
-
-  const handleShowMap = () => {
-    setShowMap(true);
-  };
-
-  const directionsCallback = (response: any) => {
-    if (response !== null && response.status === 'OK') {
-      setDirections(response);
+    if (hoursDifference < 1) {
+      return "No refund is available for cancellations within 1 hour of play.";
+    } else if (hoursDifference >= 10) {
+      return "You are eligible for a full refund.";
     } else {
-      console.error('Directions request failed');
+      return "You are eligible for a 50% refund.";
     }
   };
 
@@ -129,97 +106,116 @@ function BookingDetails() {
     return <div>Loading...</div>;
   }
 
-  const mapOptions = {
-    zoom: 10,
-    center: { lat: turfDetails.latitude, lng: turfDetails.longitude }
-  };
-
   return (
     <div>
       <a
         href="/booking"
         className="inline-block px-2 py-2 mt-3 bg-blue-800 hover:bg-blue-600 text-white font-semibold border border-blue-500 rounded-lg shadow-md transition duration-300 ease-in-out items-center"
       >
-        &larr; 
+        &larr;
         <span className="ml-2">Back To Bookings</span>
       </a>
-  
+
       <h1 className="flex justify-center font-bold mt-10">Booking Details</h1>
 
-      <p className="flex justify-center font-semibold mt-3">{turfDetails.turfName}</p>
+      <p className="flex justify-center font-semibold mt-3">
+        {turfDetails.turfName}
+      </p>
       <div className="flex flex-wrap justify-center mt-6">
         {turfDetails.images.map((imageUrl, index) => (
           <div key={index} className="max-w-xs mx-4 my-2">
-            <img src={imageUrl} alt={`Turf Image ${index + 1}`} className="w-full h-48 rounded-lg shadow-md" />
+            <img
+              src={imageUrl}
+              alt={`Turf Image ${index + 1}`}
+              className="w-full h-48 rounded-lg shadow-md"
+            />
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-6">
-      
+      <div className="flex justify-center mt-6 mb-6">
         <div className="max-w-xs p-4 bg-white rounded-lg shadow-md">
           <p className="text-lg font-bold mb-2">Booking Details</p>
           <hr className="my-2" />
-          <p className="text-gray-700 mb-1">Total Price: <span className="text-green-500">${bookingDetails.totalPrice}</span></p>
-          <p className="text-gray-700 mb-1">Booking Status: <span className={`font-semibold ${bookingDetails.bookingStatus === 'Confirmed' ? 'text-green-500' : 'text-red-500'}`}>{bookingDetails.bookingStatus}</span></p>
-          <p className="text-gray-700 mb-1">Booked On: {new Date(bookingDetails.Time).toLocaleString()}</p>
-          <p className="text-gray-700 mb-1">Slot Booked Date: {new Date(bookingDetails.date).toISOString().slice(0, 10)}</p>
-          <p className="text-gray-700 mb-1">Selected Slot: {bookingDetails.selectedSlot}</p>
+          <p className="text-gray-700 mb-1">
+            Total Price:{" "}
+            <span className="text-green-500">${bookingDetails.totalPrice}</span>
+          </p>
+          <p className="text-gray-700 mb-1">
+            Booking Status:{" "}
+            <span
+              className={`font-semibold ${
+                bookingDetails.bookingStatus === "Confirmed"
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {bookingDetails.bookingStatus}
+            </span>
+          </p>
+          <p className="text-gray-700 mb-1">
+            Booked On: {new Date(bookingDetails.Time).toLocaleString()}
+          </p>
+          <p className="text-gray-700 mb-1">
+            Slot Booked Date:{" "}
+            {new Date(bookingDetails.date).toISOString().slice(0, 10)}
+          </p>
+          <p className="text-gray-700 mb-1">
+            Selected Slot: {bookingDetails.selectedSlot}
+          </p>
+
+          {bookingDetails?.bookingStatus === "confirmed" && (
+            <button
+              className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+              onClick={() => {
+                const refundMessage = calculateRefundMessage();
+                Swal.fire({
+                  title: "Are you sure?",
+                  text: `You want to cancel this booking? ${refundMessage}`,
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#d33",
+                  cancelButtonColor: "#3085d6",
+                  confirmButtonText: "Yes, cancel it!",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    handleCancelBooking();
+                  }
+                });
+              }}
+            >
+              Cancel Booking
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <button onClick={handleShowMap} className="inline-block px-2 py-2 mt-3 bg-blue-800 hover:bg-blue-600 text-white font-semibold border border-blue-500 rounded-lg shadow-md transition duration-300 ease-in-out items-center">
-          {showMap ? 'Hide Directions' : 'Show Directions'}
-        </button>
-      </div>
-      {showMap && (
-  <div className="flex justify-center mt-6">
-    <div style={{ width: '100%', height: '400px' }}>
-      <LoadScript
-        googleMapsApiKey="AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls"
-      >
-        <GoogleMap
-          mapContainerStyle={{ width: '100%', height: '100%' }}
-          zoom={mapOptions.zoom}
-          center={mapOptions.center}
-        >
-          <>
-            <Marker position={{ lat: turfDetails.latitude, lng: turfDetails.longitude }} />
-            {userLocation && (
-              <DirectionsService
-                options={{
-                  destination: { lat: turfDetails.latitude, lng: turfDetails.longitude },
-                  origin: { lat: userLocation.latitude, lng: userLocation.longitude },
-                  travelMode: 'DRIVING'
-                }}
-                callback={directionsCallback}
-              />
-            )}
-            {directions && <DirectionsRenderer directions={directions} />}
-            {distance && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  backgroundColor: '#fff',
-                  padding: '5px',
-                  borderRadius: '5px',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
-                }}
-              >
-                Distance to Turf: {distance.toFixed(2)} km
-              </div>
-            )}
-          </>
-        </GoogleMap>
-      </LoadScript>
-    </div>
-  </div>
-)}
-
-
+      {bookingDetails.bookingStatus === "confirmed" && (
+        <div className="flex justify-center mt-8 mb-8">
+          <div className="border-4 border-black ring-4 p-4">
+            <p className="text-gray-700 font-semibold">Cancellation Policy:</p>
+            <ul className="pl-8 border border-gray-300 rounded-lg p-4">
+              <li className="mb-2">
+                <span className="font-semibold">
+                  Cancel more than 24 hours:
+                </span>{" "}
+                You can get a full refund.
+              </li>
+              <li className="mb-2">
+                <span className="font-semibold">
+                  Cancel within 10 hours of booking date:
+                </span>{" "}
+                You get only 50% refund.
+              </li>
+              <li>
+                <span className="font-semibold">
+                  Cancel with 1 hour remaining:
+                </span>{" "}
+                You don't get any refund.
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

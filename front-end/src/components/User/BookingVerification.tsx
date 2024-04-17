@@ -15,13 +15,6 @@ function BookingVerification() {
   const paymentMethod = queryParams.get("paymentMethod");
 
   useEffect(() => {
-    console.log("Turf ID:", turfId);
-    console.log("Date:", date);
-    console.log("Selected Start:", selectedStartTime);
-    console.log("Selected end:", selectedEndTime);
-    console.log("Payment Method:", paymentMethod);
-    console.log('price',totalPrice)
-
     const storeBooking = async () => {
       try {
         const response = await axiosUserInstance.post("/create-booking", {

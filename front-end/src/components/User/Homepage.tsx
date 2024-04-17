@@ -28,6 +28,7 @@ function Homepage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
   const [searchQuery, setSearchQuery] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
 
   const dispatch = useDispatch();
@@ -68,10 +69,7 @@ function Homepage() {
     setCurrentPage(1); 
   };
 
-  const handlePriceRangeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPriceRange(event.target.value === "all" ? null : event.target.value);
-    setCurrentPage(1);
-  };
+  
 
   const filteredTurf = turf.filter((turf) => {
     const regex = new RegExp(searchQuery, 'i'); 
@@ -87,12 +85,7 @@ function Homepage() {
   const totalPages = Math.ceil(filteredTurf.length / itemsPerPage);
 
 
-  const priceRanges = [
-    "all",
-    "800-1000",
-    "1000-1200",
-    "1200-1500",
-  ];
+
 
   return (
     <>
@@ -123,32 +116,7 @@ function Homepage() {
                 />
               </svg>
             </span>
-          </div>
-          <div className="relative mr-4">
-            <select
-              value={selectedPriceRange || "all"}
-              onChange={handlePriceRangeChange}
-              className="border border-gray-400 rounded-lg px-1 py-1 focus:outline-none focus:border-blue-500"
-            >
-              {priceRanges.map(range => (
-                <option key={range} value={range}>{range}</option>
-              ))}
-            </select>
-          </div>
-          <button className="text-gray-600 hover:text-blue-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M2.5 5a.5.5 0 01.5-.5h14a.5.5 0 010 1h-14a.5.5 0 01-.5-.5zm0 4a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm0 4a.5.5 0 01.5-.5h6a.5.5 0 010 1h-6a.5.5 0 01-.5-.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+          </div>   
         </div>
       </nav>
 
