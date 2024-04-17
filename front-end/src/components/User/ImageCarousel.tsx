@@ -18,7 +18,7 @@ const ImageCarousel: React.FC<{ turfDetail: TurfDetail }> = ({ turfDetail }) => 
   };
 
   return (
-    <div id="image-carousel" className="relative w-1/2" data-carousel="slide">
+    <div id="image-carousel" className="relative w-full" data-carousel="slide">
       {/* Carousel wrapper */}
       <div className="relative h-96 overflow-hidden rounded-lg">
         {/* Map over images */}
