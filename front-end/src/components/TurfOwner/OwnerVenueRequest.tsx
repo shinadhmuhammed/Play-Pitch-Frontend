@@ -37,6 +37,18 @@ function OwnerVenueRequest() {
   }, []);
 
 
+  const cancelBooking = async (turfId: string, bookingId: string) => {
+    try {
+      const response = await axiosOwnerInstance.post('/owner/cancelbookings',{turfId,bookingId});
+      console.log("Booking cancelled:", response.data);
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+    }
+  };
+  
+  
+
+
 
   return (
     <div className="p-8">
@@ -74,9 +86,8 @@ function OwnerVenueRequest() {
                   <span className="font-semibold">Facilities:</span>{" "}
                   {turf.facilities}
                 </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Price:</span> {turf.price}
-                </p>
+                
+  
                 <p className="mb-2">
                   <span className="font-semibold">Court Type:</span>{" "}
                   {turf.courtType}
@@ -122,10 +133,35 @@ function OwnerVenueRequest() {
                     <div className="flex justify-center">
                       <p className="mb-1">
                        <span className="font-semibold">
-                          Payment Method:
+                          Payment:
                         </span>{" "}
                         {booking.paymentMethod}
                       </p>
+                    </div>
+                    <div className="flex justify-center">
+                      <p className="mb-1">
+                       <span className="font-semibold">
+                          Total Price:
+                        </span>{" "}
+                        {booking.totalPrice}
+                      </p>
+                    </div>
+                    <div className="flex justify-center">
+                      <p className="mb-1">
+                       <span className="font-semibold">
+                          Booking Status:
+                        </span>{" "}
+                        {booking.bookingStatus}
+                      </p>
+                    </div>
+                    <div className="flex justify-center">
+                      {booking.bookingStatus === "confirmed" && (
+                          <button onClick={()=> cancelBooking(turf._id,booking._id)} className="bg-red-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none ">
+                            Cancel Booking
+                          </button>
+                      )
+
+                      }
                     </div>
                     
                   </li>
