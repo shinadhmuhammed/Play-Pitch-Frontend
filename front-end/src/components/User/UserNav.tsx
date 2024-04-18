@@ -17,7 +17,7 @@ function UserNav() {
 
         <div className="flex justify-end items-center ">
           <a
-            href="#"
+            href="/activity"
             className="px-3 text-black cursor-pointer hover:text-gray-300"
           >
             Play

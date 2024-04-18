@@ -5,10 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import UserFooter from "./UserFooter";
 import UserNav from "./UserNav";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 interface Turf {
   _id: string;
@@ -29,7 +27,9 @@ function Homepage() {
   const [itemsPerPage] = useState(4);
   const [searchQuery, setSearchQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
+    null
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ function Homepage() {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response.data)
+          console.log(response.data);
           setTurf(response.data);
         }
       } catch (error) {
@@ -64,16 +64,22 @@ function Homepage() {
     fetchTurfData();
   }, [navigate]);
 
-  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSearchQuery(event.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  
-
   const filteredTurf = turf.filter((turf) => {
-    const regex = new RegExp(searchQuery, 'i'); 
-    return regex.test(turf.turfName) && (selectedPriceRange ? turf.price >= Number(selectedPriceRange.split("-")[0]) && turf.price <= Number(selectedPriceRange.split("-")[1]) : true);
+    const regex = new RegExp(searchQuery, "i");
+    return (
+      regex.test(turf.turfName) &&
+      (selectedPriceRange
+        ? turf.price >= Number(selectedPriceRange.split("-")[0]) &&
+          turf.price <= Number(selectedPriceRange.split("-")[1])
+        : true)
+    );
   });
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -84,103 +90,107 @@ function Homepage() {
 
   const totalPages = Math.ceil(filteredTurf.length / itemsPerPage);
 
-
-
-
   return (
     <>
-    <div className="relative" style={{ backgroundImage: `url('/images/bg3.jpeg')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      <UserNav />
-      <nav className="flex justify-between items-center mt-7 p-10">
-        <h1 className="font-extrabold text-xl">Book Your Venues</h1>
-        <div className="flex items-center">
-          <div className="relative mr-4">
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearchInputChange}
-              className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
-            />
-            <span className="absolute right-3 top-2 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 3a7 7 0 100 14 7 7 0 000-14zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
-          </div>   
-        </div>
-      </nav>
+      <div
+        className="relative"
+        style={{
+          backgroundImage: `url('/images/bg3.jpeg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <UserNav />
+        <nav className="flex justify-between items-center mt-7 p-10">
+          <h1 className="font-extrabold text-xl">Book Your Venues</h1>
+          <div className="flex items-center">
+            <div className="relative mr-4">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
+              />
+              <span className="absolute right-3 top-2 text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 3a7 7 0 100 14 7 7 0 000-14zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </nav>
 
-      {filteredTurf.length === 0 && (
-        <div className="text-center text-gray-600">No turf found.</div>
-      )}
+        {filteredTurf.length === 0 && (
+          <div className="text-center text-gray-600">No turf found.</div>
+        )}
 
+        {filteredTurf.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 mt-6 ">
+            {currentTurf.map((turf) => (
+              <Link key={turf._id} to={`/turf/${turf._id}`}>
+                <div className="bg-white shadow-md rounded-md p-4 g">
+                  {turf.images.length > 0 && (
+                    <div className="relative group">
+                      <img
+                        src={turf.images[0]}
+                        alt={turf.turfName}
+                        className="w-full h-52 object-cover mb-4 rounded-md hue-rotate-15 transition-transform duration-300 transform group-hover:scale-105"
+                      />
+                    </div>
+                  )}
 
-
-      {filteredTurf.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 mt-6 ">
-          {currentTurf.map((turf) => (
-            <Link key={turf._id} to={`/turf/${turf._id}`}>
-              <div className="bg-white shadow-md rounded-md p-4 g">
-                {turf.images.length > 0 && (
-                  <div className="relative group">
-                    <img
-                      src={turf.images[0]}
-                      alt={turf.turfName}
-                      className="w-full h-52 object-cover mb-4 rounded-md hue-rotate-15 transition-transform duration-300 transform group-hover:scale-105"
-                    />
+                  <h2 className="text-lg font-semibold mb-2">
+                    {turf.turfName}
+                  </h2>
+                  <div className="flex items-center text-sm text-gray-600 mb-2">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-1" />
+                    <span>
+                      {turf.address}, {turf.city}
+                    </span>
                   </div>
-                )}
-
-                <h2 className="text-lg font-semibold mb-2">{turf.turfName}</h2>
-                <div className="flex items-center text-sm text-gray-600 mb-2">
-  <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-1" />
-  <span>{turf.address}, {turf.city}</span>
-</div>
-                {/* <p className="text-sm text-gray-600 mb-2">{turf.court}</p>
+                  {/* <p className="text-sm text-gray-600 mb-2">{turf.court}</p>
                 {Object.entries(turf.price).map(([courtType, price]) => (
   <p key={courtType} className="text-sm text-gray-600 mb-2">
     {courtType}: ₹{price}
   </p>
 ))} */}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+        {filteredTurf.length > 0 && (
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`px-4 py-2 mx-1 rounded-md ${
+                  currentPage === index + 1
+                    ? "bg-black text-white"
+                    : "bg-white text-white-500"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {filteredTurf.length > 0 && (
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-4 py-2 mx-1 rounded-md ${
-                currentPage === index + 1
-                  ? "bg-black text-white"
-                  : "bg-white text-white-500"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      )}
-   
-      <UserFooter />
-      
+        <UserFooter />
       </div>
-     
     </>
   );
 }

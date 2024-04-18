@@ -39,6 +39,44 @@ function BookingDetails() {
   const location = useLocation();
   const [bookingDetails, setBookingDetails] = useState<Booking | null>(null);
   const [turfDetails, setTurfDetails] = useState<Turf | null>(null);
+  const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    maxPlayers: "",
+    description: "",
+    activityName: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axiosUserInstance.post("/createactivity", {
+        formData,
+        bookingDetails,
+        turfDetails,
+        user,
+      });
+      console.log(response.data);
+      setShowModal(false);
+      setFormData({
+        maxPlayers: "",
+        description: "",
+        activityName: "",
+      });
+      Swal.fire("Activity Created", "", "success");
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Failed to create activity", "error");
+    }
+  };
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -46,8 +84,10 @@ function BookingDetails() {
         const response = await axiosUserInstance.get(
           `/getbooking/${location.state.booking._id}`
         );
+        console.log(response.data);
         setBookingDetails(response.data.booking);
         setTurfDetails(response.data.turfDetails);
+        setUser(response.data.user);
       } catch (error) {
         console.error("Error fetching booking details:", error);
       }
@@ -164,27 +204,36 @@ function BookingDetails() {
           </p>
 
           {bookingDetails?.bookingStatus === "confirmed" && (
-            <button
-              className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
-              onClick={() => {
-                const refundMessage = calculateRefundMessage();
-                Swal.fire({
-                  title: "Are you sure?",
-                  text: `You want to cancel this booking? ${refundMessage}`,
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonColor: "#d33",
-                  cancelButtonColor: "#3085d6",
-                  confirmButtonText: "Yes, cancel it!",
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    handleCancelBooking();
-                  }
-                });
-              }}
-            >
-              Cancel Booking
-            </button>
+            <div>
+              <button
+                className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                onClick={() => {
+                  const refundMessage = calculateRefundMessage();
+                  Swal.fire({
+                    title: "Are you sure?",
+                    text: `You want to cancel this booking? ${refundMessage}`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, cancel it!",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      handleCancelBooking();
+                    }
+                  });
+                }}
+              >
+                Cancel Booking
+              </button>
+
+              <button
+                className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                onClick={() => setShowModal(true)}
+              >
+                Create Activity
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -213,6 +262,84 @@ function BookingDetails() {
                 You don't get any refund.
               </li>
             </ul>
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
+          {/* Background overlay */}
+          <div className="fixed inset-0 bg-gray-500 opacity-75"></div>
+          {/* Modal container */}
+          <div className="bg-white rounded-lg p-8 max-w-md relative z-20">
+            <h2 className="text-2xl font-bold mb-4">Create Activity</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label
+                  htmlFor="maxPlayers"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Max Players:
+                </label>
+                <input
+                  type="number"
+                  id="maxPlayers"
+                  name="maxPlayers"
+                  value={formData.maxPlayers}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="activityName"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Activity Name:
+                </label>
+                <input
+                  type="text"
+                  id="activityName"
+                  name="activityName"
+                  value={formData.activityName}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Description:
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                ></textarea>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Create
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="ml-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

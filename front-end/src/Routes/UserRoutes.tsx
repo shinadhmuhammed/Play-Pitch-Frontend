@@ -17,6 +17,9 @@ import PasswordChange from "../Pages/Users/PasswordChange";
 import PrivateRouterUser from "../utils/RouterUser/PrivateRouterUser";
 import PublicRouterUser from "../utils/RouterUser/PublicRouterUser";
 import WalletPage from "../Pages/Users/WalletPage";
+import Activity from "../Pages/Users/Activity";
+import ActivityDetails from "../Pages/Users/ActivityDetails";
+import Requests from "../components/User/Requests";
 
 
 
@@ -60,6 +63,9 @@ function UserRoutes() {
         <Route path="/details" element={<PersonalDetails/>}></Route>
         <Route path="/password-change" element={<PasswordChange/>}></Route>
         <Route path="/wallet" element={<WalletPage/>}></Route>
+        <Route path="/activity" element={<Activity/>}></Route>
+        <Route path="/viewdetails/:id" element={<ActivityDetails/>}></Route>
+        <Route path="/request" element={<Requests/>}></Route>
         </Route>
 
       </Routes>
