@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import UserNav from "./UserNav";
-import Profiles from "./Profiles";
 
-// Define types inline
+
 interface JoinRequest {
   _id: string;
   user: string;
@@ -31,6 +30,7 @@ const Requests: React.FC = () => {
       try {
         const response: AxiosResponse<Activity> = await axiosUserInstance.get('/getrequest');
         setActivity(response.data);
+        
       } catch (error) {
         console.error(error);
       }
@@ -51,7 +51,6 @@ const Requests: React.FC = () => {
   const handleDecline = async (joinRequestId: string) => {
     try {
       await axiosUserInstance.put(`/declineJoinRequest/${activity?._id}/${joinRequestId}`);
-      // Refresh activity data after declining
       const response: AxiosResponse<Activity> = await axiosUserInstance.get('/getrequest');
       setActivity(response.data);
     } catch (error) {
@@ -79,7 +78,6 @@ const Requests: React.FC = () => {
                 <li key={request._id} className="mb-4">
                   <span className="font-bold">User ID:</span> {request.user}<br />
                   <span className="font-bold">Status:</span> {request.status}
-                  {/* Conditionally render buttons */}
                   {request.status !== "accepted" && request.status !== "declined" && (
                     <>
                       <button

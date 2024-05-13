@@ -4,6 +4,7 @@ import NavAdmin from "./NavAdmin";
 import { Link } from "react-router-dom";
 
 interface Turf {
+  contactNumber: number;
   isDeclined: boolean;
   isActive: boolean;
   _id: string;
@@ -32,11 +33,11 @@ function VenueRequest() {
       try {
         const response = await axiosAdminInstance.get("/admin/venuerequest");
         setTurfs(response.data);
+        console.log(response.data)
       } catch (error) {
         console.log("Error fetching turfs:", error);
       }
     };
-
     fetchTurfs();
   }, []);
 
@@ -112,7 +113,7 @@ function VenueRequest() {
     <div className="min-h-screen bg-gray-100">
       <NavAdmin />
       <div className="overflow-x-auto">
-        <div className="mb-4">
+        <div className="mb-4 mt-5">
           <label htmlFor="filter" className="mr-2 font-semibold">
             Filter by Price Range:
           </label>
@@ -146,7 +147,10 @@ function VenueRequest() {
                 Email
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Name
+                Contact Number
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                Turf Name
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
                 Address
@@ -163,6 +167,7 @@ function VenueRequest() {
             {currentTurfs.map(turf => (
               <tr key={turf._id}>
                 <td className="border p-3">{turf.turfOwnerEmail}</td>
+                <td className="border p-3">{turf.contactNumber}</td>
                 <td className="border p-3">{turf.turfName}</td>
                 <td className="border p-3">{turf.address}</td>
                 <td className="border p-3 space-x-2">

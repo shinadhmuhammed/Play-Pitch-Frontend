@@ -18,7 +18,7 @@ function Navbar() {
       <nav className=" p-4">
         <div className="container mx-auto flex justify-between shadow-md p-9">
           <div className="flex items-center space-x-4 ">
-            <a href="#" className="text-black font-bold">
+            <a href="/owner/ownerdashboard" className="text-black font-bold">
               Dashboard
             </a>
             <a href="/owner/addvenue" className="text-black font-bold">

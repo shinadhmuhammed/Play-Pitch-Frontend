@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { userLogin } from "../../services/Redux/slice/userSlices";
 import { useNavigate, Link } from "react-router-dom";
-import { axiosUserInstance } from "../../utils/axios/axios";
+import { axiosInstance, axiosUserInstance } from "../../utils/axios/axios";
 import UserFooter from "./UserFooter";
-import UserNav from "./UserNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCrosshairs,
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../Loader/Loader";
-
 import StarRating from "./StarRating";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
 interface Turf {
   _id: string;
@@ -38,7 +33,7 @@ interface Coordinates {
   longitude: number;
 }
 
-function Homepage() {
+function Venue() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [nearestTurf, setNearestTurf] = useState<any>(null);
   const [searchTurf, setSearchTurf] = useState<any>("");
@@ -56,7 +51,7 @@ function Homepage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [turfsPerPage] = useState(3);
 
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -131,7 +126,7 @@ function Homepage() {
         try {
           const { latitude, longitude } = position.coords;
           const response = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GoogleMapsApiKeys }`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls`
           );
           const addressComponents = response.data.results[0].address_components;
           let city = "";
@@ -157,37 +152,26 @@ function Homepage() {
     );
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      const userData = JSON.parse(atob(token.split(".")[1]));
-      dispatch(userLogin(userData));
-    } else {
-      navigate("/login");
-    }
-  }, [dispatch, navigate]);
+ 
+
+
 
   useEffect(() => {
     const fetchTurfData = async () => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
-        const token = localStorage.getItem("userToken");
-        if (token) {
-          const response = await axiosUserInstance.get("/getturf", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          const response = await axiosInstance.get("/getturf", {
           });
+          console.log(response.data)
           setTurf(response.data);
           fetchAverageRatings(response.data);
-        }
+        
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-
     fetchTurfData();
   }, [navigate]);
 
@@ -262,7 +246,7 @@ function Homepage() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <UserNav />
+        {/* <UserNav /> */}
         <nav className="flex justify-between items-center mt-7 p-10">
           <h1 className="font-extrabold text-xl">Book Your Venues</h1>
           <div className="flex items-center">
@@ -469,4 +453,4 @@ function Homepage() {
     </>
   );
 }
-export default Homepage;
+export default Venue;

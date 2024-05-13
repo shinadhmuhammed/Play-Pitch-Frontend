@@ -4,6 +4,13 @@ import UserNav from "./UserNav";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
 import UserFooter from "./UserFooter";
+import {
+  faCalendarAlt,
+  faClock,
+  faMoneyBillAlt,
+  faCreditCard,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Booking {
   _id: string;
@@ -83,22 +90,31 @@ function UserBooking() {
                 Cancelled
               </button>
               <button
-                className={`mr-4 text-sm font-medium text-red-600 ${
+                className={`mr-4 text-sm font-medium text-blue-600 ${
                   statusFilter === "completed" ? "underline" : ""
-                } hover:text-red-700 hover:underline focus:outline-none focus:text-red-700 focus:underline`}
+                } hover:text-blue-700 hover:underline focus:outline-none focus:text-blue-700 focus:underline`}
                 onClick={() => handleFilter("completed")}
               >
                 Completed
               </button>
             </div>
 
+            {filteredBookings.length === 0 ? (
+          <div className="flex justify-center items-center h-80">
+          <div className="bg-gray-200 rounded-lg p-8 flex flex-col items-center">
+            <img className="object-cover h-48" src="/images/football.jpeg" alt="No bookings" />
+            <h1 className="text-lg font-bold mt-4">No bookings</h1>
+          </div>
+        </div>
+        
+          ) : (
             <div className="grid gap-4 w-full">
               {filteredBookings.map((booking) => {
                 const currentDate = new Date();
                 const bookingDateTime = new Date(
                   booking.date + " " + booking.selectedSlot.split(" - ")[0]
                 );
-                const isBookingOver = currentDate > bookingDateTime;
+                const isBookingOver = currentDate > bookingDateTime; 
 
                 return (
                   <div
@@ -108,20 +124,25 @@ function UserBooking() {
                     }`}
                   >
                     <p>
+                      <FontAwesomeIcon icon={faCalendarAlt} />{" "}
                       <strong>Date:</strong>{" "}
                       {new Date(booking.date).toLocaleDateString()}
                     </p>
                     <p>
+                      <FontAwesomeIcon icon={faClock} />{" "}
                       <strong>Selected Slot:</strong> {booking.selectedSlot}
                     </p>
                     <p>
+                      <FontAwesomeIcon icon={faMoneyBillAlt} />{" "}
                       <strong>Booking Status:</strong>{" "}
                       {isBookingOver ? "Completed" : booking.bookingStatus}
                     </p>
                     <p>
+                      <FontAwesomeIcon icon={faMoneyBillAlt} />{" "}
                       <strong>Total Price:</strong> {booking.totalPrice}
                     </p>
                     <p>
+                      <FontAwesomeIcon icon={faCreditCard} />{" "}
                       <strong>Payment Method:</strong> {booking.paymentMethod}
                     </p>
 
@@ -141,12 +162,13 @@ function UserBooking() {
                 );
               })}
             </div>
-          </div>
+          )}
         </div>
-        <UserFooter />
       </div>
-    </>
-  );
+      <UserFooter />
+    </div>
+  </>
+);
 }
 
 export default UserBooking;

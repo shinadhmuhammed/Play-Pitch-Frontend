@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,8 @@ import { userLogin } from "../../services/Redux/slice/userSlices";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { loginApi } from "../../API/UserApi";
+const googleMapsApiKey=import.meta.env.VITE_REACT_APP_CLIENTID
 
 interface FormData {
   email: string;
@@ -24,7 +26,7 @@ function UserLogin() {
 
   const handleLogin: SubmitHandler<FormData> = async (formData: FormData) => {
     try {
-      const response = await axiosInstance.post("/login", {
+      const response = await loginApi({
         email: formData.email,
         password: formData.password,
       });
@@ -32,11 +34,16 @@ function UserLogin() {
       localStorage.setItem("userToken", token);
       dispatch(userLogin(response.data));
       navigate("/home");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      if (error.response && error.response.data && error.response.data.message) {
-        if(error.response.data.message === 'user is blocked'){
-          localStorage.removeItem("userToken")
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        if (error.response.data.message === "user is blocked") {
+          localStorage.removeItem("userToken");
         }
         setServerError(error.response.data.message);
       } else {
@@ -45,14 +52,12 @@ function UserLogin() {
     }
   };
 
-  useEffect(()=>{
-    const token=localStorage.getItem('userToken ')
-    if(token){
-      navigate('/home')
+  useEffect(() => {
+    const token = localStorage.getItem("userToken ");
+    if (token) {
+      navigate("/home");
     }
-  })
-
-  
+  });
 
   const handleGoogleLoginSuccess = async (
     credentialResponse: CredentialResponse
@@ -80,15 +85,15 @@ function UserLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-
+    <div className="min-h-screen bg-gray-200 flex flex-col justify-center sm:px-3 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Login
-        </h2>
+       
+        <div className="flex justify-center ">
+          <img src="/images/play-pitch logo.png" className="object-contain h-40 " alt="Play Pitch Logo" />
+        </div>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ml-10 mr-10 mb-10">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
             <div>
@@ -142,10 +147,10 @@ function UserLogin() {
             {serverError && (
               <p className="text-red-500 text-sm mb-4">{serverError}</p>
             )}
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
               <button
                 type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                className="bg-green-500 text-white px-4 py-2 rounded-md mb-4 sm:mb-0 sm:mr-2"
               >
                 Login
               </button>
@@ -162,9 +167,9 @@ function UserLogin() {
               </a>
             </span>
           </div>
-      
+
           <div className="mt-6 flex justify-center">
-            <GoogleOAuthProvider clientId="177535806756-svlq6cabpb3t6l2stnhpf98cavs3jod8.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId={googleMapsApiKey}>
               <GoogleLogin
                 onSuccess={handleGoogleLoginSuccess}
                 onError={() => {
@@ -173,13 +178,10 @@ function UserLogin() {
               />
             </GoogleOAuthProvider>
           </div>
-         
         </div>
       </div>
     </div>
   );
 }
-
-
 
 export default UserLogin;

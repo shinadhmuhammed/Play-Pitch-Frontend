@@ -13,23 +13,28 @@ function Loginowner() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     if (!email || !password) {
       setErrorMessage("Please enter your email and password");
       return;
     }
-
+  
     try {
       const response = await axiosInstance.post("/owner/ownerlogin", {
         email,
         password,
       });
-
+  
       if (response.status === 200 && response.data.status === 200) {
         const token = response.data.token;
         localStorage.setItem("ownerToken", token);
         dispatch(ownerLogin(response.data));
-        navigate("/owner/ownerhome");
+
+        if (!response.data.turfAdded) {
+          navigate("/owner/ownerhome");
+        } else {
+          navigate("/owner/ownerdashboard");
+        }
       } else {
         console.log("Server error occurred");
       }
@@ -44,6 +49,7 @@ function Loginowner() {
       }
     }
   };
+  
 
 
   return (

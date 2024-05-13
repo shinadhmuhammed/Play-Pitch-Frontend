@@ -30,13 +30,13 @@ function Profiles() {
       </a>
     </div>
     <div className="profile-section">
-      <a href="/wallet" className="text-lg font-semibold text-gray-800 hover:text-blue-600">
-        Wallet
+      <a href="/getActivity" className="text-lg font-semibold text-gray-800 hover:text-blue-600">
+        Activity
       </a>
     </div>
     <div className="profile-section">
-      <a href="/request" className="text-lg font-semibold text-gray-800 hover:text-blue-600">
-        Requests
+      <a href="/wallet" className="text-lg font-semibold text-gray-800 hover:text-blue-600">
+        Wallet
       </a>
     </div>
     <div className="profile-section">

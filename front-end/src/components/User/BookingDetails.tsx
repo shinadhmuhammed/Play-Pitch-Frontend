@@ -1,7 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import Swal from "sweetalert2";
+import StarRating from "./StarRating";
+import { useSelector } from "react-redux";
+import { RootState } from "../../services/Redux/Store/store";
+import { getRating } from "../../API/UserApi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Booking {
   Time: string | number | Date;
@@ -37,10 +44,15 @@ interface Turf {
 
 function BookingDetails() {
   const location = useLocation();
+  const userId = useSelector((state: RootState) => state.user.userId);
   const [bookingDetails, setBookingDetails] = useState<Booking | null>(null);
   const [turfDetails, setTurfDetails] = useState<Turf | null>(null);
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [message, setMessage] = useState("");
+  const [userName, setUserName] = useState("");
+  const [ratingDetails, setRatingDetails] = useState<any>(null);
   const [formData, setFormData] = useState({
     maxPlayers: "",
     description: "",
@@ -54,6 +66,40 @@ function BookingDetails() {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const fetchRatingDetails = async () => {
+      try {
+        if (userId && bookingDetails) {
+          const response = await getRating(userId);
+          console.log(response);
+
+          const matchingRating = response.find(
+            (rating: any) =>
+              rating.userId === userId &&
+              rating.turfId === bookingDetails.turfId
+          );
+          setRatingDetails(matchingRating);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRatingDetails();
+  }, [userId, bookingDetails]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await axiosUserInstance.post("/ratingUser", { userId });
+        console.log(user.data.username);
+        setUserName(user.data.username);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [userId, bookingDetails]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,9 +118,17 @@ function BookingDetails() {
         activityName: "",
       });
       Swal.fire("Activity Created", "", "success");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      Swal.fire("Error", "Failed to create activity", "error");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        Swal.fire("Error", error.response.data.message, "error");
+      } else {
+        Swal.fire("Error", "Failed to create activity", "error");
+      }
     }
   };
 
@@ -146,8 +200,26 @@ function BookingDetails() {
     return <div>Loading...</div>;
   }
 
+  const handleRating = async () => {
+    try {
+      const response = await axiosUserInstance.post("/rating", {
+        message,
+        rating,
+        turfId: bookingDetails.turfId,
+        userName,
+      });
+      console.log(response.data);
+      toast.success("Rating added successfully");
+      setRatingDetails(response.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add rating");
+    }
+  };
+
   return (
     <div>
+      <ToastContainer />
       <a
         href="/booking"
         className="inline-block px-2 py-2 mt-3 bg-blue-800 hover:bg-blue-600 text-white font-semibold border border-blue-500 rounded-lg shadow-md transition duration-300 ease-in-out items-center"
@@ -266,11 +338,41 @@ function BookingDetails() {
         </div>
       )}
 
+      {bookingDetails.bookingStatus === "completed" ? (
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold mb-2">Rate Your Experience:</h2>
+            <StarRating
+              totalStars={5}
+              initialRating={rating}
+              onStarClick={setRating}
+            />
+          </div>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold mb-2">Write Your Comments:</h2>
+            <input
+              type="text"
+              value={message}
+              placeholder="optional"
+              onChange={(e) => setMessage(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              onClick={handleRating}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
-          {/* Background overlay */}
           <div className="fixed inset-0 bg-gray-500 opacity-75"></div>
-          {/* Modal container */}
           <div className="bg-white rounded-lg p-8 max-w-md relative z-20">
             <h2 className="text-2xl font-bold mb-4">Create Activity</h2>
             <form onSubmit={handleSubmit}>

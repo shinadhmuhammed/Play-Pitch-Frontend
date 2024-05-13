@@ -256,7 +256,7 @@ function UserSignup() {
                 <>
                   <button
                     type="submit"
-                    className="bg-green-500 px-1 text-white  rounded-md"
+                    className="bg-green-500 px-2 mr-4 text-white  rounded-md"
                   >
                     Submit
                   </button>
@@ -281,12 +281,15 @@ function UserSignup() {
                   Get OTP
                 </button>
               )}
-              <span className="text-gray-600 text-sm">
-                Already have an account?{" "}
-                <a href="/login" className="text-green-500">
-                  Sign In
-                </a>
-              </span>
+
+               <div className=" justify-between ">
+    <span className="text-gray-600 text-sm">
+      Already have an account?{" "}
+      <a href="/login" className="text-green-500 ">
+        Sign In
+      </a>
+    </span>
+  </div>
             </div>
           </form>
         </div>

@@ -31,7 +31,7 @@ function Ownerotp() {
       const response = await axiosInstance.post('/owner/verifyotp', { otp, email, password, phone });
       if (response.data.status === 200) {
         setVerificationStatus("OTP verified successfully");
-        setTimeout(() => { navigate('/ownerlogin'); }, 3000);
+        setTimeout(() => { navigate('/owner/ownerlogin'); }, 3000);
       } else {
         setVerificationStatus('Invalid OTP');
       }

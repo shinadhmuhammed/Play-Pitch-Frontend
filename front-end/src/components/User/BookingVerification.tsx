@@ -8,6 +8,7 @@ function BookingVerification() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const turfId = queryParams.get("turfId");
+  const ownerId=queryParams.get("ownerId")
   const date = queryParams.get("date");
   const selectedStartTime= queryParams.get("selectedStartTime");
   const selectedEndTime= queryParams.get("selectedEndTime");
@@ -20,19 +21,21 @@ function BookingVerification() {
         const response = await axiosUserInstance.post("/create-booking", {
           turfId: turfId,
           date: date,
-          selectedStartTime:selectedStartTime,
-          selectedEndTime:selectedEndTime,
+          selectedStartTime: selectedStartTime,
+          selectedEndTime: selectedEndTime,
           paymentMethod: paymentMethod,
-          totalPrice:totalPrice
+          totalPrice: totalPrice,
+          ownerId: ownerId 
         });
         console.log("Booking stored:", response.data);
       } catch (error) {
         console.error("Error storing booking:", error);
       }
     };
-
+  
     storeBooking(); 
-  }, [turfId, date,totalPrice ,selectedStartTime,selectedEndTime, paymentMethod]);
+  }, [turfId, date, totalPrice, selectedStartTime, selectedEndTime, paymentMethod, ownerId]);
+  
 
   return (
     <>

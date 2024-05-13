@@ -20,14 +20,16 @@ import WalletPage from "../Pages/Users/WalletPage";
 import Activity from "../Pages/Users/Activity";
 import ActivityDetails from "../Pages/Users/ActivityDetails";
 import Requests from "../components/User/Requests";
+import ChatPage from "../Pages/Users/ChatPage";
+import GetActivityPage from "../Pages/Users/GetActivityPage";
+import Venue from "../components/User/Venue";
+const stripeApiKey=import.meta.env.VITE_REACT_APP_STRIPE_API_KEY
 
 
 
 
 
-const stripePromise = loadStripe(
-  "pk_test_51P0Z54SCjCzqo5nbFuFb45Fe9C28gTVotIMvr0lOp9ByGvHYTmj1mhPzciKl6zhk7U1ZKk4NrmES8vtn0wlP5BAq00X3d8wQuZ"
-);
+const stripePromise = loadStripe(stripeApiKey);
 
 function UserRoutes() {
   return (
@@ -37,7 +39,9 @@ function UserRoutes() {
         <Route path="/" element={<LandinPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/homePage" element={<Venue />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+        
         </Route>
 
         <Route  element={<PrivateRouterUser/>}>
@@ -66,6 +70,9 @@ function UserRoutes() {
         <Route path="/activity" element={<Activity/>}></Route>
         <Route path="/viewdetails/:id" element={<ActivityDetails/>}></Route>
         <Route path="/request" element={<Requests/>}></Route>
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/getActivity" element={<GetActivityPage/>} />
+
         </Route>
 
       </Routes>
