@@ -6,7 +6,7 @@ import AdminRoutes from "./Routes/AdminRoutes";
 function App() {
   return (
     <>
-      <Router>
+      <Router basename="/">
         <Routes>
           <Route path="/*" element={<UserRoutes />}></Route>
           <Route path="/owner/*" element={<OwnerRoutes />}></Route>
