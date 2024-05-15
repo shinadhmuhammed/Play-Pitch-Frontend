@@ -20,8 +20,8 @@ const initialState = {
         state.isLoggedIn = true;
         state.userEmail = action.payload.userEmail;
         state.token = action.payload.token;
-
       },
+      
       updateUserId(state, action) {
         state.userId = action.payload.userId;
       },

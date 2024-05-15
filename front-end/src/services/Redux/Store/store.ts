@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
 import userAuth from '../slice/userSlices';
 import ownerSlices from '../slice/ownerSlices';
 import adminSlices from '../slice/adminSlices';
-
-
 
 const persistConfig = {
   key: 'root',
@@ -25,8 +23,8 @@ const store = configureStore({
   reducer: persistedReducer,
 });
 
-export const persistor = persistStore(store);
-
+// Exporting only the store
 export default store;
 
+// Exporting the RootState type
 export type RootState = ReturnType<typeof store.getState>;
