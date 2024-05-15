@@ -52,6 +52,7 @@ function BookingDetails() {
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
   const [userName, setUserName] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [ratingDetails, setRatingDetails] = useState<any>(null);
   const [formData, setFormData] = useState({
     maxPlayers: "",
@@ -59,13 +60,16 @@ function BookingDetails() {
     activityName: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+  
+  
+  
 
   useEffect(() => {
     const fetchRatingDetails = async () => {

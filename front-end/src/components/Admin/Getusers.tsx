@@ -17,7 +17,7 @@ interface User {
 function Getusers() {
     const[users,setUsers]=useState<User[]>([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(5);
+    const [usersPerPage] = useState(10);
 
 
 
@@ -26,7 +26,7 @@ function Getusers() {
             try {
                 const response=await axiosAdminInstance.get('/admin/getusers')
                 setUsers(response.data);
-                console.log(response)
+  
             } catch (error) {
                 console.log(error)
             }
@@ -69,7 +69,7 @@ function Getusers() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
   
-    // Change page
+   
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
@@ -95,7 +95,7 @@ function Getusers() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
+            {currentUsers.map((user) => (
               <tr key={user._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>

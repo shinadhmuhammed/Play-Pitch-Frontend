@@ -26,7 +26,7 @@ const EditTurf: React.FC = () => {
     facilities: "",
     openingTime: "",
     closingTime: "",
-    price: 0,
+    price: {},
     courtType: "",
     images: [],
   });
@@ -47,13 +47,15 @@ const EditTurf: React.FC = () => {
     fetchTurf();
   }, [turfId]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setTurf((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+  
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,17 +74,20 @@ const EditTurf: React.FC = () => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event && event.target) {
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        if (event.target) {
+          const target = event.target as FileReader;
           setTurf((prevState) => ({
             ...prevState,
-            images: [...prevState.images, event.target.result as string],
+            images: [...prevState.images, target.result as string],
           }));
         }
       };
       reader.readAsDataURL(e.target.files[0]);
     }
   };
+  
+  
 
   const handleDeleteImage = (index: number) => {
     setTurf((prevState) => ({

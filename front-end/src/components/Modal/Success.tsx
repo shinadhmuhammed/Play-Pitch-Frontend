@@ -1,6 +1,7 @@
 import React from "react";
 
 interface SuccessModalProps {
+  show:boolean;
   message: string;
   onClose: () => void;
 }

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Activity } from './Activities'; 
+
 
 interface EditActivityModalProps {
   activity: Activity;
   onSave: (editedActivity: Activity) => void;
   onClose: () => void;
+}
+
+interface Activity {
+  activityName: string;
+  description: string;
+  maxPlayers: number;
 }
 
 const EditActivity: React.FC<EditActivityModalProps> = ({ activity, onSave, onClose }) => {

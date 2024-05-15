@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import UserNav from "./UserNav";
 import { axiosUserInstance } from "../../utils/axios/axios";
@@ -34,6 +33,8 @@ function GetActivity() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  console.log(userId)
 
   useEffect(() => {
     fetchActivity();
@@ -106,7 +107,7 @@ function GetActivity() {
         </nav>
   
         <div className="mx-auto md:ml-16 md:mr-16 lg:ml-32 lg:mr-32 grid gap-6 shadow-lg">
-          {activity.map((activity, index) => (
+          {activity.map((activity) => (
             <div
               key={activity._id}
               className={`p-6 border border-gray-400`}

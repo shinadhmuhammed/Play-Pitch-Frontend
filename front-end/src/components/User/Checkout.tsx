@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import  { useState, ChangeEvent, useEffect } from "react";
 import UserNav from "./UserNav";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
@@ -214,7 +214,8 @@ function Checkout() {
           }
         }
       }
-    } catch (error: Error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("Error occurred while handling booking:", error);
 
       if (

@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const initialState = {
-  isLoggedIn: false,
-  adminEmail: null
-};
 
 const adminSlice = createSlice({
     name: 'admin',

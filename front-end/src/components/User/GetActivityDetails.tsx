@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 import { useNavigate, useParams } from "react-router-dom";
 import UserNav from "./UserNav";
 import { useEffect, useState } from "react";
@@ -70,6 +70,7 @@ function GetActivityDetails() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userStatus, setUserStatus] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -100,7 +101,6 @@ function GetActivityDetails() {
     const addedUserId = async () => {
       try {
         const response = await requestedUserId({ activity });
-        console.log(response?.data);
         setAddedUsers(response?.data);
       } catch (error) {
         console.log(error);
@@ -116,6 +116,7 @@ function GetActivityDetails() {
         const activityData = await getActivityId(id);
         if (activityData.joinRequests) {
           const userRequest = activityData.joinRequests.find(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (request: any) => request.user === userId
           );
           setUserStatus(userRequest ? userRequest.status : null);

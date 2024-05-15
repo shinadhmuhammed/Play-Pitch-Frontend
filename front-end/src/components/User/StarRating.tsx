@@ -13,7 +13,7 @@ const StarRating: React.FC<RatingProps> = ({ totalStars, initialRating, onStarCl
 
   const handleStarClick = (star: number) => {
     setSelectedStars(star);
-    onStarClick(star); 
+    onStarClick && onStarClick(star);  
   };
 
   return (

@@ -131,7 +131,7 @@ function Homepage() {
         try {
           const { latitude, longitude } = position.coords;
           const response = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GoogleMapsApiKeys }`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GoogleMapsApiKeys}`
           );
           const addressComponents = response.data.results[0].address_components;
           let city = "";
@@ -230,8 +230,10 @@ function Homepage() {
 
   const indexOfLastTurf = currentPage * turfsPerPage;
   const indexOfFirstTurf = indexOfLastTurf - turfsPerPage;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const currentTurfs = turf.slice(indexOfFirstTurf, indexOfLastTurf);
+
+  console.log(currentTurfs);
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -446,22 +448,23 @@ function Homepage() {
           </>
         )}
         <div className="flex justify-center mt-4">
-          {Array.from({ length: Math.ceil(turf.length / turfsPerPage) }).map(
-            (_, index) => (
-              <button
-                key={index}
-                onClick={() => paginate(index + 1)}
-                className={`${
-                  currentPage === index + 1
-                    ? "bg-black text-white"
-                    : "bg-white text-white-500"
-                } font-bold px-3 py-2 rounded-md focus:outline-none`}
-              >
-                {index + 1}
-              </button>
-            )
-          )}
+          {Array.from({
+            length: Math.ceil(filteredTurf.length / turfsPerPage),
+          }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => paginate(index + 1)}
+              className={`${
+                currentPage === index + 1
+                  ? "bg-black text-white"
+                  : "bg-white text-white-500"
+              } font-bold px-3 py-2 rounded-md focus:outline-none`}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
+        <h1>hello</h1>
 
         <UserFooter />
       </div>

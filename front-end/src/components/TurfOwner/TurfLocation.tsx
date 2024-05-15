@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, Marker, InfoWindow, LoadScript } from '@react-google-maps/api';
+const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
 type LatLngLiteral = {
   lat: number;
@@ -18,18 +19,21 @@ const TurfLocation: React.FC<TurfLocationProps> = ({ setSelectedLocation }) => {
     center: { lat: 12.9716, lng: 77.5946 } 
   };
   
-  const apiKey = 'AIzaSyCPqPnBZ33jk1vGyNiCHToX9W9edkqlmls'; 
+  const apiKey = GoogleMapsApiKeys; 
 
   const handleMapClick = (event: google.maps.MapMouseEvent) => {
-    setSelectedMarkerPosition({
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    });
-    setSelectedLocation({
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    });
+    if (event.latLng) { 
+      setSelectedMarkerPosition({
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      });
+      setSelectedLocation({
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      });
+    }
   };
+  
 
   return (
     <LoadScript

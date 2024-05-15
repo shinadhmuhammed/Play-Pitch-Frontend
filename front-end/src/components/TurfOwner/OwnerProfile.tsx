@@ -37,7 +37,12 @@ function OwnerProfile() {
 export default OwnerProfile;
 
 
-const NavLink = ({ to, children }) => {
+interface NavLinkProps {
+  to: string;
+  children: React.ReactNode;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
   return (
     <div className="flex justify-center">
       <a href={to} className="text-lg font-semibold hover:text-blue-500">
@@ -46,3 +51,4 @@ const NavLink = ({ to, children }) => {
     </div>
   );
 };
+

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
@@ -22,6 +21,9 @@ import {
 import Loader from "../Loader/Loader";
 import StarRating from "./StarRating";
 const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
+
+
+
 
 interface TurfDetail {
   courtType: string[];
@@ -51,7 +53,7 @@ interface Rating {
   userName: string;
 }
 
-const libraries = ["places"];
+// const libraries = ["places"];
 
 function TurfDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -63,6 +65,7 @@ function TurfDetailPage() {
   const [directions, setDirections] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState<Rating[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [averageRating, setAverageRating] = useState<number | null>(null);
 
   useEffect(() => {
@@ -131,7 +134,7 @@ function TurfDetailPage() {
     };
 
     fetchUserLocation();
-  }, []); // Fetch user location only once, on component mount
+  }, []); 
 
   useEffect(() => {
     if (userLocation && turfDetail) {
@@ -247,20 +250,23 @@ function TurfDetailPage() {
                           }}
                         />
                         {userLocation && (
-                          <DirectionsService
-                            options={{
-                              destination: {
-                                lat: turfDetail.latitude,
-                                lng: turfDetail.longitude,
-                              },
-                              origin: {
-                                lat: userLocation.latitude,
-                                lng: userLocation.longitude,
-                              },
-                              travelMode: "DRIVING",
-                            }}
-                            callback={directionsCallback}
-                          />
+                        <DirectionsService
+                        options={{
+                          destination: {
+                            lat: turfDetail.latitude,
+                            lng: turfDetail.longitude,
+                          },
+                          origin: {
+                            lat: userLocation.latitude,
+                            lng: userLocation.longitude,
+                          },
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          travelMode: "DRIVING" as any, 
+                        }}
+                        callback={directionsCallback}
+                      />
+                      
+                       
                         )}
                         {directions && (
                           <DirectionsRenderer directions={directions} />

@@ -213,10 +213,7 @@ function Venue() {
       })
     : turf;
 
-  const indexOfLastTurf = currentPage * turfsPerPage;
-  const indexOfFirstTurf = indexOfLastTurf - turfsPerPage;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const currentTurfs = turf.slice(indexOfFirstTurf, indexOfLastTurf);
+  
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -246,7 +243,7 @@ function Venue() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        {/* <UserNav /> */}
+  
         <nav className="flex justify-between items-center mt-7 p-10">
           <h1 className="font-extrabold text-xl">Book Your Venues</h1>
           <div className="flex items-center">

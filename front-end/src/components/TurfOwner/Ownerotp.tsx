@@ -50,7 +50,7 @@ function Ownerotp() {
         const timer = setTimeout(() => {
           setResendDisabled(false);
         }, 60000);
-        setResendTimer(timer);
+        setResendTimer(timer as unknown as number);
 
     
         let timeLeft = 60;
