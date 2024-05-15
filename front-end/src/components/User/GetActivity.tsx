@@ -85,9 +85,9 @@ function GetActivity() {
       <UserNav />
       <div className="bg-cover bg-center bg-no-repeat">
         <nav className="flex justify-between items-center mt-7 p-5 md:p-10">
-          <h1 className="font-bold text-2xl ml-10 md:ml-0">Join Games</h1>
+          <h1 className="font-bold text-2xl ml-4 md:ml-0 md:text-3xl">Join Games</h1>
           <div className="flex items-center">
-          <div className="relative mr-4">
+            <div className="relative mr-4">
               <input
                 type="text"
                 placeholder="Search"
@@ -102,129 +102,68 @@ function GetActivity() {
                 <FontAwesomeIcon icon={faSearch} />
               </button>
             </div>
-          
           </div>
         </nav>
-
-        <div className="mx-auto md:ml-32 md:mr-32 grid gap-6 shadow-lg">
-          {searchQuery ? ( 
-            activity.map((activity, index) => (
-              <div
-                key={activity._id}
-                className={`p-6 ${
-                  index % 2 === 0 ? "border" : "border"
-                } border-gray-400`}
-              >
-                <div className="mb-4">
-                  <p className="text-sm font-semibold bg-white text-black py-1 px-3 rounded-md inline-block shadow-md opacity-50">
-                    {formatDateTime(activity.date)}
-                  </p>
-                </div>
-
-                <div className="text-xl font-extrabold">
-                  <h3 className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-violet-800">
-                    {activity.activityName}
-                  </h3>
-                </div>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faTshirt} className="mr-2" />
-                  Turf Name: {activity.turfName}
+  
+        <div className="mx-auto md:ml-16 md:mr-16 lg:ml-32 lg:mr-32 grid gap-6 shadow-lg">
+          {activity.map((activity, index) => (
+            <div
+              key={activity._id}
+              className={`p-6 border border-gray-400`}
+            >
+              <div className="mb-4">
+                <p className="text-sm font-semibold bg-white text-black py-1 px-3 rounded-md inline-block shadow-md opacity-50">
+                  {formatDateTime(activity.date)}
                 </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-                  Place: {activity.address}
-                </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                  Max Players: {activity.maxPlayers}
-                </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  Selected Slot: {activity.slot}
-                </p>
-
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                  Participants:{" "}
-                  {activity.participants.length > 0
-                    ? activity.participants.length
-                    : "0"}{" "}
-                  player joined
-                </p>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => {
-                      navigate(`/viewdetails/${activity._id}`);
-                    }}
-                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-                  >
-                    View Activity
-                  </button>
-                </div>
               </div>
-            ))
-          ) : ( 
-            activity.map((activity, index) => (
-              <div
-                key={activity._id}
-                className={`p-6 ${
-                  index % 2 === 0 ? "border" : "border"
-                } border-gray-400`}
-              >
-                <div className="mb-4">
-                  <p className="text-sm font-semibold bg-white text-black py-1 px-3 rounded-md inline-block shadow-md opacity-50">
-                    {formatDateTime(activity.date)}
-                  </p>
-                </div>
-
-                <div className="text-xl font-extrabold">
-                  <h3 className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-violet-800">
-                    {activity.activityName}
-                  </h3>
-                </div>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faTshirt} className="mr-2" />
-                  Turf Name: {activity.turfName}
-                </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-                  Place: {activity.address}
-                </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                  Max Players: {activity.maxPlayers}
-                </p>
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  Selected Slot: {activity.slot}
-                </p>
-
-                <p className="text-sm">
-                  <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                  Participants:{" "}
-                  {activity.participants.length > 0
-                    ? activity.participants.length
-                    : "0"}{" "}
-                  player joined
-                </p>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => {
-                      navigate(`/viewdetails/${activity._id}`);
-                    }}
-                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-                  >
-                    View Activity
-                  </button>
-                </div>
+  
+              <div className="text-xl font-extrabold">
+                <h3 className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-violet-800">
+                  {activity.activityName}
+                </h3>
               </div>
-            ))
-          )}
+              <p className="text-sm">
+                <FontAwesomeIcon icon={faTshirt} className="mr-2" />
+                Turf Name: {activity.turfName}
+              </p>
+              <p className="text-sm">
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+                Place: {activity.address}
+              </p>
+              <p className="text-sm">
+                <FontAwesomeIcon icon={faUsers} className="mr-2" />
+                Max Players: {activity.maxPlayers}
+              </p>
+              <p className="text-sm">
+                <FontAwesomeIcon icon={faClock} className="mr-2" />
+                Selected Slot: {activity.slot}
+              </p>
+  
+              <p className="text-sm">
+                <FontAwesomeIcon icon={faUsers} className="mr-2" />
+                Participants:{" "}
+                {activity.participants.length > 0
+                  ? activity.participants.length
+                  : "0"}{" "}
+                player joined
+              </p>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => {
+                    navigate(`/viewdetails/${activity._id}`);
+                  }}
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                >
+                  View Activity
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <UserFooter />
     </div>
   );
-}
+}  
 
 export default GetActivity;

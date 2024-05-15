@@ -55,6 +55,8 @@ const UserDetails: React.FC = () => {
   }, []);
 
 
+  
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -114,10 +116,10 @@ const UserDetails: React.FC = () => {
           className="flex flex-col space-y-6 justify-center px-72"
         >
            
-         {/* <div>
-      {photoUrl && <img src={photoUrl} alt="Profile" />}
-    </div> */}
-            
+           <div>
+  {formData.profilePhoto && <img src={URL.createObjectURL(formData.profilePhoto)} alt="Profile" />}
+</div>
+
           
 
           <input

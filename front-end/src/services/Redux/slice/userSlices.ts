@@ -31,6 +31,7 @@ const initialState = {
       updateUserProfilePhoto(state, action) {
         console.log("redux", action)
         state.profilePhoto = action.payload.profilePhoto; 
+        
       },
       userLogout(state) {
         state.isLoggedIn = false;

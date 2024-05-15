@@ -202,7 +202,6 @@ function Homepage() {
               turfId: turf._id,
             }
           );
-          console.log(response.data);
           ratings[turf._id] = response.data.averageRating;
         })
       );

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import UserNav from "./UserNav";
@@ -58,6 +59,7 @@ function TurfDetailPage() {
   const [turfDetail, setTurfDetail] = useState<TurfDetail | null>(null);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [directions, setDirections] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState<Rating[]>([]);
@@ -176,6 +178,7 @@ function TurfDetailPage() {
     navigate("/checkout", { state: { turfDetail } });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const directionsCallback = (response: any) => {
     if (response !== null && response.status === "OK") {
       setDirections(response);
@@ -227,7 +230,7 @@ function TurfDetailPage() {
                   <div style={{ height: "350px", width: "100%" }}>
                     <LoadScript
                       googleMapsApiKey={GoogleMapsApiKeys}
-                      libraries={libraries}
+                      // libraries={libraries}
                     >
                       <GoogleMap
                         mapContainerStyle={{ height: "350px", width: "100%" }}

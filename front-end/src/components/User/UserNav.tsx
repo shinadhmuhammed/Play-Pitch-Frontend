@@ -25,21 +25,12 @@ function UserNav() {
 
   return (
     <div>
-      <nav className="p-2 border-b border-gray-300 shadow-lg">
-        <h1 className="text-3xl font-bold text-black cursor-pointer hover:text-gray-300 flex items-center space-x-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-green-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm1 15h-2v-2h2v2zm0-4h-2v-2h2v2zm-4 4H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm4 8h-2v-2h2v2zm0-4h-2V7h2v4z" />
-          </svg>
-          <span className="text-green-500">Play</span>
-          <span className="text-blue-500">Pitch</span>
-        </h1>
+      <nav className="p-2 border-b border-gray-300 shadow-lg flex justify-between items-center">
+        <div>
+          <img src="/images/Logo_shinadh.png" className="h-14 w-48" alt="Logo" />
+        </div>
 
-        <div className="flex justify-end items-center">
+        <div className="flex items-center">
           <div className="relative" onClick={handleBellClick}>
             <FontAwesomeIcon
               icon={faBell}
@@ -88,3 +79,4 @@ function UserNav() {
 }
 
 export default UserNav;
+
