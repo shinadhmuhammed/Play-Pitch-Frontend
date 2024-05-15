@@ -65,8 +65,9 @@ function TurfDetailPage() {
   const [directions, setDirections] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState<Rating[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
   const [averageRating, setAverageRating] = useState<number | null>(null);
+  console.log(averageRating)
 
   useEffect(() => {
     const fetchRatingDetails = async () => {
