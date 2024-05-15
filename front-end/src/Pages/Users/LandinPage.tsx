@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 
 function LandingPage() {
-  console.log('haiiiiiiiii')
   return (
     <>
       <div className="relative">
         <img
-          src="/images/new football.jpg"
+          src="images/new football.jpg"
           className="w-full mt-0 contrast-50"
           alt="hello"
           style={{ height: "calc(100vh - 10px)" }}

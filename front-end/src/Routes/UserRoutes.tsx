@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import LandinPage from "../Pages/Users/LandinPage";
 import Signup from "../Pages/Users/Signup";
 import Login from "../Pages/Users/Login";
 import Home from "../Pages/Users/Home";
@@ -23,6 +22,7 @@ import Requests from "../components/User/Requests";
 import ChatPage from "../Pages/Users/ChatPage";
 import GetActivityPage from "../Pages/Users/GetActivityPage";
 import Venue from "../components/User/Venue";
+import LandingPage from "../Pages/Users/LandinPage";
 const stripeApiKey=import.meta.env.VITE_REACT_APP_STRIPE_API_KEY
 
 
@@ -36,7 +36,7 @@ function UserRoutes() {
     <div>
       <Routes>
         <Route element={<PublicRouterUser/>}>
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/homePage" element={<Venue />}></Route>
