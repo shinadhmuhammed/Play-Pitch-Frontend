@@ -36,8 +36,8 @@ function UserRoutes() {
     <div>
       <Routes>
         <Route element={<PublicRouterUser/>}>
-        <Route path="/login" element={<LandinPage />}></Route>
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<LandinPage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/homePage" element={<Venue />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
