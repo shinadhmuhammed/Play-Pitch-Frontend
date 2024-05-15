@@ -3,13 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/shinadhmuhammed/Play-Pitch-Frontend.git",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "build-css": "npx tailwindcss -i ./src/index.css -o ./public/style.css --watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "start": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
