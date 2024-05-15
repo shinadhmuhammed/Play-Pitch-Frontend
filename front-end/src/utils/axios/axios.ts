@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 
 const createAxiosInstance = (token: string | null, role: string | null): AxiosInstance => {
   const instance = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: 'https://playpitch.online',
     withCredentials: true,
   });
   if (token) {
