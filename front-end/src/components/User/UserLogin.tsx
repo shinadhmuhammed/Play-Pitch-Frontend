@@ -88,9 +88,9 @@ function UserLogin() {
     <div className="min-h-screen bg-gray-200 flex flex-col justify-center sm:px-3 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
        
-        <div className="flex justify-center ">
+        {/* <div className="flex justify-center ">
           <img src="/images/play-pitch logo.png" className="object-contain h-40 " alt="Play Pitch Logo" />
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ml-10 mr-10 mb-10">
