@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
 function LandingPage() {
+  console.log('haiiiiiiiii')
   return (
     <>
+    
       <div className="relative">
         <img
           src="/images/new football.jpg"
