@@ -1,31 +1,41 @@
 import React, { useState } from 'react';
 
+interface Activity {
+  _id: string;
+  activityName: string;
+  address: string;
+  slot: string;
+  date: string;
+  turfName: string;
+  maxPlayers: number;
+  description: string;
+}
 
 interface EditActivityModalProps {
-  activity: Activity;
-  onSave: (editedActivity: Activity) => void;
+  activity: Activity | null; 
+  onSave: (editedActivity: Activity) => Promise<void>; 
   onClose: () => void;
 }
 
-interface Activity {
-  activityName: string;
-  description: string;
-  maxPlayers: number;
-}
-
 const EditActivity: React.FC<EditActivityModalProps> = ({ activity, onSave, onClose }) => {
-  const [editedActivity, setEditedActivity] = useState<Activity>(activity);
+  const [editedActivity, setEditedActivity] = useState<Activity | null>(activity);
+
+
+  if (!editedActivity) {
+    return <div>Activity not found.</div>;
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditedActivity((prevState: Activity) => ({
-      ...prevState,
+    setEditedActivity((prevState) => ({
+      ...(prevState as Activity), 
       [name]: value
     }));
   };
+  
 
-  const handleSave = () => {
-    onSave(editedActivity);
+  const handleSave = async () => {
+    await onSave(editedActivity); 
     onClose();
   };
 

@@ -70,10 +70,12 @@ function GetActivityDetails() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userStatus, setUserStatus] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
+
+  console.log(status)
 
   useEffect(() => {
     const fetchUserData = async () => {
