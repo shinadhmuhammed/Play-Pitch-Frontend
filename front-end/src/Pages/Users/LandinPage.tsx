@@ -4,7 +4,6 @@ function LandingPage() {
   console.log('haiiiiiiiii')
   return (
     <>
-    <h1>haiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</h1>
       <div className="relative">
         <img
           src="/images/new football.jpg"
