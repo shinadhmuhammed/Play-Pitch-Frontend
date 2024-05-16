@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { socketId } from "../../Providers/Socket";
+import logo from '../../assets/images/Logo_shinadh.png'
 
 function UserNav() {
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
@@ -27,7 +28,7 @@ function UserNav() {
     <div>
       <nav className="p-2 border-b border-gray-300 shadow-lg flex justify-between items-center">
         <div>
-          <img src="/src/assets/images/Logo_shinadh.png" className="h-14 w-48" alt="Logo" />
+          <img src={logo} className="h-14 w-48" alt="Logo" />
         </div>
 
         <div className="flex items-center">

@@ -11,6 +11,8 @@ import {
   faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import bg from '../../assets/images/bg3.jpeg'
+import football from '../../assets/images/football.jpeg'
 
 interface Booking {
   _id: string;
@@ -59,7 +61,7 @@ function UserBooking() {
       <div
         className="relative"
         style={{
-          backgroundImage: `url('/src/assets/images/bg3.jpeg')`,
+          backgroundImage: `url ${ bg }`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -102,7 +104,7 @@ function UserBooking() {
             {filteredBookings.length === 0 ? (
           <div className="flex justify-center items-center h-80">
           <div className="bg-gray-200 rounded-lg p-8 flex flex-col items-center">
-            <img className="object-cover h-48" src="/src/assets/images/football.jpeg" alt="No bookings" />
+            <img className="object-cover h-48" src={football} alt="No bookings" />
             <h1 className="text-lg font-bold mt-4">No bookings</h1>
           </div>
         </div>
