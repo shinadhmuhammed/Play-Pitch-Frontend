@@ -17,12 +17,13 @@ function Chat() {
   const activityId = searchParams.get("activityId");
   const userId = useSelector((state: RootState) => state.user.userId);
   const [message, setMessage] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [participants, setParticipants] = useState<string[]>([]);
   const [chatUser, setChatUser] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const inputRef = useRef<HTMLInputElement>(null); 
 
-  console.log(participants)
+  
 
 
 
