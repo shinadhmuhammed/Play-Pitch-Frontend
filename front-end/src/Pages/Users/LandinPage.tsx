@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
+import foot from '../../assets/images/new football.jpg'
+import ball from '../../assets/images/footballl.jpeg'
 
 function LandingPage() {
   return (
     <>
       <div className="relative">
         <img
-          src="/src/assets/images/new football.jpg"
+          src={foot}
           className="w-full mt-0 contrast-50"
           alt="hello"
           style={{ height: "calc(100vh - 10px)" }}
@@ -40,7 +42,7 @@ function LandingPage() {
 
       <div className="relative flex justify-end">
   <img
-    src="/src/assets/images/footballl.jpeg"
+    src={ball}
     className="w-full mt-0 contrast-100"
     alt="hello"
     style={{ height: "calc(100vh - 10px)" }}
