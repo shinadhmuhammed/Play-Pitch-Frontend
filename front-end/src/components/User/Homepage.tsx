@@ -365,8 +365,8 @@ function Homepage() {
             <h1 className="font-bold  ">No Turf Found</h1>
 
             <img
-              src="/images/no turf.svg"
-              alt="Image of Ronaldo"
+              src="/src/assets/images/no turf.svg"
+              alt="Image "
               className="mt-10"
             ></img>
           </div>
@@ -464,7 +464,6 @@ function Homepage() {
             </button>
           ))}
         </div>
-        <h1>hello</h1>
 
         <UserFooter />
       </div>

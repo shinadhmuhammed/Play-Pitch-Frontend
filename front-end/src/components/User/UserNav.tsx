@@ -27,7 +27,7 @@ function UserNav() {
     <div>
       <nav className="p-2 border-b border-gray-300 shadow-lg flex justify-between items-center">
         <div>
-          <img src="/images/Logo_shinadh.png" className="h-14 w-48" alt="Logo" />
+          <img src="/src/assets/images/Logo_shinadh.png" className="h-14 w-48" alt="Logo" />
         </div>
 
         <div className="flex items-center">

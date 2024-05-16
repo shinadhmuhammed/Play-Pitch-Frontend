@@ -5,7 +5,7 @@ function LandingPage() {
     <>
       <div className="relative">
         <img
-          src="images/new football.jpg"
+          src="/src/assets/images/new football.jpg"
           className="w-full mt-0 contrast-50"
           alt="hello"
           style={{ height: "calc(100vh - 10px)" }}
@@ -40,7 +40,7 @@ function LandingPage() {
 
       <div className="relative flex justify-end">
   <img
-    src="/images/footballl.jpeg"
+    src="/src/assets/images/footballl.jpeg"
     className="w-full mt-0 contrast-100"
     alt="hello"
     style={{ height: "calc(100vh - 10px)" }}

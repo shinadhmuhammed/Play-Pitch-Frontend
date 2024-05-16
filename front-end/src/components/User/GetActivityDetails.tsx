@@ -220,7 +220,7 @@ function GetActivityDetails() {
         <div className="flex flex-col md:flex-row">
           <img
             className="ml-5 md:ml-10 mt-5 md:mt-10 h-44 w-40 object-center"
-            src="/images/profilepin.jpg"
+            src="/src/assets/images/profilepin.jpg"
             alt="profile-pic"
           />
           <div className="ml-5 md:ml-10 mt-5 md:mt-10">
