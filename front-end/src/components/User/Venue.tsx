@@ -13,6 +13,7 @@ import StarRating from "./StarRating";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import noturf from "../../assets/images/no turf.svg";
 
 interface Turf {
   _id: string;
@@ -41,16 +42,12 @@ function Venue() {
   const [suggestions, setSuggestions] = useState([]);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [turf, setTurf] = useState<Turf[]>([]);
-  const [selectedRatingRange, setSelectedRatingRange] = useState<string | null>(
-    null
-  );
   const [loading, setLoading] = useState(false);
   const [averageRatings, setAverageRatings] = useState<{
     [key: string]: number;
   } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [turfsPerPage] = useState(3);
-
 
   const navigate = useNavigate();
 
@@ -152,21 +149,16 @@ function Venue() {
     );
   };
 
- 
-
-
-
   useEffect(() => {
     const fetchTurfData = async () => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
-          const response = await axiosInstance.get("/getturf", {
-          });
-          console.log(response.data)
-          setTurf(response.data);
-          fetchAverageRatings(response.data);
-        
+        const response = await axiosInstance.get("/getturfs", {});
+        console.log(response.data);
+        setTurf(response.data);
+        fetchAverageRatings(response.data);
+
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -196,24 +188,8 @@ function Venue() {
     }
   };
 
-  const handleRatingChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRatingRange(event.target.value);
-  };
 
-  const filteredTurf = selectedRatingRange
-    ? turf.filter((turfItem) => {
-        const averageRating = averageRatings && averageRatings[turfItem._id];
-        if (averageRating) {
-          const [min, max] = selectedRatingRange.split("-");
-          return (
-            averageRating >= parseFloat(min) && averageRating <= parseFloat(max)
-          );
-        }
-        return false;
-      })
-    : turf;
 
-  
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -221,7 +197,7 @@ function Venue() {
 
   const handleTurfSearch = async () => {
     try {
-      const response = await axiosUserInstance.post("/searchTurfName", {
+      const response = await axiosUserInstance.post("/searchTurfNames", {
         query: searchTurf,
       });
       setTurf(response.data);
@@ -234,6 +210,21 @@ function Venue() {
     <>
       <ToastContainer />
       {loading && <Loader />}
+      <nav className="flex justify-end items-center bg-gray-100 p-4 shadow-xl">
+        <a
+          href="/login"
+          className="text-green-500 border border-green-500 px-4 py-2 rounded mr-2 shadow-md hover:bg-green-500 hover:text-white"
+        >
+          Login
+        </a>
+        <a
+          href="/signup"
+          className="text-white bg-gray-300 px-4 py-2 rounded shadow-md hover:bg-gray-400 hover:text-black"
+        >
+          Register
+        </a>
+      </nav>
+
       <div
         className="relative"
         style={{
@@ -243,8 +234,7 @@ function Venue() {
           backgroundRepeat: "no-repeat",
         }}
       >
-  
-        <nav className="flex justify-between items-center mt-7 p-10">
+        <nav className="flex justify-between items-center mt-10 p-10">
           <h1 className="font-extrabold text-xl">Book Your Venues</h1>
           <div className="flex items-center">
             <div className="relative w-full">
@@ -328,15 +318,7 @@ function Venue() {
                 <FontAwesomeIcon icon={faCrosshairs} />
               </button>
             </div>
-            <select
-              value={selectedRatingRange || ""}
-              onChange={handleRatingChange}
-              className="border border-gray-400 rounded-lg px-2 py-2 focus:outline-none focus:border-blue-500"
-            >
-              <option value="">Filter by Rating</option>
-              <option value="3-5">3 - 5</option>
-              <option value="1-3">1 - 3</option>
-            </select>
+            
           </div>
         </nav>
 
@@ -344,17 +326,13 @@ function Venue() {
           <div className=" text-gray-600 flex justify-center">
             <h1 className="font-bold  ">No Turf Found</h1>
 
-            <img
-              src="/images/no turf.svg"
-              alt="Image of Ronaldo"
-              className="mt-10"
-            ></img>
+            <img src={noturf} alt="no images" className="mt-10"></img>
           </div>
         )}
 
         {nearestTurf ? (
           <div>
-            <Link to={`/turf/${nearestTurf._id}`}>
+            <Link to={`/turfs/${nearestTurf._id}`}>
               <div className="bg-white shadow-md rounded-md p-4 g">
                 {nearestTurf.images.length > 0 && (
                   <div className="relative group">
@@ -390,8 +368,8 @@ function Venue() {
             )}
             {turf.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 mt-6 ">
-                {filteredTurf.map((turfItem) => (
-                  <Link key={turfItem._id} to={`/turf/${turfItem._id}`}>
+                {turf.map((turfItem) => (
+                  <Link key={turfItem._id} to={`/turfs/${turfItem._id}`}>
                     <div className="bg-white shadow-md rounded-md p-4 g">
                       {turfItem.images.length > 0 && (
                         <div className="relative group">
