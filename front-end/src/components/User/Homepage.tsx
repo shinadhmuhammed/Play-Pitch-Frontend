@@ -290,7 +290,7 @@ function Homepage() {
               <input
                 type="text"
                 id="simple-search"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border hidden lg:block border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search turf name..."
                 value={searchTurf}
                 onChange={handleSearchturfInputChange}
@@ -299,7 +299,7 @@ function Homepage() {
                 required
               />
               {isInputFocused && suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
+                <ul className="absolute top-full left-0 right-0 bg-white border hidden lg:block border-gray-300 z-10">
                   {suggestions.map((suggestion, index) => (
                     <li
                       key={index}
@@ -315,7 +315,7 @@ function Homepage() {
             <button
               onClick={handleTurfSearch}
               type="button"
-              className="mr-10 p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              className="mr-10 hidden lg:block p-2.5  ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
               <svg
                 className="w-4 h-4"
@@ -332,16 +332,16 @@ function Homepage() {
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
-              <span className="sr-only">Search</span>
+              <span className="sr-only hidden lg:block">Search</span>
             </button>
 
-            <div className="relative mr-6">
+            <div className="relative mr-6 sm:ml-7">
               <input
                 type="text"
                 placeholder="Get Nearest Turfs"
                 value={searchQuery}
                 onChange={handleSearchInputChange}
-                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 mr-3"
+                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500  mr-3"
               />
               <button
                 onClick={handleSearch}
@@ -353,7 +353,7 @@ function Homepage() {
             <select
               value={selectedRatingRange || ""}
               onChange={handleRatingChange}
-              className="border border-gray-400 rounded-lg px-2 py-2 focus:outline-none focus:border-blue-500"
+              className="border border-gray-400 rounded-lg px-2 py-2 focus:outline-none focus:border-blue-500 hidden lg:block"
             >
               <option value="">Filter by Rating</option>
               <option value="3-5">3 - 5</option>
