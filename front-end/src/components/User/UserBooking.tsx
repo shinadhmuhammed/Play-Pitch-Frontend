@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bg from '../../assets/images/bg3.jpeg'
-import foot from '../../assets/images/no turf.svg'
+import foot from '../../assets/images/footballl.jpeg'
 
 interface Booking {
   _id: string;
