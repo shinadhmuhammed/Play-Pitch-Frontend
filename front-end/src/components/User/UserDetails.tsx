@@ -2,9 +2,8 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import UserNav from "./UserNav";
 import Profiles from "./Profiles";
 import { axiosUserInstance } from "../../utils/axios/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUserProfilePhoto } from "../../services/Redux/slice/userSlices";
-import { useSelector } from "react-redux";
 import { RootState } from "../../services/Redux/Store/store";
 
 interface FormData {
@@ -16,16 +15,12 @@ interface FormData {
 
 const UserDetails: React.FC = () => {
   const dispatch = useDispatch();
-  const profilePhoto = useSelector((state: RootState) => state.user.profilePhoto);
+  const [photo, setPhoto] = useState<string>("");
+  const profilePhoto = useSelector(
+    (state: RootState) => state.user.profilePhoto
+  );
 
-  
-  console.log(profilePhoto)
- 
-
-
-
-
-
+  console.log(profilePhoto);
 
   const [formData, setFormData] = useState<FormData>({
     username: "",
@@ -41,11 +36,20 @@ const UserDetails: React.FC = () => {
         const response = await axiosUserInstance.get("/userdetails");
         const userData = response.data;
         console.log(userData);
-        
-        setFormData(userData);
-        await new Promise((res) => setTimeout(() => {
-          res
-        },1000))
+        setPhoto(response.data.profilePhotoUrl);
+        setFormData({
+          ...formData,
+          username: userData.username,
+          email: userData.email,
+          phone: userData.phone,
+          // Ensure profilePhoto is set to null if not provided in userData
+          profilePhoto: userData.profilePhoto || null,
+        });
+        await new Promise((res) =>
+          setTimeout(() => {
+            res;
+          }, 1000)
+        );
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -53,10 +57,6 @@ const UserDetails: React.FC = () => {
 
     fetchUserData();
   }, []);
-
-
-  
-
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -68,6 +68,7 @@ const UserDetails: React.FC = () => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFormData({ ...formData, profilePhoto: file });
+      setPhoto(URL.createObjectURL(file)); 
     }
   };
 
@@ -115,12 +116,18 @@ const UserDetails: React.FC = () => {
           onSubmit={handleSubmit}
           className="flex flex-col space-y-6 justify-center px-72"
         >
-           
-           <div>
-  {formData.profilePhoto && <img src={URL.createObjectURL(formData.profilePhoto)} alt="Profile" />}
-</div>
-
-          
+         <div>
+      <img
+        src={photo}
+        alt="Profile"
+        style={{
+          height: '200px', 
+          width: '200px',   
+          borderRadius: '50%',  
+          objectFit: 'cover',  
+        }}
+      />
+    </div>
 
           <input
             type="file"

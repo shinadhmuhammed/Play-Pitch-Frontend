@@ -1,5 +1,3 @@
-
-
 import { useNavigate, useParams } from "react-router-dom";
 import UserNav from "./UserNav";
 import { useEffect, useState } from "react";
@@ -17,6 +15,7 @@ import { getActivityId, requestedUserId } from "../../API/UserApi";
 import { useSelector } from "react-redux";
 import { RootState } from "../../services/Redux/Store/store";
 import Swal from "sweetalert2";
+import profile from '../../assets/images/profilepin.jpg'
 
 interface Game {
   _id: string;
@@ -70,6 +69,7 @@ function GetActivityDetails() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userStatus, setUserStatus] = useState<string | null>(null);
+  
 
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
@@ -196,6 +196,7 @@ function GetActivityDetails() {
       console.error(error);
     }
   };
+  
 
   const handleDecline = async (joinRequestId: string) => {
     try {
@@ -218,11 +219,13 @@ function GetActivityDetails() {
       <UserNav />
       <div className="ml-5 md:ml-20 mr-5 md:mr-20 mt-5 md:mt-20 border">
         <div className="flex flex-col md:flex-row">
-          <img
-            className="ml-5 md:ml-10 mt-5 md:mt-10 h-44 w-40 object-center"
-            src="/src/assets/images/profilepin.jpg"
-            alt="profile-pic"
-          />
+        <img
+  className="ml-5 md:ml-10 mt-5 md:mt-10 h-32 w-32 object-center rounded-full"
+  src={profile}
+  alt="profile-pic"
+/>
+
+
           <div className="ml-5 md:ml-10 mt-5 md:mt-10">
             {activity ? (
               <div>
@@ -330,6 +333,12 @@ function GetActivityDetails() {
             addedUsers.map((user) => (
               <div key={user._id} className="mr-2 md:mr-4 mt-2">
                 <p className="font-medium">{user.username}</p>
+                <img src={user.profilePhotoUrl} alt="no image"  style={{
+    height: '50px',
+    width: '50px',
+    borderRadius: '50%',
+    objectFit: 'cover',
+  }}></img>
               </div>
             ))}
         </div>
