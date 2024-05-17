@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bg from '../../assets/images/bg3.jpeg'
-import foot from '../../assets/images/footballl.jpeg'
+import football from '../../assets/images/football.jpeg'
 
 interface Booking {
   _id: string;
@@ -104,8 +104,8 @@ function UserBooking() {
             {filteredBookings.length === 0 ? (
           <div className="flex justify-center items-center h-80">
           <div className="bg-gray-200 rounded-lg p-8 flex flex-col items-center">
-            <img className="object-cover h-48" src={foot} alt="No bookingssssssssss" />
-            <h1 className="text-lg font-bold mt-4">No bookingsssss</h1>
+            <img className="object-cover h-48" src={football} alt="No bookings" />
+            <h1 className="text-lg font-bold mt-4">No bookings</h1>
           </div>
         </div>
         

@@ -18,6 +18,8 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
+import football from '../../assets/images/no turf.svg'
+import bg3 from '../../assets/images/bg3.jpeg'
 
 interface Turf {
   _id: string;
@@ -257,7 +259,7 @@ function Homepage() {
       <div
         className="relative"
         style={{
-          backgroundImage: `url('/images/bg3.jpeg')`,
+          backgroundImage: `url(${bg3 })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -365,7 +367,7 @@ function Homepage() {
             <h1 className="font-bold  ">No Turf Found</h1>
 
             <img
-              src="/src/assets/images/no turf.svg"
+              src={football}
               alt="Image "
               className="mt-10"
             ></img>
