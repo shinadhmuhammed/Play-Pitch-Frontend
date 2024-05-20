@@ -24,6 +24,7 @@ import GetActivityPage from "../Pages/Users/GetActivityPage";
 import Venue from "../components/User/Venue";
 import LandingPage from "../Pages/Users/LandinPage";
 import TurfDetailsLandingPage from "../components/User/TurfDetailsLandingPage";
+import GetActivityLanding from "../components/User/GetActivityLanding";
 const stripeApiKey=import.meta.env.VITE_REACT_APP_STRIPE_API_KEY
 
 
@@ -42,6 +43,7 @@ function UserRoutes() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/homePage" element={<Venue />}></Route>
         <Route path="/turfs/:id" element={<TurfDetailsLandingPage />}></Route>
+        <Route path="/games" element={<GetActivityLanding />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         
         </Route>

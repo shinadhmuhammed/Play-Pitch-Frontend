@@ -61,6 +61,26 @@ function LandingPage() {
         </div>
       </div>
 
+      <div className="relative">
+        <img
+          src={foot}
+          className="w-full mt-0 contrast-50"
+          alt="hello"
+          style={{ height: "calc(100vh - 10px)" }}
+        />
+        <div className="absolute top-1/2  transform -translate-y-1/2 text-white ml-5">
+          <h1 className="font-extrabold mb-10 font-serif ">
+            <span style={{ fontSize: "2rem" }}>join other hosted game meet players </span><br />
+            <span style={{ fontSize: "3rem" }}>play with other players</span>
+          </h1>
+          <Link to="/games">
+            <button className="bg-green-500 hover:bg-green-600 text-white mb-10 ml-64 px-4 py-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+              Play Now
+            </button>
+          </Link>
+        </div>
+      </div>
+
       <div className="mt-0 p-10">
         <UserFooter />
       </div>

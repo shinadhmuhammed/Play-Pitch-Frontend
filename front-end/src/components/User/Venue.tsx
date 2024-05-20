@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { axiosInstance, axiosUserInstance } from "../../utils/axios/axios";
+import { axiosInstance } from "../../utils/axios/axios";
 import UserFooter from "./UserFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -76,7 +76,7 @@ function Venue() {
   const handleSearch = async () => {
     if (userLocation) {
       try {
-        const response = await axiosUserInstance.post("/nearestTurf", {
+        const response = await axiosInstance.post("/nearestTurf", {
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
           query: searchQuery,
@@ -93,7 +93,7 @@ function Venue() {
 
   const handleTurfSearchSuggestions = async () => {
     try {
-      const response = await axiosUserInstance.post(
+      const response = await axiosInstance.post(
         "/getTurfSearchSuggestions",
         {
           query: searchTurf,
@@ -172,7 +172,7 @@ function Venue() {
       const ratings: { [key: string]: number } = {};
       await Promise.all(
         turfData.map(async (turf) => {
-          const response = await axiosUserInstance.post(
+          const response = await axiosInstance.post(
             "/getTurfAverageRating",
             {
               turfId: turf._id,
@@ -197,7 +197,7 @@ function Venue() {
 
   const handleTurfSearch = async () => {
     try {
-      const response = await axiosUserInstance.post("/searchTurfNames", {
+      const response = await axiosInstance.post("/searchTurfNames", {
         query: searchTurf,
       });
       setTurf(response.data);
