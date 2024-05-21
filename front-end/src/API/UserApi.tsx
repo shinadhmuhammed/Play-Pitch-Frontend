@@ -11,7 +11,6 @@ export const loginApi=async(data:any)=>{
 export const requestedUserId=async(data:any)=>{
     try {
         const response=await axiosUserInstance.post('/requestedId',data)
-        console.log(response.data)
         return response
     } catch (error) {
         console.log(error)

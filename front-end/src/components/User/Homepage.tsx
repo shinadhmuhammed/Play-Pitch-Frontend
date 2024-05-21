@@ -257,22 +257,17 @@ function Homepage() {
       <ToastContainer />
       {loading && <Loader />}
       <div
-        className="relative"
-        style={{
-          backgroundImage: `url(${bg3 })`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="relative bg-cover bg-center bg-no-repeat min-h-screen"
+        style={{ backgroundImage: `url(${bg3})` }}
       >
         <UserNav />
-        <nav className="flex justify-between items-center mt-7 p-10">
+        <nav className="flex flex-col lg:flex-row justify-between items-center mt-7 p-4 lg:p-10 space-y-4 lg:space-y-0">
           <h1 className="font-extrabold text-xl">Book Your Venues</h1>
-          <div className="flex items-center">
-            <div className="relative w-full">
+          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 w-full lg:w-auto">
+            <div className="relative w-full lg:w-auto">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  className="w-4 h-4 text-gray-500"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -290,7 +285,7 @@ function Homepage() {
               <input
                 type="text"
                 id="simple-search"
-                className="bg-gray-50 border hidden lg:block border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search turf name..."
                 value={searchTurf}
                 onChange={handleSearchturfInputChange}
@@ -299,7 +294,7 @@ function Homepage() {
                 required
               />
               {isInputFocused && suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border hidden lg:block border-gray-300 z-10">
+                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
                   {suggestions.map((suggestion, index) => (
                     <li
                       key={index}
@@ -315,7 +310,7 @@ function Homepage() {
             <button
               onClick={handleTurfSearch}
               type="button"
-              className="mr-10 hidden lg:block p-2.5  ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              className="p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
               <svg
                 className="w-4 h-4"
@@ -332,20 +327,20 @@ function Homepage() {
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
-              <span className="sr-only hidden lg:block">Search</span>
+              <span className="sr-only">Search</span>
             </button>
 
-            <div className="relative mr-6 sm:ml-7">
+            <div className="relative w-full lg:w-auto sm:w-full">
               <input
                 type="text"
                 placeholder="Get Nearest Turfs"
                 value={searchQuery}
                 onChange={handleSearchInputChange}
-                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500  mr-3"
+                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none sm:w-full focus:border-blue-500 "
               />
               <button
                 onClick={handleSearch}
-                className="absolute right-5 top-2 text-gray-500 cursor-pointer"
+                className="absolute right-3 top-2 text-gray-500 cursor-pointer"
               >
                 <FontAwesomeIcon icon={faCrosshairs} />
               </button>
@@ -353,7 +348,7 @@ function Homepage() {
             <select
               value={selectedRatingRange || ""}
               onChange={handleRatingChange}
-              className="border border-gray-400 rounded-lg px-2 py-2 focus:outline-none focus:border-blue-500 hidden lg:block"
+              className="border border-gray-400 rounded-lg px-2 py-2 focus:outline-none focus:border-blue-500 "
             >
               <option value="">Filter by Rating</option>
               <option value="3-5">3 - 5</option>
@@ -363,46 +358,43 @@ function Homepage() {
         </nav>
 
         {turf.length === 0 && (
-          <div className=" text-gray-600 flex justify-center">
-            <h1 className="font-bold  ">No Turf Found</h1>
-
+          <div className="text-center text-gray-600 flex justify-center items-center flex-col">
+            <h1 className="font-bold">No Turf Found</h1>
             <img
               src={football}
-              alt="Image "
-              className="mt-10"
-            ></img>
+              alt="No Turf"
+              className="mt-10 w-1/2 md:w-1/4"
+            />
           </div>
         )}
 
         {nearestTurf ? (
-          <div>
+          <div className="m-4 p-4 bg-white shadow-md rounded-md">
             <Link to={`/turf/${nearestTurf._id}`}>
-              <div className="bg-white shadow-md rounded-md p-4 g">
-                {nearestTurf.images.length > 0 && (
-                  <div className="relative group">
-                    <img
-                      src={nearestTurf.images[0]}
-                      alt={nearestTurf.turfName}
-                      className="w-full h-52 object-cover mb-4 rounded-md hue-rotate-15 transition-transform duration-300 transform group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                <h2 className="text-lg font-semibold mb-2">
-                  {nearestTurf.turfName}
-                </h2>
-                <div className="flex items-center text-sm text-gray-600 mb-2">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-1" />
-                  <span>
-                    {nearestTurf.address}, {nearestTurf.city}
-                  </span>
-                </div>
-                {averageRatings && averageRatings[nearestTurf._id] && (
-                  <StarRating
-                    totalStars={5}
-                    initialRating={averageRatings[nearestTurf._id]}
+              {nearestTurf.images.length > 0 && (
+                <div className="relative group">
+                  <img
+                    src={nearestTurf.images[0]}
+                    alt={nearestTurf.turfName}
+                    className="w-full h-52 object-cover mb-4 rounded-md hue-rotate-15 transition-transform duration-300 transform group-hover:scale-105"
                   />
-                )}
+                </div>
+              )}
+              <h2 className="text-lg font-semibold mb-2">
+                {nearestTurf.turfName}
+              </h2>
+              <div className="flex items-center text-sm text-gray-600 mb-2">
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-1" />
+                <span>
+                  {nearestTurf.address}, {nearestTurf.city}
+                </span>
               </div>
+              {averageRatings && averageRatings[nearestTurf._id] && (
+                <StarRating
+                  totalStars={5}
+                  initialRating={averageRatings[nearestTurf._id]}
+                />
+              )}
             </Link>
           </div>
         ) : (
@@ -411,10 +403,10 @@ function Homepage() {
               <div className="text-center text-gray-600"></div>
             )}
             {turf.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 mt-6 ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-6">
                 {filteredTurf.map((turfItem) => (
                   <Link key={turfItem._id} to={`/turf/${turfItem._id}`}>
-                    <div className="bg-white shadow-md rounded-md p-4 g">
+                    <div className="bg-white shadow-md rounded-md p-4">
                       {turfItem.images.length > 0 && (
                         <div className="relative group">
                           <img
@@ -459,7 +451,7 @@ function Homepage() {
               className={`${
                 currentPage === index + 1
                   ? "bg-black text-white"
-                  : "bg-white text-white-500"
+                  : "bg-white text-gray-500"
               } font-bold px-3 py-2 rounded-md focus:outline-none`}
             >
               {index + 1}
@@ -472,4 +464,5 @@ function Homepage() {
     </>
   );
 }
+
 export default Homepage;
