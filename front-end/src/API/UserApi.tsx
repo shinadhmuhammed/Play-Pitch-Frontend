@@ -21,6 +21,7 @@ export const requestedUserId=async(data:any)=>{
 export const getActivityId = async (id: string) => {
     try {
       const response = await axiosUserInstance.get(`/getactivityid/${id}`);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.log(error);

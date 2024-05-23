@@ -34,15 +34,14 @@ const UserDetails: React.FC = () => {
     const fetchUserData = async () => {
       try {
         const response = await axiosUserInstance.get("/userdetails");
+        console.log(response.data)
         const userData = response.data;
-        console.log(userData);
         setPhoto(response.data.profilePhotoUrl);
         setFormData({
           ...formData,
           username: userData.username,
           email: userData.email,
           phone: userData.phone,
-          // Ensure profilePhoto is set to null if not provided in userData
           profilePhoto: userData.profilePhoto || null,
         });
         await new Promise((res) =>
