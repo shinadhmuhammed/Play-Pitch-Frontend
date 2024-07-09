@@ -9,6 +9,7 @@ import { RootState } from "../../services/Redux/Store/store";
 import { getRating } from "../../API/UserApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 
 interface Booking {
   Time: string | number | Date;
@@ -78,8 +79,6 @@ function BookingDetails() {
       try {
         if (userId && bookingDetails) {
           const response = await getRating(userId);
-          console.log(response);
-
           const matchingRating = response.find(
             (rating: any) =>
               rating.userId === userId &&

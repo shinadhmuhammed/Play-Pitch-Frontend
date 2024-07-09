@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 interface UserData {
   email: string;

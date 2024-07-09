@@ -7,7 +7,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { loginApi } from "../../API/UserApi";
-const googleMapsApiKey=import.meta.env.VITE_REACT_APP_CLIENTID
+import React from "react";
+import logo from '../../assets/images/football.png'
+import background from '../../assets/images/bg.jpg'
+const googleMapsApiKey = import.meta.env.VITE_REACT_APP_CLIENTID
 
 interface FormData {
   email: string;
@@ -53,7 +56,7 @@ function UserLogin() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("userToken ");
+    const token = localStorage.getItem("userToken");
     if (token) {
       navigate("/home");
     }
@@ -85,16 +88,16 @@ function UserLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center sm:px-3 lg:px-8">
+    <div className={`min-h-screen flex flex-col justify-center sm:px-3 lg:px-8 bg-black bg-[url('${logo}')]`} style={{ backgroundImage: `url(${background})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-       
-        {/* <div className="flex justify-center ">
-          <img src="/images/play-pitch logo.png" className="object-contain h-40 " alt="Play Pitch Logo" />
-        </div> */}
+        <div style={{ display: 'ruby-text', alignItems: 'end' }}>
+          <img src={logo} className="h-20 " alt="Logo" />
+          <h1 style={{ marginLeft: '2px' }}>ℙ𝕝𝕒𝕪ℙ𝕚𝕥𝕔𝕙</h1>
+        </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ml-10 mr-10 mb-10">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10" style={{backgroundColor:'gainsboro'}}>
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
             <div>
               <label

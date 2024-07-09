@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { socketId } from "../../Providers/Socket";
-import logo from '../../assets/images/Logo_shinadh.png'
+import logo from '../../assets/images/football.png'
+import React from "react";
 
 function UserNav() {
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
@@ -26,10 +27,12 @@ function UserNav() {
 
   return (
     <div>
-      <nav className="p-2 border-b border-gray-300 shadow-lg flex justify-between items-center">
-        <div>
-          <img src={logo} className="h-14 w-48" alt="Logo" />
+      <nav className="p-4 border-b border-gray-300 shadow-lg flex justify-between items-center">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={logo} className="h-10 " alt="Logo" />
+          <h1 style={{ marginLeft: '2px' }}>ℙ𝕝𝕒𝕪ℙ𝕚𝕥𝕔𝕙</h1>
         </div>
+
 
         <div className="flex items-center">
           <div className="relative" onClick={handleBellClick}>

@@ -18,8 +18,9 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
-import football from '../../assets/images/no turf.svg'
-import bg3 from '../../assets/images/bg3.jpeg'
+import football from '../../assets/images/new1.jpg'
+import bg3 from '../../assets/images/light.jpg'
+import React from "react";
 
 interface Turf {
   _id: string;
@@ -219,15 +220,15 @@ function Homepage() {
 
   const filteredTurf = selectedRatingRange
     ? turf.filter((turfItem) => {
-        const averageRating = averageRatings && averageRatings[turfItem._id];
-        if (averageRating) {
-          const [min, max] = selectedRatingRange.split("-");
-          return (
-            averageRating >= parseFloat(min) && averageRating <= parseFloat(max)
-          );
-        }
-        return false;
-      })
+      const averageRating = averageRatings && averageRatings[turfItem._id];
+      if (averageRating) {
+        const [min, max] = selectedRatingRange.split("-");
+        return (
+          averageRating >= parseFloat(min) && averageRating <= parseFloat(max)
+        );
+      }
+      return false;
+    })
     : turf;
 
   const indexOfLastTurf = currentPage * turfsPerPage;
@@ -363,8 +364,9 @@ function Homepage() {
             <img
               src={football}
               alt="No Turf"
-              className="mt-10 w-1/2 md:w-1/4"
+              className="mt-10 w-1/6 md:w-1/8 rounded-lg shadow border border-gray-300 h-60"
             />
+
           </div>
         )}
 
@@ -448,11 +450,10 @@ function Homepage() {
             <button
               key={index}
               onClick={() => paginate(index + 1)}
-              className={`${
-                currentPage === index + 1
+              className={`${currentPage === index + 1
                   ? "bg-black text-white"
                   : "bg-white text-gray-500"
-              } font-bold px-3 py-2 rounded-md focus:outline-none`}
+                } font-bold px-3 py-2 rounded-md focus:outline-none`}
             >
               {index + 1}
             </button>

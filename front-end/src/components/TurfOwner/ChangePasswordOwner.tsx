@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
 import Navbar from "./Navbar";
+import React from "react";
 
 function ChangePasswordOwner() {
   const [formData, setFormData] = useState({

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { axiosOwnerInstance } from "../../utils/axios/axios";
+import React from "react";
 
 interface WalletStatement {
   amount: number;

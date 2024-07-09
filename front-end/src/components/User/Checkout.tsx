@@ -12,6 +12,7 @@ import {
   faMapMarkerAlt,
   faMoneyBillAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 interface TurfDetail {
   turfOwner: string;

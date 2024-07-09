@@ -6,6 +6,8 @@ import UserNav from './UserNav';
 import { RootState } from '../../services/Redux/Store/store';
 import { axiosUserInstance } from '../../utils/axios/axios';
 import EditActivity from './EditActivity';
+import bg3 from '../../assets/images/light.jpg'
+import React from 'react';
 
 
 interface Activity {
@@ -51,7 +53,7 @@ function Activities() {
         activity._id === editedActivity._id ? editedActivity : activity
       ));
       
-      // Close the modal
+   
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);
@@ -74,12 +76,7 @@ function Activities() {
     <>
     <div
       className="relative"
-      style={{
-        backgroundImage: `url('/images/bg3.jpeg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      style={{ backgroundImage: `url(${bg3})` , backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <UserNav />
       <div className="flex">

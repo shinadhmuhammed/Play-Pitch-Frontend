@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import NavAdmin from "./NavAdmin";
 import { axiosAdminInstance } from "../../utils/axios/axios";
 import { Line } from "react-chartjs-2";
+import React from "react";
 
 interface DashboardData {
   totalBookings: number;

@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../services/Redux/Store/store";
+import React from "react";
 
 interface Message {
   senderName: string;
@@ -120,8 +121,8 @@ function Chat() {
   
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto bg-gray-100 p-4">
+    <div className="flex flex-col h-screen" >
+      <div className="flex-1 overflow-y-auto bg-gray-100 p-4" style={{ backgroundImage: `url("https://cdn.wallpapersafari.com/54/0/HluF7g.jpg")`, backgroundPosition: 'center' }}>
         {chatMessages.map((msg, index) => (
           <div key={index} className="mb-4">
             <div className={msg.sender === "You" ? "text-right" : ""}>
@@ -154,6 +155,7 @@ function Chat() {
       </div>
     </div>
   );
+  
 }
 
 export default Chat;

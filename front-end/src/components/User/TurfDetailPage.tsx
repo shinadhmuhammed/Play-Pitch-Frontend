@@ -20,6 +20,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../Loader/Loader";
 import StarRating from "./StarRating";
+import React from "react";
 const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
 

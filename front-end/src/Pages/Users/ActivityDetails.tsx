@@ -1,3 +1,4 @@
+import React from "react"
 import GetActivityDetails from "../../components/User/GetActivityDetails"
 
 

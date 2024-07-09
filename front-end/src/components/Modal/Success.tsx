@@ -22,7 +22,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ message, onClose }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                {/* Heroicon name: outline/check */}
+             
                 <svg
                   className="h-6 w-6 text-green-600"
                   xmlns="http://www.w3.org/2000/svg"

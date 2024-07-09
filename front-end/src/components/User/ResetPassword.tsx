@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Profiles from "./Profiles";
 import UserNav from "./UserNav";
 import { axiosUserInstance } from "../../utils/axios/axios";
+import React from "react";
 
 function ResetPassword() {
     const [password, setPassword] = useState('');

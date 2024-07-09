@@ -1,6 +1,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import React from "react";
 
 function Navbar() {
   const navigate = useNavigate();

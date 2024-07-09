@@ -13,6 +13,7 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../Loader/Loader";
+import React from "react";
 
 interface Activity {
   _id: string;
@@ -43,7 +44,6 @@ function GetActivityLanding() {
     setLoading(true);
     try {
       const response = await axiosInstance.get("/getactivities");
-      console.log(response)
       const { userId, activity } = response.data;
       setUserId(userId);
       setActivity(activity);

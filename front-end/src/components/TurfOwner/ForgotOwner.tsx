@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 function ForgotOwner() {
   const [email, setEmail] = useState('');

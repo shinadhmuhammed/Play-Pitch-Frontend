@@ -3,6 +3,7 @@ import Profiles from "./Profiles";
 import UserNav from "./UserNav";
 import { axiosUserInstance } from "../../utils/axios/axios";
 import UserFooter from "./UserFooter";
+import React from "react";
 
 interface WalletDetails {
   wallet: number;

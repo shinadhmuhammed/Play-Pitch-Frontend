@@ -25,6 +25,7 @@ import Venue from "../components/User/Venue";
 import LandingPage from "../Pages/Users/LandinPage";
 import TurfDetailsLandingPage from "../components/User/TurfDetailsLandingPage";
 import GetActivityLanding from "../components/User/GetActivityLanding";
+import React from "react";
 const stripeApiKey=import.meta.env.VITE_REACT_APP_STRIPE_API_KEY
 
 

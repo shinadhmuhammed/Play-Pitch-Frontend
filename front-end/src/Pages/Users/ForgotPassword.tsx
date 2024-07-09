@@ -1,3 +1,4 @@
+import React from "react"
 import ForgotPass from "../../components/User/ForgotPass"
 
 

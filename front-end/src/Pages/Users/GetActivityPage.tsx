@@ -1,3 +1,4 @@
+import React from "react"
 import Activities from "../../components/User/Activities"
 
 

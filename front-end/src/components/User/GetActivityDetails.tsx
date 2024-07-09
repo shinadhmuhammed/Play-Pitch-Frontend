@@ -16,6 +16,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../services/Redux/Store/store";
 import Swal from "sweetalert2";
 import profile from "../../assets/images/profilepin.jpg";
+import React from "react";
+import background from '../../assets/images/light.jpg'
+
 
 interface Game {
   _id: string;
@@ -227,9 +230,11 @@ function GetActivityDetails() {
   };
 
   return (
-    <div>
+    <div style={{ backgroundImage: `url(${background})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <UserNav />
-      <div className="ml-5 md:ml-20 mr-5 md:mr-20 mt-5 md:mt-20 border">
+
+      <div >
+      <div className="ml-5 md:ml-20 mb-5 mt-5 mr-5 md:mr-20  md:mt-20 border " style={{marginTop:'1rem', borderWidth:'3px', borderStyle:'groove', borderTopStyle:'dashed'}}>
         <div className="flex flex-col md:flex-row">
           <img
             className="ml-8 md:ml-10 mt-5 md:mt-10 h-36 w-36 object-center rounded-full"
@@ -237,7 +242,7 @@ function GetActivityDetails() {
             alt="profile-pic"
           />
 
-          <div className="ml-5 md:ml-10 mt-5 md:mt-10">
+          <div className="ml-5 md:ml-10 mt-5 md:mt-10 ">
             {activity ? (
               <div>
                 <h1>
@@ -295,7 +300,7 @@ function GetActivityDetails() {
               (request: { user: string; status: string }, index: number) => (
                 <div key={index} className=" rounded-md p-2 ">
                   {request.user === userId && (
-                    <p className="text-gray-900 bg-gray-400 ml-44 p-3  rounded opacity-80">
+                    <p className="text-gray-900 bg-gray-400 ml-44 p-3 rounded opacity-80">
                       Status: {request.status}
                     </p>
                   )}
@@ -304,14 +309,15 @@ function GetActivityDetails() {
             )}
           </div>
         ) : (
-          <div className="flex justify-end mr-5 md:mr-10 mb-5 md:mb-10">
+          <div className="flex justify-end md:mr-10 mb-5 md:mb-10 " style={{marginRight:'5rem'}} >
             {isOwner ? (
-              <button
-                onClick={fetchRequests}
-                className="mr-5 md:mr-10 py-2.5 px-5 me-2 text-sm font-medium text-white focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-green-700 dark:bg-green-800 dark:text-green-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                See requests
-              </button>
+             <button
+             onClick={fetchRequests}
+             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+           >
+             See Requests
+           </button>
+           
             ) : (
               <button
                 onClick={handleRequest}
@@ -325,7 +331,7 @@ function GetActivityDetails() {
         )}
       </div>
 
-      <div className="border-x-4 border-y-2 py-5 ml-5 md:ml-20 mr-5 md:mr-20">
+      <div className="border-x-2 border-y-2 py-10 ml-5 md:ml-20 mr-5 md:mr-20 shadow-lg">
         <h1 className="font-sans">
           {" "}
           <FontAwesomeIcon icon={faInfoCircle} /> Description/Rules
@@ -413,6 +419,7 @@ function GetActivityDetails() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

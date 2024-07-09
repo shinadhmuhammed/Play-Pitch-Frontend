@@ -13,7 +13,8 @@ import StarRating from "./StarRating";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import noturf from "../../assets/images/no turf.svg";
+import React from "react";
+import ball from '../../assets/images/new1.jpg';
 
 interface Turf {
   _id: string;
@@ -323,10 +324,10 @@ function Venue() {
         </nav>
 
         {turf.length === 0 && (
-          <div className=" text-gray-600 flex justify-center">
+          <div className="flex justify-center h-60 ">
             <h1 className="font-bold  ">No Turf Found</h1>
 
-            <img src={noturf} alt="no images" className="mt-10"></img>
+            <img src={ball} alt="no images"  className="mt-10"></img>
           </div>
         )}
 

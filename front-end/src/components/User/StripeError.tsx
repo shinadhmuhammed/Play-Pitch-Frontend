@@ -1,9 +1,10 @@
+import React from "react"
 
 
 function StripeError() {
   return (
     <div>
-      <h1>ERrrorrrrrrrrrrrrrrrr</h1>
+      <h1>ERRORR</h1>
     </div>
   )
 }

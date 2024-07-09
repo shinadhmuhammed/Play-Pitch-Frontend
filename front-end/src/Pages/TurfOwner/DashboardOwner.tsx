@@ -1,4 +1,5 @@
 
+import React from 'react'
 import OwnerDashboard from '../../components/TurfOwner/OwnerDashboard'
 
 function DashboardOwner() {

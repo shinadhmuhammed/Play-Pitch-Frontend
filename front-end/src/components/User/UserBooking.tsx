@@ -13,6 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bg from '../../assets/images/bg3.jpeg'
 import football from '../../assets/images/football.jpeg'
+import React from "react";
 
 interface Booking {
   _id: string;

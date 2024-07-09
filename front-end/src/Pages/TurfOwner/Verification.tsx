@@ -1,3 +1,4 @@
+import React from 'react'
 import VerificationTurf from '../../components/TurfOwner/VerificationTurf'
 
 function Verification() {

@@ -14,6 +14,8 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../Loader/Loader";
+import React from "react";
+import bg3 from '../../assets/images/light.jpg'
 
 interface Activity {
   _id: string;
@@ -81,7 +83,7 @@ function GetActivity() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ backgroundImage: `url(${bg3})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {loading && <Loader/>}  
       <UserNav />
       <div className="bg-cover bg-center bg-no-repeat">

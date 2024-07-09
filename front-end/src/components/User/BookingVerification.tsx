@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserNav from "./UserNav";
 import UserFooter from "./UserFooter";
 import { axiosUserInstance } from "../../utils/axios/axios";
+import bg3 from '../../assets/images/light.jpg'
+import React from "react";
 
 function BookingVerification() {
   const location = useLocation();
@@ -14,6 +16,7 @@ function BookingVerification() {
   const selectedEndTime= queryParams.get("selectedEndTime");
   const totalPrice= queryParams.get("totalPrice");
   const paymentMethod = queryParams.get("paymentMethod");
+  const navigate=useNavigate()
 
   useEffect(() => {
     const storeBooking = async () => {
@@ -28,6 +31,7 @@ function BookingVerification() {
           ownerId: ownerId 
         });
         console.log("Booking stored:", response.data);
+        navigate('/booking-verification')
       } catch (error) {
         console.error("Error storing booking:", error);
       }
@@ -40,7 +44,7 @@ function BookingVerification() {
   return (
     <>
       <UserNav />
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen" style={{ backgroundImage: `url(${bg3})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="text-center">
             <h1 className="text-2xl font-medium text-black">

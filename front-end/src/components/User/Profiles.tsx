@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/Redux/slice/userSlices";
+import React from "react";
 
 function Profiles() {
   const dispatch = useDispatch();

@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ownerLogout } from "../../services/Redux/slice/ownerSlices";
 import Navbar from "./Navbar";
+import React from "react";
 
 function OwnerProfile() {
   const navigate = useNavigate();

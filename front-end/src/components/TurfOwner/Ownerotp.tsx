@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utils/axios/axios";
+import React from "react";
 
 function Ownerotp() {
   const navigate = useNavigate();
