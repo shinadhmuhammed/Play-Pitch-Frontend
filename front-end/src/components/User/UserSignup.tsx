@@ -37,9 +37,9 @@ function UserSignup() {
     }
   }, [navigate]);
 
-  
 
-  
+
+
 
   const onSubmit: SubmitHandler<UserData> = async (data) => {
     try {
@@ -68,7 +68,7 @@ function UserSignup() {
         const timer = setInterval(() => {
           setCountdown((prevCountdown) => prevCountdown - 1);
         }, 1000);
-  
+
         setTimeout(() => {
           clearInterval(timer);
           setResendDisabled(false);
@@ -80,7 +80,7 @@ function UserSignup() {
       setErrorMessage("Invalid OTP");
     }
   };
-  
+
 
   const password = watch("password");
 
@@ -104,7 +104,7 @@ function UserSignup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8" style={{ backgroundImage: `url(${background})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="min-h-screen bg-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8" style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Register
@@ -112,7 +112,7 @@ function UserSignup() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" style={{backgroundColor:'gainsboro'}}>
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" style={{ backgroundColor: 'gainsboro' }}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {successMessage && (
               <div className="text-green-500 font-semibold">
@@ -205,7 +205,7 @@ function UserSignup() {
                 <span className="text-red-500">{errors.password.message}</span>
               )}
             </div>
-                
+
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -265,9 +265,8 @@ function UserSignup() {
                   <button
                     type="button"
                     onClick={handleResendOtp}
-                    className={`bg-blue-500 text-white px-1 py-1 rounded-md ${
-                      resendDisabled ? "cursor-not-allowed opacity-50" : ""
-                    }`}
+                    className={`bg-blue-500 text-white px-1 py-1 rounded-md ${resendDisabled ? "cursor-not-allowed opacity-50" : ""
+                      }`}
                     disabled={resendDisabled}
                   >
                     {resendDisabled
@@ -284,14 +283,14 @@ function UserSignup() {
                 </button>
               )}
 
-               <div className=" justify-between ">
-    <span className="text-gray-600 text-sm">
-      Already have an account?{" "}
-      <a href="/login" className="text-green-500 ">
-        Sign In
-      </a>
-    </span>
-  </div>
+              <div className="mt-10">
+                <span className="text-gray-600 text-sm">
+                  Already have an account?{" "}
+                  <a href="/login" className="text-green-500 ">
+                    Sign In
+                  </a>
+                </span>
+              </div>
             </div>
           </form>
         </div>
