@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { adminLogin } from "../../services/Redux/slice/adminSlices";
 import React from "react";
+import background from "../../assets/images/bg.jpg";
 
 
 
@@ -39,7 +40,11 @@ function LoginAdmin() {
     
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        <div className="min-h-screen flex justify-center items-center bg-gray-100" style={{
+            backgroundImage: `url(${background})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }} >
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
            
                 <div className="mb-4 ">

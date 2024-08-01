@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { axiosInstance } from "../../utils/axios/axios";
 import { useNavigate } from "react-router-dom";
+import background from "../../assets/images/bg.jpg";
 import React from "react";
 
 function ForgotOwner() {
@@ -73,7 +74,11 @@ function ForgotOwner() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen" style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -101,7 +106,7 @@ function ForgotOwner() {
             onChange={(e) => setOTP(e.target.value)}
           />
           <button
-            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleSendOTP}
           >
@@ -109,7 +114,7 @@ function ForgotOwner() {
           </button>
           {otpSent && !otpVerified && ( 
             <button
-              className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="mt-2 ml-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={handleVerifyOTP}
             >

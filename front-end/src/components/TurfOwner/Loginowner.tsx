@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ownerLogin } from "../../services/Redux/slice/ownerSlices";
 import React from "react";
+import background from "../../assets/images/bg.jpg";
 
 function Loginowner() {
   const [email, setEmail] = useState("");
@@ -54,9 +55,13 @@ function Loginowner() {
 
 
   return (
-    <div className="flex justify-center items-center h-screen ">
+    <div className="flex justify-center items-center h-screen "  style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <form
-        className="bg-white shadow-md rounded-lg px-10 pt-8 pb-8 w-96 "
+        className=" shadow-md rounded-lg px-10 pt-8 pb-8 w-96 "
         onSubmit={handleSubmit}
       >
         <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-6">

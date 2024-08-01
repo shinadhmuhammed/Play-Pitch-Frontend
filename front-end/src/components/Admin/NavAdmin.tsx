@@ -26,7 +26,7 @@ function NavAdmin() {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 flex items-center">
                 <span className="text-white text-lg font-semibold">
-                  Dashboard
+                𝓐𝓭𝓶𝓲𝓷 𝓟𝓪𝓷𝓮𝓵
                 </span>
               </div>
               <div className="hidden sm:block sm:ml-6">
@@ -48,6 +48,12 @@ function NavAdmin() {
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Venue Requests
+                  </a>
+                  <a
+                    href="/admin/wallet"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Wallet
                   </a>
                 </div>
               </div>

@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { socketId } from "../../Providers/Socket";
-import logo from '../../assets/images/football.png'
+import logo from '../../assets/images/football.png';
 import React from "react";
 
 function UserNav() {
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
   const [bellClicked, setBellClicked] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     socketId.on("received-message", () => {
@@ -25,16 +26,29 @@ function UserNav() {
     setBellClicked(true);
   };
 
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
       <nav className="p-4 border-b border-gray-300 shadow-lg flex justify-between items-center">
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={logo} className="h-10 " alt="Logo" />
+          <img src={logo} className="h-10" alt="Logo" />
           <h1 style={{ marginLeft: '2px' }}>ℙ𝕝𝕒𝕪ℙ𝕚𝕥𝕔𝕙</h1>
         </div>
 
+        <div className="flex items-center lg:hidden">
+          <FontAwesomeIcon
+            icon={faBars}
+            className="h-8 w-8 text-black cursor-pointer"
+            onClick={handleMenuToggle}
+          />
+        </div>
 
-        <div className="flex items-center">
+        <div
+          className={`flex-col lg:flex-row items-center lg:flex ${isMenuOpen ? 'flex' : 'hidden'} lg:flex`}
+        >
           <div className="relative" onClick={handleBellClick}>
             <FontAwesomeIcon
               icon={faBell}
@@ -53,13 +67,13 @@ function UserNav() {
 
           <a
             href="/activity"
-            className="px-3 text-black cursor-pointer hover:text-gray-300"
+            className="px-3 text-black cursor-pointer hover:text-blue-100"
           >
             Play
           </a>
           <a
             href="/home"
-            className="px-3 text-black cursor-pointer hover:text-gray-300 mr-3"
+            className="px-3 text-black cursor-pointer hover:text-blue-100 mr-3 "
           >
             View Turf
           </a>
@@ -83,4 +97,3 @@ function UserNav() {
 }
 
 export default UserNav;
-

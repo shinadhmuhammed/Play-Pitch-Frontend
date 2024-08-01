@@ -105,8 +105,8 @@ function Signupowner() {
               </label>
               <div className="mt-1">
                 <input
-                  type="tel"
-                  id="phone"
+                  type="number"
+                  id="phone"  
                   {...register("phone", { required: true })}
                   className={`p-2 border rounded-md w-full ${
                     errors.phone ? "border-red-500" : ""

@@ -170,7 +170,7 @@ function UserSignup() {
                 Phone Number
               </label>
               <input
-                type="text"
+                type="number"
                 id="phone"
                 {...register("phone", {
                   pattern: {
@@ -258,7 +258,7 @@ function UserSignup() {
                 <>
                   <button
                     type="submit"
-                    className="bg-green-500 px-2 mr-4 text-white  rounded-md"
+                    className="bg-green-500 px-1 mr-4 text-white  rounded-md"
                   >
                     Submit
                   </button>
@@ -277,14 +277,14 @@ function UserSignup() {
               ) : (
                 <button
                   type="submit"
-                  className="bg-green-500 text-white px-3 py-2 rounded-md"
+                  className="bg-green-500 text-white px-2 py-1 rounded-md"
                 >
                   Get OTP
                 </button>
               )}
 
               <div className="mt-10">
-                <span className="text-gray-600 text-sm">
+                <span className="text-gray-600 text-sm mt-20 ">
                   Already have an account?{" "}
                   <a href="/login" className="text-green-500 ">
                     Sign In

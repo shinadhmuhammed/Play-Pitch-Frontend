@@ -7,6 +7,7 @@ import VenueDetails from "../Pages/Admin/VenueDetails";
 import PrivateRouterAdmin from "../utils/RouterAdmin/PrivateRouterAdmin";
 import PublicRouterAdmin from "../utils/RouterAdmin/PublicRouterAdmin";
 import React from "react";
+import WalletPage from "../Pages/Admin/WalletPage";
 
 function AdminRoutes() {
   return (
@@ -20,6 +21,7 @@ function AdminRoutes() {
         <Route path="/dashboard" element={<Admindashboard/>}></Route>
         <Route path="/users" element={<Users/>}></Route>
         <Route path="/venue-request" element={<RequestVenue/>}></Route>
+        <Route path="/wallet" element={<WalletPage/>}></Route>
         <Route path="/venue-details/:turfId" element={<VenueDetails/>}></Route>
         </Route>
         </Routes>
