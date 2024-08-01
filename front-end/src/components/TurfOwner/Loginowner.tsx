@@ -55,77 +55,82 @@ function Loginowner() {
 
 
   return (
-    <div className="flex justify-center items-center h-screen "  style={{
-      backgroundImage: `url(${background})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
-      <form
-        className=" shadow-md rounded-lg px-10 pt-8 pb-8 w-96 "
-        onSubmit={handleSubmit}
-      >
-        <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-6">
-          Owner Login
-        </h1>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-6 ">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2 "
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="password"
-            type="password"
-            placeholder="******************"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {errorMessage && <div className="text-red-500">{errorMessage}</div>}
-        </div>
-        <div className="flex items-center justify-between mb-4">
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Sign In
-          </button>
-          <Link
-            to="/owner/forgotpassword"
-            className="text-blue-500 hover:text-blue-700 text-sm"
-          >
-            Forgot Password?
-          </Link>
-        </div>
-        <div>
-          <p className="text-sm">
-            Don't have an account?
-            <Link
-              to="/owner/ownersignup"
-              className="text-blue-500 hover:text-blue-700 ml-3"
+    <div 
+      className="flex justify-center items-center min-h-screen bg-gray-100" 
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="w-full max-w-md">
+        <form 
+          className="bg-white shadow-2xl rounded-lg px-12 pt-10 pb-8 mb-4 backdrop-blur-sm bg-opacity-80"
+          onSubmit={handleSubmit}
+        >
+          <h1 className="text-center text-4xl font-extrabold text-gray-800 mb-8">
+            Owner Login
+          </h1>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
             >
-              Sign Up
+              Email
+            </label>
+            <input
+              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-8">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errorMessage && <div className="text-red-500 text-sm mt-1">{errorMessage}</div>}
+          </div>
+          <div className="flex items-center justify-between mb-6">
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105"
+              type="submit"
+            >
+              Sign In
+            </button>
+            <Link
+              to="/owner/forgotpassword"
+              className="text-blue-500 hover:text-blue-700 text-sm font-semibold transition duration-300 ease-in-out"
+            >
+              Forgot Password?
             </Link>
-          </p>
-        </div>
-      </form>
+          </div>
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <Link
+                to="/owner/ownersignup"
+                className="text-blue-500 hover:text-blue-700 font-semibold transition duration-300 ease-in-out"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

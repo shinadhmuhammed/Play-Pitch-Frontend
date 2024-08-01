@@ -70,85 +70,74 @@ function Turf() {
   };
 
   return (
-    <>
+    <div className="bg-gray-100 min-h-screen">
       <Navbar />
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4 flex justify-center font-serif">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold mb-8 text-center font-serif text-gray-800">
           Turf Details
         </h1>
         <ul className="space-y-8">
           {turfs.map((turf) => (
             <li
               key={turf._id}
-              className="flex items-center justify-between bg-gray-100 p-6 rounded-md shadow-lg"
+              className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="flex flex-col">
-                <h2 className="text-xl font-semibold mb-2">
-                  <span className="font-semibold">Turf Name:</span>{" "}
-                  {turf.turfName}
-                </h2>
-                <p className="mb-2">
-                  <span className="font-semibold">Address:</span> {turf.address}
-                  , {turf.city}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">About Venue:</span>{" "}
-                  {turf.aboutVenue}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Facilities:</span>{" "}
-                  {turf.facilities}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Opening Time:</span>
-                  {turf.openingTime}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Closing Time:</span>{" "}
-                  {turf.closingTime}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Court Type:</span>{" "}
-                  {turf.courtType}
-                </p>
-                <div className="mb-2">
-                  <span className="font-semibold">Prices:</span>
-                  {Object.entries(turf.price).map(([courtType, price]) => (
-                    <p key={courtType} className="ml-2">
-                      {courtType}: {price}
-                    </p>
-                  ))}
+              <div className="flex flex-col md:flex-row justify-between">
+                <div className="flex-grow pr-4">
+                  <h2 className="text-2xl font-semibold mb-4 text-green-600">
+                    {turf.turfName}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <p><span className="font-semibold text-gray-700">Address:</span> {turf.address}, {turf.city}</p>
+                    <p><span className="font-semibold text-gray-700">Court Type:</span> {turf.courtType}</p>
+                    <p><span className="font-semibold text-gray-700">Opening Time:</span> {turf.openingTime}</p>
+                    <p><span className="font-semibold text-gray-700">Closing Time:</span> {turf.closingTime}</p>
+                  </div>
+                  <p className="mb-4"><span className="font-semibold text-gray-700">About Venue:</span> {turf.aboutVenue}</p>
+                  <p className="mb-4"><span className="font-semibold text-gray-700">Facilities:</span> {turf.facilities}</p>
+                  <div className="mb-4">
+                    <span className="font-semibold text-gray-700">Prices:</span>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      {Object.entries(turf.price).map(([courtType, price]) => (
+                        <p key={courtType} className="bg-gray-100 p-2 rounded">
+                          <span className="font-medium">{courtType}:</span> ₹{price}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              {turf.images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Turf ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-md ml-2"
-                />
-              ))}
-
-              <div className="flex flex-col">
-                <button
-                  className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 focus:outline-none mb-2"
-                  onClick={() => handleEditClick(turf._id)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 focus:outline-none"
-                  onClick={() => handleDeleteClick(turf._id)}
-                >
-                  Delete
-                </button>
+                <div className="flex flex-col items-center md:items-end mt-4 md:mt-0">
+                  <div className="flex flex-wrap justify-center md:justify-end mb-4">
+                    {turf.images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Turf ${index + 1}`}
+                        className="w-24 h-24 object-cover rounded-md m-1 border-2 border-gray-200"
+                      />
+                    ))}
+                  </div>
+                  <div className="flex space-x-4">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300"
+                      onClick={() => handleEditClick(turf._id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-300"
+                      onClick={() => handleDeleteClick(turf._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
               </div>
             </li>
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 }
-
 export default Turf;

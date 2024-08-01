@@ -112,118 +112,110 @@ function VenueRequest() {
   return (
     <div className="min-h-screen bg-gray-100">
       <NavAdmin />
-      <div className="overflow-x-auto">
-        <div className="mb-4 mt-5">
-          <label htmlFor="filter" className="mr-2 font-semibold">
-            Filter by Price Range:
-          </label>
-          <select
-            id="filter"
-            className="p-2 border border-gray-300 rounded"
-            onChange={handleFilterChange}
-          >
-            <option value="">All</option>
-            <option value="800-1000">800-1000</option>
-            <option value="1000-1200">1000-1200</option>
-          </select>
-      
-    
-          <label htmlFor="search" className="mr-2 font-semibold p-10 ">
-            Search by Turf Name:
-          </label>
-          <input
-            type="text"
-            id="search"
-            className="p-2 border border-gray-300 rounded"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-            </div>
-  
-        <table className="min-w-full">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Email
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Contact Number
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Turf Name
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Address
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Actions
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Details
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentTurfs.map(turf => (
-              <tr key={turf._id}>
-                <td className="border p-3">{turf.turfOwnerEmail}</td>
-                <td className="border p-3">{turf.contactNumber}</td>
-                <td className="border p-3">{turf.turfName}</td>
-                <td className="border p-3">{turf.address}</td>
-                <td className="border p-3 space-x-2">
-                  {!turf.isActive && !turf.isDeclined && (
-                    <>
-                      <button
-                        onClick={() => handleAccept(turf._id, turf.turfOwnerEmail)}
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 mr-1 rounded"
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => handleDecline(turf._id, turf.turfOwnerEmail)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
-                      >
-                        Decline
-                      </button>
-                    </>
-                  )}
-                  {turf.isActive && (
-                    <span className="text-green-600 font-bold">Accepted</span>
-                  )}
-                  {turf.isDeclined && (
-                    <span className="text-red-600 font-bold">Declined</span>
-                  )}
-                </td>
-                <td className="border p-3">
-                  <Link
-                    to={`/admin/venue-details/${turf._id}`}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
-                  >
-                    View Details
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-center mt-32">
-        <nav>
-          <ul className="flex items-center">
-            {Array.from({ length: Math.ceil(filteredTurfs.length / itemsPerPage) }, (_, i) => (
-              <li key={i}>
-                <button
-                  onClick={() => paginate(i + 1)}
-                  className={`mx-1 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 ${
-                    currentPage === i + 1 ? 'bg-blue-600' : ''
-                  }`}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="p-6 space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="mb-4 md:mb-0">
+                <label htmlFor="filter" className="block text-gray-700 font-semibold mb-2">
+                  Filter by Price Range:
+                </label>
+                <select
+                  id="filter"
+                  className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleFilterChange}
                 >
-                  {i + 1}
-                </button>
-              </li>
+                  <option value="">All</option>
+                  <option value="800-1000">800-1000</option>
+                  <option value="1000-1200">1000-1200</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="search" className="block text-gray-700 font-semibold mb-2">
+                  Search by Turf Name:
+                </label>
+                <input
+                  type="text"
+                  id="search"
+                  className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  placeholder="Enter turf name..."
+                />
+              </div>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    {["Email", "Contact Number", "Turf Name", "Address", "Actions", "Details"].map((header) => (
+                      <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {currentTurfs.map(turf => (
+                    <tr key={turf._id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">{turf.turfOwnerEmail}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{turf.contactNumber}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{turf.turfName}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{turf.address}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {!turf.isActive && !turf.isDeclined ? (
+                          <div className="space-x-2">
+                            <button
+                              onClick={() => handleAccept(turf._id, turf.turfOwnerEmail)}
+                              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                            >
+                              Accept
+                            </button>
+                            <button
+                              onClick={() => handleDecline(turf._id, turf.turfOwnerEmail)}
+                              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        ) : turf.isActive ? (
+                          <span className="text-green-600 font-bold">Accepted</span>
+                        ) : (
+                          <span className="text-red-600 font-bold">Declined</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Link
+                          to={`/admin/venue-details/${turf._id}`}
+                          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                        >
+                          View Details
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-8 flex justify-center">
+          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            {Array.from({ length: Math.ceil(filteredTurfs.length / itemsPerPage) }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => paginate(i + 1)}
+                className={`relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 ${
+                  currentPage === i + 1 ? 'z-10 bg-blue-50 border-blue-500 text-blue-600' : ''
+                }`}
+              >
+                {i + 1}
+              </button>
             ))}
-          </ul>
-        </nav>
+          </nav>
+        </div>
       </div>
     </div>
   );
