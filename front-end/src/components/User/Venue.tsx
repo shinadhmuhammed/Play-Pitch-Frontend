@@ -14,7 +14,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import React from "react";
-import ball from '../../assets/images/new1.jpg';
+import ball from '../../assets/images/Loading.jpeg';
 
 interface Turf {
   _id: string;
@@ -368,7 +368,7 @@ function Venue() {
               <div className="text-center text-gray-600"></div>
             )}
             {turf.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 mt-6 ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-5 mt-6 ">
                 {turf.map((turfItem) => (
                   <Link key={turfItem._id} to={`/turfs/${turfItem._id}`}>
                     <div className="bg-white shadow-md rounded-md p-4 g">

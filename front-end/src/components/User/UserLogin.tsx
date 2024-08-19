@@ -119,6 +119,7 @@ function UserLogin() {
               <div className="mt-1">
                 <input
                   type="email"
+                  placeholder="sample@gmail.com"
                   id="email"
                   {...register("email", {
                     required: "Email is required",
@@ -144,6 +145,7 @@ function UserLogin() {
               <div className="mt-1">
                 <input
                   type="password"
+                  placeholder="Sample@123"
                   id="password"
                   {...register("password", {
                     required: "Password is required",

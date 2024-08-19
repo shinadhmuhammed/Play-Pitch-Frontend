@@ -18,7 +18,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 const GoogleMapsApiKeys = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
-import football from '../../assets/images/new1.jpg'
+import football from '../../assets/images/Loading.jpeg'
 import bg3 from '../../assets/images/light.jpg'
 import React from "react";
 

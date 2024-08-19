@@ -15,7 +15,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../Loader/Loader";
 import React from "react";
-import bg3 from '../../assets/images/light.jpg'
+import bg3 from '../../assets/images/light.jpg';
+import noActivity from '../../assets/images/noActivity.jpeg'
 
 interface Activity {
   _id: string;
@@ -35,7 +36,6 @@ function GetActivity() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   console.log(userId)
 
   useEffect(() => {
@@ -49,10 +49,10 @@ function GetActivity() {
       const { userId, activity } = response.data;
       setUserId(userId);
       setActivity(activity);
-      dispatch(updateUserId({ userId: userId }));
-      setLoading(false);
+      dispatch(updateUserId({ userId }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -67,24 +67,24 @@ function GetActivity() {
       const response = await axiosUserInstance.get(`/searchActivity?query=${searchQuery}`);
       const { activity } = response.data;
       setActivity(activity);
-      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    } finally {
       setLoading(false);
     }
   };
 
-  function formatDateTime(dateTime: string) {
+  const formatDateTime = (dateTime: string) => {
     const dateObject = new Date(dateTime);
     const formattedDate = `${
       dateObject.getMonth() + 1
     }/${dateObject.getDate()}/${dateObject.getFullYear()}`;
     return formattedDate;
-  }
+  };
 
   return (
-    <div className="min-h-screen" style={{ backgroundImage: `url(${bg3})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      {loading && <Loader/>}  
+    <div className="min-h-screen" style={{ backgroundImage: `url(${bg3})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      {loading && <Loader />}
       <UserNav />
       <div className="bg-cover bg-center bg-no-repeat">
         <nav className="flex justify-between items-center mt-7 p-5 md:p-10">
@@ -107,66 +107,69 @@ function GetActivity() {
             </div>
           </div>
         </nav>
-  
+
         <div className="mx-auto md:ml-16 md:mr-16 lg:ml-32 lg:mr-32 grid gap-6 shadow-lg">
-          {activity.map((activity) => (
-            <div
-              key={activity._id}
-              className={`p-6 border border-gray-400`}
-            >
-              <div className="mb-4">
-                <p className="text-sm font-semibold bg-white text-black py-1 px-3 rounded-md inline-block shadow-md opacity-50">
-                  {formatDateTime(activity.date)}
-                </p>
-              </div>
-  
-              <div className="text-xl font-extrabold">
-                <h3 className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-violet-800">
-                  {activity.activityName}
-                </h3>
-              </div>
-              <p className="text-sm">
-                <FontAwesomeIcon icon={faTshirt} className="mr-2" />
-                Turf Name: {activity.turfName}
-              </p>
-              <p className="text-sm">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-                Place: {activity.address}
-              </p>
-              <p className="text-sm">
-                <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                Max Players: {activity.maxPlayers}
-              </p>
-              <p className="text-sm">
-                <FontAwesomeIcon icon={faClock} className="mr-2" />
-                Selected Slot: {activity.slot}
-              </p>
-  
-              <p className="text-sm">
-                <FontAwesomeIcon icon={faUsers} className="mr-2" />
-                Participants:{" "}
-                {activity.participants.length > 0
-                  ? activity.participants.length
-                  : "0"}{" "}
-                player joined
-              </p>
-              <div className="flex justify-end">
-                <button
-                  onClick={() => {
-                    navigate(`/viewdetails/${activity._id}`);
-                  }}
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-                >
-                  View Activity
-                </button>
-              </div>
+          {activity.length === 0 ? (
+            <div className="flex flex-col items-center justify-center min-h-[400px]">
+              <img src={noActivity} alt="No activities available" className="w-64 h-auto mb-4" />
+              <p className="text-gray-500 text-lg">No activities available</p>
             </div>
-          ))}
+          ) : (
+            <div className="grid gap-6">
+              {activity.map((activity) => (
+                <div
+                  key={activity._id}
+                  className="p-6 border border-gray-400 bg-white rounded-lg shadow-md"
+                >
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold bg-white text-black py-1 px-3 rounded-md inline-block shadow-md opacity-50">
+                      {formatDateTime(activity.date)}
+                    </p>
+                  </div>
+
+                  <div className="text-xl font-extrabold">
+                    <h3 className="bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-violet-800">
+                      {activity.activityName}
+                    </h3>
+                  </div>
+                  <p className="text-sm">
+                    <FontAwesomeIcon icon={faTshirt} className="mr-2" />
+                    Turf Name: {activity.turfName}
+                  </p>
+                  <p className="text-sm">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+                    Place: {activity.address}
+                  </p>
+                  <p className="text-sm">
+                    <FontAwesomeIcon icon={faUsers} className="mr-2" />
+                    Max Players: {activity.maxPlayers}
+                  </p>
+                  <p className="text-sm">
+                    <FontAwesomeIcon icon={faClock} className="mr-2" />
+                    Selected Slot: {activity.slot}
+                  </p>
+
+                  <p className="text-sm">
+                    <FontAwesomeIcon icon={faUsers} className="mr-2" />
+                    Participants: {activity.participants.length > 0 ? activity.participants.length : "0"} player(s) joined
+                  </p>
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => navigate(`/viewdetails/${activity._id}`)}
+                      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                    >
+                      View Activity
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <UserFooter />
     </div>
   );
-}  
+}
 
 export default GetActivity;

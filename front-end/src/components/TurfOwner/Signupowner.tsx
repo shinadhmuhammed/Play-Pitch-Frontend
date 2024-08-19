@@ -59,15 +59,15 @@ function Signupowner() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
           Owner SignUp
         </h2>
       </div>
-
+  
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-grey py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label
@@ -84,18 +84,20 @@ function Signupowner() {
                     required: true,
                     pattern: /^\S+@\S+$/i,
                   })}
-                  className={`p-2 border rounded-md w-full ${
-                    errors.email ? "border-red-500" : ""
-                  }`}
+                  className={`p-3 border rounded-md w-full ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500`}
                 />
               </div>
-              <div className="text-red-500 text-sm">
-                {errors.email?.type === "required" && "Email is required"}
-              </div>
-              <div className="text-red-500 text-sm">
-                {errors.email?.type === "pattern" && "Invalid email format"}
-              </div>
+              {errors.email && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errors.email.type === "required"
+                    ? "Email is required"
+                    : "Invalid email format"}
+                </div>
+              )}
             </div>
+  
             <div>
               <label
                 htmlFor="phone"
@@ -105,18 +107,19 @@ function Signupowner() {
               </label>
               <div className="mt-1">
                 <input
-                  type="number"
-                  id="phone"  
+                  type="text"
+                  id="phone"
                   {...register("phone", { required: true })}
-                  className={`p-2 border rounded-md w-full ${
-                    errors.phone ? "border-red-500" : ""
-                  }`}
+                  className={`p-3 border rounded-md w-full ${
+                    errors.phone ? "border-red-500" : "border-gray-300"
+                  } transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500`}
                 />
               </div>
-              <div className="text-red-500 text-sm">
-                {errors.phone && "Phone is required"}
-              </div>
+              {errors.phone && (
+                <div className="text-red-500 text-sm mt-1">Phone is required</div>
+              )}
             </div>
+  
             <div>
               <label
                 htmlFor="password"
@@ -129,15 +132,16 @@ function Signupowner() {
                   type="password"
                   id="password"
                   {...register("password", { required: true })}
-                  className={`p-2 border rounded-md w-full ${
-                    errors.password ? "border-red-500" : ""
-                  }`}
+                  className={`p-3 border rounded-md w-full ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  } transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500`}
                 />
               </div>
-              <div className="text-red-500 text-sm">
-                {errors.password && "Password is required"}
-              </div>
+              {errors.password && (
+                <div className="text-red-500 text-sm mt-1">Password is required</div>
+              )}
             </div>
+  
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -150,29 +154,38 @@ function Signupowner() {
                   type="password"
                   id="confirmPassword"
                   {...register("confirmPassword", { required: true })}
-                  className={`p-2 border rounded-md w-full ${
-                    errors.confirmPassword ? "border-red-500" : ""
-                  }`}
+                  className={`p-3 border rounded-md w-full ${
+                    errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                  } transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500`}
                 />
               </div>
-              <div className="text-red-500 text-sm">
-                {errors.confirmPassword && "Confirm Password is required"}
-              </div>
+              {errors.confirmPassword && (
+                <div className="text-red-500 text-sm mt-1">
+                  Confirm Password is required
+                </div>
+              )}
             </div>
-            <div className="text-red-500 text-sm">{verificationStatus}</div>
-            <div className="flex justify-between">
+  
+            {verificationStatus && (
+              <div className="text-red-500 text-sm mt-1">
+                {verificationStatus}
+              </div>
+            )}
+  
+            <div className="flex items-center justify-between">
               <button
                 type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
               >
                 Sign Up
               </button>
             </div>
           </form>
-          <div className="text-center mt-4">
+  
+          <div className="text-center mt-6">
             <span className="text-gray-600 text-sm">
               Already have an account?{" "}
-              <a href="/owner/ownerlogin" className="text-green-500">
+              <a href="/owner/ownerlogin" className="text-green-500 hover:text-green-600">
                 Login
               </a>
             </span>
@@ -181,6 +194,7 @@ function Signupowner() {
       </div>
     </div>
   );
+  
 }
 
 export default Signupowner;
