@@ -104,50 +104,37 @@ function UserSignup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8" style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100" style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Register
-        </h2>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" style={{ backgroundColor: 'gainsboro' }}>
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" style={{ backgroundColor: "gainsboro" }}>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 mb-6">
+            Create your account
+          </h2>
+          
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {successMessage && (
-              <div className="text-green-500 font-semibold">
-                {successMessage}
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span className="block sm:inline">{successMessage}</span>
               </div>
             )}
-
+  
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
               <input
-                type="text"
                 id="username"
+                type="text"
                 {...register("username", { required: "Username is required" })}
                 className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter your username"
               />
-              {errors.username && (
-                <span className="text-red-500">{errors.username.message}</span>
-              )}
+              {errors.username && <span className="text-red-500 text-xs mt-1">{errors.username.message}</span>}
             </div>
-
+  
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
               <input
-                type="email"
                 id="email"
+                type="email"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -156,22 +143,16 @@ function UserSignup() {
                   },
                 })}
                 className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter Your Gmail"
               />
-              {errors.email && (
-                <span className="text-red-500">{errors.email.message}</span>
-              )}
+              {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email.message}</span>}
             </div>
-
+  
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
               <input
-                type="number"
                 id="phone"
+                type="number"
                 {...register("phone", {
                   pattern: {
                     value: /^[0-9]{10}$/,
@@ -179,120 +160,93 @@ function UserSignup() {
                   },
                 })}
                 className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter your phone number"
               />
-              {errors.phone && (
-                <span className="text-red-500">{errors.phone.message}</span>
-              )}
+              {errors.phone && <span className="text-red-500 text-xs mt-1">{errors.phone.message}</span>}
             </div>
-
+  
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <input
-                type="password"
                 id="password"
+                type="password"
                 {...register("password", {
                   required: "Password is required",
                   validate: validatePassword,
                 })}
                 className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter Your Password"
               />
-              {errors.password && (
-                <span className="text-red-500">{errors.password.message}</span>
-              )}
+              {errors.password && <span className="text-red-500 text-xs mt-1">{errors.password.message}</span>}
             </div>
-
+  
             <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
               <input
-                type="password"
                 id="confirmPassword"
+                type="password"
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
+                  validate: (value) => value === password || "Passwords do not match",
                 })}
                 className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Confirm your password"
               />
-              {errors.confirmPassword && (
-                <span className="text-red-500">
-                  {errors.confirmPassword.message}
-                </span>
-              )}
+              {errors.confirmPassword && <span className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</span>}
             </div>
-
+  
             {showOtpField && (
               <div>
-                <label
-                  htmlFor="otp"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  OTP
-                </label>
+                <label htmlFor="otp" className="block text-sm font-medium text-gray-700">OTP</label>
                 <input
-                  type="text"
                   id="otp"
+                  type="text"
                   {...register("otp", { required: "OTP is required" })}
                   className="mt-1 p-2 border rounded-md w-full"
+                  placeholder="Enter OTP"
                 />
-                {errors.otp && (
-                  <span className="text-red-500">{errors.otp.message}</span>
-                )}
-                {errorMessage && (
-                  <span className="text-red-500">{errorMessage}</span>
-                )}
+                {errors.otp && <span className="text-red-500 text-xs mt-1">{errors.otp.message}</span>}
+                {errorMessage && <span className="text-red-500 text-xs mt-1">{errorMessage}</span>}
               </div>
             )}
-
-            <div className="flex justify-between">
+  
+            <div className="flex flex-col sm:flex-row justify-between items-center">
               {showOtpField ? (
                 <>
                   <button
                     type="submit"
-                    className="bg-green-500 px-1 mr-4 text-white  rounded-md"
+                    className="bg-green-500 text-white px-4 py-2 rounded-md mb-4 sm:mb-0 sm:mr-2 w-full sm:w-auto"
                   >
                     Submit
                   </button>
                   <button
                     type="button"
                     onClick={handleResendOtp}
-                    className={`bg-blue-500 text-white px-1 py-1 rounded-md ${resendDisabled ? "cursor-not-allowed opacity-50" : ""
-                      }`}
+                    className={`bg-blue-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${resendDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
                     disabled={resendDisabled}
                   >
-                    {resendDisabled
-                      ? `Resend OTP (${countdown} seconds)`
-                      : "Resend OTP"}
+                    {resendDisabled ? `Resend OTP (${countdown}s)` : "Resend OTP"}
                   </button>
                 </>
               ) : (
                 <button
                   type="submit"
-                  className="bg-green-500 text-white px-2 py-1 rounded-md"
+                  className="bg-green-500 text-white px-4 py-2 rounded-md w-full"
                 >
                   Get OTP
                 </button>
               )}
-
-              <div className="mt-10">
-                <span className="text-gray-600 text-sm mt-20 ">
-                  Already have an account?{" "}
-                  <a href="/login" className="text-green-500 ">
-                    Sign In
-                  </a>
-                </span>
-              </div>
             </div>
           </form>
+  
+          <div className="text-center mt-6">
+            <span className="text-gray-600 text-sm">
+              Already have an account?{" "}
+              <a href="/login" className="text-green-500 hover:text-green-600">
+                Sign In
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </div>
