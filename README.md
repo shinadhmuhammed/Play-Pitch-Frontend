@@ -34,14 +34,6 @@ Find Nearby Turfs:
 
 Use the map feature to locate turfs within a 5km radius.
 
-Contributing
-Feel free to submit issues or pull requests. Contributions are welcome!
-
-Fork the repository.
-Create a new branch (git checkout -b feature/YourFeature).
-Commit your changes (git commit -am 'Add new feature').
-Push to the branch (git push origin feature/YourFeature).
-Create a new Pull Request.
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
