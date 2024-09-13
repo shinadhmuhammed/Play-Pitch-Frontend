@@ -20,7 +20,7 @@ const OwnerDashboard: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axiosOwnerInstance.get<DashboardData>('/owner/dashboard-data');
-        setDashboardData(response.data);
+        setDashboardData(response.data);z
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }

@@ -96,12 +96,13 @@ function UserLogin() {
         backgroundPosition: "center",
       }}
     >
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div style={{ display: "ruby-text", alignItems: "end" }}>
-          <img src={logo} className="h-20 " alt="Logo" />
-          <h1 style={{ marginLeft: "2px" }}>ℙ𝕝𝕒𝕪ℙ𝕚𝕥𝕔𝕙</h1>
-        </div>
-      </div>
+      <div className="flex justify-center">
+  <div className="flex items-center">
+    <img src={logo} className="h-20" alt="Logo" />
+    <h1 className="ml-2">ℙ𝕝𝕒𝕪ℙ𝕚𝕥𝕔𝕙</h1>
+  </div>
+</div>
+
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ml-10 mr-10 mb-10">
         <div

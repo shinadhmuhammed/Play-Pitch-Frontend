@@ -93,6 +93,9 @@ function Homepage() {
           query: searchQuery,
         });
         console.log(response.data.nearestTurf);
+        if(response.data.nearestTurf === undefined){
+              toast.error('There is no turf available in your sorroundings')
+        }
         setNearestTurf(response.data.nearestTurf);
       } catch (error) {
         console.error("Error finding nearest turf:", error);
